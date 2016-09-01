@@ -1,1 +1,1 @@
-start "" http://superstomp.tiddlyspot.com/
+start chrome.exe http://superstomp.tiddlyspot.com/
