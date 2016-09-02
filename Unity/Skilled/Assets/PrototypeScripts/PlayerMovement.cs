@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : NetworkBehaviour {
 
     public Controls controls = Controls.WASD;
     public float JumpForce = 250.0f;
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!isLocalPlayer) return;
         bool grounded = false;
         
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f, -Vector2.up, 0.20f);
