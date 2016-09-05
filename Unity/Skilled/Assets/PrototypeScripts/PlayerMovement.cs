@@ -26,21 +26,20 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
       
-        //if (!isLocalPlayer) return;
         bool grounded = false;
         
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f, -Vector2.up, 0.20f);
-            //Debug.DrawRay(transform.position, -Vector2.up * 0.20f); //0.18 => slightly bigger than half of the sprite size
-       
-            // If it hits something...
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x/2f,0), -Vector2.up, 0.20f);
+            RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.20f);
 
-            if (hit.transform != null && hit.transform != transform)
-            {
-                //Debug.Log(hit.transform.gameObject.name);
-                grounded = true;
-            }
+
+        if ((hit.transform != null && hit.transform != transform) || (hit2.transform != null && hit2.transform != transform))
+        {
+
+            grounded = true;
+        }
         Grounded = grounded;
-            //before input check
+
+            //Quickstop before input check
         if (QuickStop && (grounded || QuickStopAIR))
         {
             _rigid.velocity = new Vector2(0, _rigid.velocity.y);
