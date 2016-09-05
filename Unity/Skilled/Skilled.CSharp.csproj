@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\HostGame.cs" />
     <Compile Include="Assets\NetworkTest.cs" />
+    <Compile Include="Assets\PrototypeScripts\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\KillOnHit.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerMovement.cs" />

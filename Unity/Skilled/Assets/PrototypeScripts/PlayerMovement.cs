@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
     public bool MultipleJumps = false;
     public bool QuickStop = true;
     public bool QuickStopAIR = false;
+    public bool Grounded { private set; get; }
     public enum Controls
     {
         WASD,
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour {
                 //Debug.Log(hit.transform.gameObject.name);
                 grounded = true;
             }
-
+        Grounded = grounded;
             //before input check
         if (QuickStop && (grounded || QuickStopAIR))
         {

@@ -21,7 +21,8 @@ public class PlayerHit : MonoBehaviour {
     }
     void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.collider.gameObject.transform.position.y >= transform.position.y + gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f)
+        if (c.collider.GetComponent<PlayerHit>() &&
+            c.collider.gameObject.transform.position.y >= transform.position.y + gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f)
         {
             OnDeath(c.collider.gameObject);
         }
