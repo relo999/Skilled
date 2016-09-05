@@ -5,13 +5,9 @@ public class PlayerHit : MonoBehaviour {
 
     public bool Respawn = true;
 
-    void OnCollisionEnter2D(Collision2D c)
+
+    public void OnDeath(GameObject cause)
     {
-        if (c.collider.gameObject.transform.position.y >= transform.position.y + gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y/2f)
-        {
-           
-           
-            
             if (Respawn)
             {
                 PlayerMovement.Controls controls = gameObject.GetComponent<PlayerMovement>().controls;
@@ -21,6 +17,13 @@ public class PlayerHit : MonoBehaviour {
             {
                 GameObject.Destroy(this.gameObject);
             }
+        
+    }
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        if (c.collider.gameObject.transform.position.y >= transform.position.y + gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f)
+        {
+            OnDeath(c.collider.gameObject);
         }
     }
 }
