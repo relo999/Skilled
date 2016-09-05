@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerHit : MonoBehaviour {
 
     public bool Respawn = true;
-
+    public float BounceStrength = 3.0f; //NOTE: based on jump strength
 
     public void OnDeath(GameObject cause)
     {
@@ -27,7 +27,7 @@ public class PlayerHit : MonoBehaviour {
             Rigidbody2D rigid = c.collider.gameObject.GetComponent<Rigidbody2D>();
             rigid.velocity = new Vector2(rigid.velocity.x, 0);
             
-            rigid.AddForce(Vector2.up * gameObject.GetComponent<PlayerMovement>().JumpForce / 2f);
+            rigid.AddForce(Vector2.up * (gameObject.GetComponent<PlayerMovement>().JumpForce / 10f * BounceStrength));
             this.OnDeath(c.collider.gameObject);
         }
     }
