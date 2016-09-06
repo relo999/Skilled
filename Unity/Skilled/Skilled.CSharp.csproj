@@ -64,11 +64,14 @@
   <ItemGroup>
     <Compile Include="Assets\HostGame.cs" />
     <Compile Include="Assets\NetworkTest.cs" />
+    <Compile Include="Assets\PrototypeScripts\BombPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\KillOnHit.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerMovement.cs" />
+    <Compile Include="Assets\PrototypeScripts\PowerupBase.cs" />
+    <Compile Include="Assets\PrototypeScripts\PowerupUser.cs" />
     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
