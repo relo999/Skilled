@@ -5,6 +5,21 @@ public class PlayerHit : MonoBehaviour {
 
     public bool Respawn = true;
     public float BounceStrength = 3.0f; //NOTE: based on jump strength
+    Vector2 LastPos;
+    Vector2 LastPos2;
+
+    public bool IsFalling()
+    {
+        //return LastPos2.y > transform.position.y; //TODO
+        return true;
+    }
+
+    void Update()
+    {
+        LastPos2 = LastPos;
+        LastPos = transform.position;
+        
+    }
 
     public void OnDeath(GameObject cause)
     {
@@ -22,7 +37,7 @@ public class PlayerHit : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D c)
     {
         if (c.collider.GetComponent<PlayerHit>() &&
-            c.collider.gameObject.transform.position.y > transform.position.y + gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f)
+            c.collider.gameObject.transform.position.y > transform.position.y + gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f && IsFalling())
         {
             Rigidbody2D rigid = c.collider.gameObject.GetComponent<Rigidbody2D>();
             rigid.velocity = new Vector2(rigid.velocity.x, 0);
