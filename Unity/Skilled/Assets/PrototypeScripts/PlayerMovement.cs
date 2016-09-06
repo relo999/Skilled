@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour {
     public bool QuickStopAIR = false;
     public bool Grounded { private set; get; }
     public float MaxYSpeed = 15.0f;
+    
+
     public enum Controls
     {
         WASD,
@@ -33,9 +35,8 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
+
 	void Update () {
-      
         bool grounded = false;
         
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x/2f,0), -Vector2.up, 0.20f);
