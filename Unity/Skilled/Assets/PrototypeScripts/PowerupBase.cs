@@ -4,8 +4,13 @@ using System.Collections;
 public abstract class PowerupBase{
 
     protected float _cooldown = 0.5f;   //seconds
-    private float _currentCooldown = 0f;
+    protected float _currentCooldown = 0f;
+    protected GameObject owner;
 
+    public PowerupBase(GameObject owner)
+    {
+        this.owner = owner;
+    }
 	public void Use()
     {
         if (_currentCooldown > 0) return;

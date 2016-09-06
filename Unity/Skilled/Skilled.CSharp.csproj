@@ -71,6 +71,7 @@
     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerMovement.cs" />
     <Compile Include="Assets\PrototypeScripts\PowerupBase.cs" />
+    <Compile Include="Assets\PrototypeScripts\PowerupManager.cs" />
     <Compile Include="Assets\PrototypeScripts\PowerupUser.cs" />
     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
   </ItemGroup>

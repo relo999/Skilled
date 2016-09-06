@@ -4,10 +4,6 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Collider2D))]
 public class HitAbove : MonoBehaviour
 {
-
-
-
-
     void OnCollisionEnter2D(Collision2D c)
     {
         PlayerHit hit = c.collider.gameObject.GetComponent<PlayerHit>();
