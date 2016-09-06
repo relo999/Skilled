@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour {
     public bool QuickStop = true;
     public bool QuickStopAIR = false;
     public bool Grounded { private set; get; }
+    public float MaxYSpeed = 15.0f;
     public enum Controls
     {
         WASD,
@@ -23,6 +24,15 @@ public class PlayerMovement : MonoBehaviour {
         _rigid = GetComponent<Rigidbody2D>();
 	}
 	
+    void CapSpeed()
+    {
+        //TODO cap xspeed
+        if(Mathf.Abs(_rigid.velocity.y) > MaxYSpeed)
+        {
+            _rigid.velocity = new Vector2(_rigid.velocity.x, _rigid.velocity.y > 0 ? MaxYSpeed : -MaxYSpeed);
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
       
@@ -60,5 +70,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             _rigid.AddForce(Vector2.up * JumpForce);
         }
+
+        CapSpeed();//do this last in update
     }
 }
