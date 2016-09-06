@@ -64,7 +64,9 @@
   <ItemGroup>
     <Compile Include="Assets\HostGame.cs" />
     <Compile Include="Assets\NetworkTest.cs" />
+    <Compile Include="Assets\PrototypeScripts\BombExplode.cs" />
     <Compile Include="Assets\PrototypeScripts\BombPowerup.cs" />
+    <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />
     <Compile Include="Assets\PrototypeScripts\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\KillOnHit.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />

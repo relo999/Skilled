@@ -9,7 +9,7 @@ public class BombPowerup : PowerupBase
     private float _throwForce = 50f;
     public BombPowerup(GameObject owner) : base(owner)
     {
-        _cooldown = 0.5f;   //override cooldown for each powerup
+        _cooldown = 3f;   //override cooldown for each powerup
     }
 
     protected override void Activate()
@@ -27,7 +27,9 @@ public class BombPowerup : PowerupBase
             Rigidbody2D bRigid =  bomb.AddComponent<Rigidbody2D>();
             bRigid.AddForce(new Vector2(5 * (owner.GetComponent<PlayerMovement>().LastMovedRight ? 1 : -1), 5) * _throwForce);   
             bomb.GetComponent<BoxCollider2D>().isTrigger = false;
+            bomb.GetComponent<BombExplode>().StartCountdown(owner);
             _holdingBomb = false;
+            _currentCooldown = _cooldown;
             return;
         }
     }
