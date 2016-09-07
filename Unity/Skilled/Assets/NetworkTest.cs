@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Net;
 using System.Net.Sockets;
 using System;
+using System.Text;
 
 public class NetworkTest : MonoBehaviour {
 
@@ -55,6 +56,8 @@ public class NetworkTest : MonoBehaviour {
     {
         NetworkServer.Listen(4444);
         isAtStartup = false;
+        Sender s = new Sender();
+        s.Send();
     }
 
     public class MessageTest : MessageBase
@@ -88,7 +91,9 @@ public class NetworkTest : MonoBehaviour {
         myClient.RegisterHandler(MyMsgType.test, OnMessage);
         //myClient.Connect("127.0.0.1", 4444);
         myClient.Connect("145.76.114.38", 4444);
-       // Debug.Log(GetLocalIPAddress());
+        // Debug.Log(GetLocalIPAddress());
+        Receiver r = new Receiver();
+        r.StartListening();
         
         isAtStartup = false;
     }
@@ -131,5 +136,37 @@ public class NetworkTest : MonoBehaviour {
         //GameObject.Instantiate(PlayerPrefab);
         
     }
+
+
+
+
+    public class Receiver
+    {
+        private readonly UdpClient udp = new UdpClient(15000);
+        public void StartListening()
+        {
+            this.udp.BeginReceive(Receive, new object());
+        }
+        private void Receive(IAsyncResult ar)
+        {
+            IPEndPoint ip = new IPEndPoint(IPAddress.Any, 15000);
+            byte[] bytes = udp.EndReceive(ar, ref ip);
+            string message = Encoding.ASCII.GetString(bytes);
+            Debug.Log("message: " + message);
+            //StartListening();
+        }
+    }
+    public class Sender
+    {
+        public void Send()
+        {
+            UdpClient client = new UdpClient();
+            IPEndPoint ip = new IPEndPoint(IPAddress.Broadcast, 15000);
+            byte[] bytes = Encoding.ASCII.GetBytes("Foo");
+            client.Send(bytes, bytes.Length, ip);
+            client.Close();
+        }
+    }
+
 
 }
