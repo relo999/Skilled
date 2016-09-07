@@ -2,10 +2,9 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class NetworkTest : NetworkBehaviour {
+public class NetworkTest : MonoBehaviour {
 
     public bool isAtStartup = true;
-    public GameObject PlayerPrefab;
     NetworkClient myClient;
     string debugText = "";
 
@@ -51,13 +50,21 @@ public class NetworkTest : NetworkBehaviour {
         isAtStartup = false;
     }
 
+    public class MessageTest : MessageBase
+    {
+        public string text;
+    }
+
     // Create a client and connect to the server port
     public void SetupClient()
     {
         myClient = new NetworkClient();
         myClient.RegisterHandler(MsgType.Connect, OnConnected);
         myClient.Connect("127.0.0.1", 4444);
-        
+        Debug.Log(myClient.serverIp);
+        MessageTest msg = new MessageTest();
+        msg.text = "aaaaa";
+        myClient.Send(999, msg);
         isAtStartup = false;
     }
 
@@ -69,11 +76,6 @@ public class NetworkTest : NetworkBehaviour {
         isAtStartup = false;
     }
 
-    [Command]
-    public void CmdSpawnPlayer(int id)
-    {
-            NetworkServer.Spawn(PlayerPrefab);
-    }
     // client function
     public void OnConnected(NetworkMessage netMsg)
     {
@@ -84,7 +86,7 @@ public class NetworkTest : NetworkBehaviour {
 
         debugText = myClient.isConnected.ToString();
         //Network.Instantiate
-        CmdSpawnPlayer(0);
+
         
         //GameObject.Instantiate(PlayerPrefab);
         
