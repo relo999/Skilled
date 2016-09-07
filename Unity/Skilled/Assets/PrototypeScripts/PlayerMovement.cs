@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public Controls controls = Controls.WASD;
     public float JumpForce = 250.0f;
+    public float HoldJumpDecay = 0.75f; //lower means higher/longer jumps
     public float MoveSpeed = 1.0f;
     public bool AirControl = true;
     public bool MultipleJumps = false;
@@ -14,6 +15,9 @@ public class PlayerMovement : MonoBehaviour {
     public bool Grounded { private set; get; }
     public float MaxYSpeed = 15.0f;
     public bool LastMovedRight { private set; get; }
+
+    bool _isJumping = false;
+    float _currentJumpForce;
 
     public enum Controls
     {
@@ -40,8 +44,8 @@ public class PlayerMovement : MonoBehaviour {
         bool grounded = false;
         
         //racasts checking if player is standing on a block, casts from both edges of hitbox
-        RaycastHit2D hit =  Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.20f);
-        RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.20f);
+        RaycastHit2D hit =  Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
+        RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
 
 
         if ((hit.transform != null && hit.transform != transform) || (hit2.transform != null && hit2.transform != transform))
@@ -70,9 +74,25 @@ public class PlayerMovement : MonoBehaviour {
                 LastMovedRight = true;
             }
         }
-        if (Input.GetKeyDown(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) &&( grounded || MultipleJumps))
+
+        if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
         {
-            _rigid.AddForce(Vector2.up * JumpForce);
+            _isJumping = false;
+        }
+
+        if (Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
+        {
+            if (!_isJumping && (grounded || MultipleJumps))
+            {
+                _isJumping = true;
+                _currentJumpForce = JumpForce/2f;
+            }
+            if (_isJumping)
+            {
+
+                _rigid.AddForce(Vector2.up * _currentJumpForce);
+                _currentJumpForce *= HoldJumpDecay;
+            }
         }
 
         CapSpeed();//do this last in update
