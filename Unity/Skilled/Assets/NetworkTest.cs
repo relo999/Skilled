@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Net;
+using System.Net.Sockets;
+using System;
 
 public class NetworkTest : MonoBehaviour {
 
@@ -10,6 +13,10 @@ public class NetworkTest : MonoBehaviour {
 
     void Update()
     {
+        if(Input.GetKey(KeyCode.Space))
+        {
+            SendMessage();
+        }
         Debug.Log(NetworkServer.connections.Count);
         if (isAtStartup)
         {
@@ -55,17 +62,43 @@ public class NetworkTest : MonoBehaviour {
         public string text;
     }
 
+    public class MyMsgType
+    {
+        public static short test = MsgType.Highest + 1;
+    };
+
+    public static string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        throw new Exception("Local IP Address Not Found!");
+    }
+
     // Create a client and connect to the server port
     public void SetupClient()
     {
         myClient = new NetworkClient();
         myClient.RegisterHandler(MsgType.Connect, OnConnected);
-        myClient.Connect("127.0.0.1", 4444);
-        Debug.Log(myClient.serverIp);
-        MessageTest msg = new MessageTest();
-        msg.text = "aaaaa";
-        myClient.Send(999, msg);
+        myClient.RegisterHandler(MyMsgType.test, OnMessage);
+        //myClient.Connect("127.0.0.1", 4444);
+        myClient.Connect("145.76.114.38", 4444);
+       // Debug.Log(GetLocalIPAddress());
+        
         isAtStartup = false;
+    }
+
+    public void SendMessage()
+    {
+        MessageTest msg = new MessageTest();
+        msg.text = "aaaaaaaaaa";
+
+        NetworkServer.SendToAll(MyMsgType.test, msg);
     }
 
     // Create a local client and connect to the local server
@@ -73,13 +106,20 @@ public class NetworkTest : MonoBehaviour {
     {
         myClient = ClientScene.ConnectLocalServer();
         myClient.RegisterHandler(MsgType.Connect, OnConnected);
+        myClient.RegisterHandler(MyMsgType.test, OnMessage);
         isAtStartup = false;
+    }
+
+    public void OnMessage(NetworkMessage netMsg)
+    {
+        MessageTest msg = netMsg.ReadMessage<MessageTest>();
+        Debug.Log("test: " + msg.text);
     }
 
     // client function
     public void OnConnected(NetworkMessage netMsg)
     {
-        ClientScene.Ready(myClient.connection);
+        //ClientScene.Ready(myClient.connection);
         
         Debug.Log("Connected to server ");
         
