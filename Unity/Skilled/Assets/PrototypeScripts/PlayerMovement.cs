@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
         {
             _isJumping = false;
+            //_rigid.AddForce(Vector2.down * 100);
         }
 
         if (Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
@@ -85,14 +86,17 @@ public class PlayerMovement : MonoBehaviour {
             if (!_isJumping && (grounded || MultipleJumps))
             {
                 _isJumping = true;
-                _currentJumpForce = JumpForce/2f;
+                _currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
+                _rigid.AddForce(Vector2.up * JumpForce);
             }
-            if (_isJumping)
-            {
+            //if (_isJumping)
+            //{
+            //_rigid.force
 
-                _rigid.AddForce(Vector2.up * _currentJumpForce);
+            _rigid.AddForce(Vector2.up * _currentJumpForce);
+            
                 _currentJumpForce *= HoldJumpDecay;
-            }
+            //}
         }
 
         CapSpeed();//do this last in update
