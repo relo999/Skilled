@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour {
     public Controls controls = Controls.WASD;
     public float JumpForce = 250.0f;
     public float HoldJumpDecay = 0.75f; //lower means higher/longer jumps
+    public float JumpENDForceDown = 50.0f;  //when releasing the jump key
+
     public float MoveSpeed = 1.0f;
     public bool AirControl = true;
     public bool MultipleJumps = false;
@@ -75,10 +77,10 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
+        if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f))
         {
             _isJumping = false;
-            //_rigid.AddForce(Vector2.down * 100);
+            _rigid.AddForce(Vector2.down * JumpENDForceDown);
         }
 
         if (Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
