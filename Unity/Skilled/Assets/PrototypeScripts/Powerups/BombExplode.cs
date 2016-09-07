@@ -18,6 +18,7 @@ public class BombExplode : MonoBehaviour {
     {
         started = true;
         this.owner = owner;
+        GetComponent<Animation>().Play();
     }
 
     void Explode()

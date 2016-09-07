@@ -6,15 +6,28 @@ public class ScoreManager : MonoBehaviour {
 
     public static ScoreManager instance { private set; get; }
 
-
+    public ScoreMode scoreMode = ScoreMode.Points;
+    public enum ScoreMode
+    {
+        Health,
+        Points
+    }
 
     private int players = 2;    //TODO get number of players in game
     public Text[] scoreText;    //TODO based on number of players + find textfields through script
-    int[] score;
+    public int[] score { private set; get; }
     void Start()
     {
         ScoreManager.instance = this;
         score = new int[players]; 
+        if(scoreMode == ScoreMode.Health)
+        {
+            for (int i = 0; i < score.GetLength(0); i++)
+            {
+                score[i] = 3;
+            }
+        }
+        UpdateScore();
 
     }
     public void ChangeScore(int playerID, int scoreChange)
@@ -24,6 +37,9 @@ public class ScoreManager : MonoBehaviour {
             Debug.LogError("tried to add score for player that doesnt exist");
             return;
         }
+        if (scoreMode == ScoreMode.Health)
+            scoreChange *= -1;
+
         score[playerID] += scoreChange;
         UpdateScore();
     }

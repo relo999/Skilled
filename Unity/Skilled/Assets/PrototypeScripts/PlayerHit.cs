@@ -7,8 +7,8 @@ public class PlayerHit : MonoBehaviour {
     public float BounceStrength = 3.0f; //NOTE: based on jump strength
     public int ScorePerKill = 1;
     bool didCollisionCheck = false;
-
-
+    
+    
 
     void Update()
     {
@@ -18,7 +18,11 @@ public class PlayerHit : MonoBehaviour {
     public void OnDeath(GameObject other)
     {
         //score
-        ScoreManager.instance.ChangeScore(other.name.Contains("1") ? 0 : (other.name.Contains("2") ? 1 : (other.name.Contains("3") ? 2 : 3)), ScorePerKill);
+        int playerID = other.name.Contains("1") ? 0 : (other.name.Contains("2") ? 1 : (other.name.Contains("3") ? 2 : 3));
+        ScoreManager.instance.ChangeScore(playerID, ScorePerKill);
+        if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health && ScoreManager.instance.score[playerID] <= 0)
+            Respawn = false;
+
         if (Respawn)
             {
                 PlayerMovement.Controls controls = gameObject.GetComponent<PlayerMovement>().controls;

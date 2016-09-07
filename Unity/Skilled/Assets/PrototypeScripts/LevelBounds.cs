@@ -6,12 +6,19 @@ public class LevelBounds : MonoBehaviour {
 
     Bounds bounds;
     GameObject[] players;
-   
+    bool _requestFindPlayers = false;
 
     void Update()
     {
         foreach(GameObject player in players)
         {
+            if (_requestFindPlayers) FindPlayers();
+            if(player == null)
+            {
+                _requestFindPlayers = true;
+                continue;
+            }
+
             //below bounds
             if(player.transform.position.y <= bounds.center.y - bounds.size.y/2f)
             {
@@ -44,6 +51,7 @@ public class LevelBounds : MonoBehaviour {
         {
             players[i] = hits[i].gameObject;
         }
+        _requestFindPlayers = false;
     }
 
     void Start()
