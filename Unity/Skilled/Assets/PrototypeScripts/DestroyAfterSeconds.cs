@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DestroyAfterSeconds : MonoBehaviour {
 
-    [HideInInspector]
+   // [HideInInspector]
     public float Seconds = 1.5f;
     private float _timer;
 	// Use this for initialization

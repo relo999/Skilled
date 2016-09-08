@@ -8,13 +8,14 @@ public class PowerupUser : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         controls = GetComponent<PlayerMovement>().controls;
-        SetPowerup(new PowerupBase.EmptyPowerup(gameObject));
+        //SetPowerup(new PowerupBase.EmptyPowerup(gameObject));
+        SetPowerup(new BouncingBallPowerup(gameObject));
 
 	}
 
     public void SetPowerup(PowerupBase pwrup)
     {
-        //if(currentPowerup != pwrup)   //if the powerup shouldnt be refreshed in case of timers and cooldowns etc
+        //if(currentPowerup != pwrup)   //if the powerup shouldnt be refreshed in case of timers, cooldowns and sprite updates
         currentPowerup = pwrup;
     }
 	

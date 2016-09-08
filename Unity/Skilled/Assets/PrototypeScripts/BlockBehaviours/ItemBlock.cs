@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ItemBlock : MonoBehaviour {
 
+    private float _cooldown = 10.0f;
+    private float _currentCooldown = 0.0f;
     void DropItem(Vector2 position) //TODO Which item to drop?
     {
         int itemToDrop = 0; //first item (bomb?)
@@ -11,11 +13,22 @@ public class ItemBlock : MonoBehaviour {
 
     }
 
-    void OnCollisionEnter2D(Collision2D c)
+    void Update()
     {
-        //copied HitAbove to avoid script execution order issues for now
+        if (_currentCooldown <= 0) return;
+        _currentCooldown -= Time.deltaTime;
+        if(_currentCooldown <= 0)
+        {
+            //sprite update to Active
+            GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ExtraSprites[0];
+        }
+    }
+
+
+    bool CollisionCheck(Collision2D c)
+    {
         PlayerHit hit = c.collider.gameObject.GetComponent<PlayerHit>();
-        if (!hit) return;
+        if (!hit) return false;
 
         if (hit.gameObject.transform.position.y < this.transform.position.y)
         {
@@ -30,8 +43,22 @@ public class ItemBlock : MonoBehaviour {
             }
             hit.GetComponent<PlayerMovement>().ForceStopJump();
             DropItem(transform.position);
-            GameObject.Destroy(gameObject);
-
+            _currentCooldown = _cooldown;
+            //GameObject.Destroy(gameObject);
+            //Sprite update to Inactive
+            GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ExtraSprites[1];
+            return true;
         }
+        return false;
+    }
+
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        if (_currentCooldown <= 0)
+        {
+            CollisionCheck(c);
+        }
+        
+
     }
 }

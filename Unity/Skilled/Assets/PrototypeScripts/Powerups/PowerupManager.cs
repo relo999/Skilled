@@ -7,6 +7,7 @@ public class PowerupManager : MonoBehaviour {
 
     public GameObject[] PowerupsPrefabs;
     public Sprite[] ShieldSprites;
+    public Sprite[] ExtraSprites;
     [HideInInspector]
     public Sprite[] OriginalSprites;
     void Awake()
