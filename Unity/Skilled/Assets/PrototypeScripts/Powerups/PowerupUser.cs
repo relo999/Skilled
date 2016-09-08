@@ -8,8 +8,15 @@ public class PowerupUser : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         controls = GetComponent<PlayerMovement>().controls;
-        currentPowerup = new BombPowerup(gameObject);
+        SetPowerup(new PowerupBase.EmptyPowerup(gameObject));
+
 	}
+
+    public void SetPowerup(PowerupBase pwrup)
+    {
+        //if(currentPowerup != pwrup)   //if the powerup shouldnt be refreshed in case of timers and cooldowns etc
+        currentPowerup = pwrup;
+    }
 	
 	// Update is called once per frame
 	void Update () {

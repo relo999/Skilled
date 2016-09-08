@@ -7,17 +7,39 @@ public class PlayerHit : MonoBehaviour {
     public float BounceStrength = 3.0f; //NOTE: based on jump strength
     public int ScorePerKill = 1;
     bool didCollisionCheck = false;
-    
-    
 
+    public bool Immunity = false;
+    public bool StayImmune = false; //if false, immunity goes away after 1 hit
+    public delegate void ImmunityCallback();
+    public ImmunityCallback IC;
     void Update()
     {
         didCollisionCheck = false;
+      
     }
+
+    public void SetImmunity(bool Immunity, bool StayImmune = false)
+    {
+        this.Immunity = Immunity;
+        this.StayImmune = StayImmune;
+    }
+    void Start()
+    {
+        IC = OnImmunityEnd;
+    }
+
+    void OnImmunityEnd() { }
 
     public void OnDeath(GameObject other)
     {
         //score
+        if(Immunity)
+        {
+            if (!StayImmune) Immunity = false;
+            IC();
+            return;
+
+        }
         int playerID = other.name.Contains("1") ? 0 : (other.name.Contains("2") ? 1 : (other.name.Contains("3") ? 2 : 3));
         ScoreManager.instance.ChangeScore(playerID, ScorePerKill);
         if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health && ScoreManager.instance.score[playerID] <= 0)

@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    public void ForceStopJump()
+    {
+        _isJumping = false;
+        _rigid.velocity = Vector2.zero;
+    }
 
 	void Update () {
         bool grounded = false;

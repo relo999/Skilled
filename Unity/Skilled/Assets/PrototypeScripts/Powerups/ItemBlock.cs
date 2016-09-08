@@ -3,10 +3,12 @@ using System.Collections;
 
 public class ItemBlock : MonoBehaviour {
 
-    void DropItem(Vector2 position)
+    void DropItem(Vector2 position) //TODO Which item to drop?
     {
-        GameObject item = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        item.transform.position = position;
+        int itemToDrop = 0; //first item (bomb?)
+        itemToDrop = Random.Range(0, ScoreManager.instance.itemPickups.GetLength(0));
+        GameObject item = GameObject.Instantiate(ScoreManager.instance.itemPickups[itemToDrop],transform.position + Vector3.up * 0.32f, Quaternion.identity) as GameObject;
+
     }
 
     void OnCollisionEnter2D(Collision2D c)
@@ -26,6 +28,7 @@ public class ItemBlock : MonoBehaviour {
                     hits[i].OnDeath(hit.gameObject);
                 }
             }
+            hit.GetComponent<PlayerMovement>().ForceStopJump();
             DropItem(transform.position);
             GameObject.Destroy(gameObject);
 

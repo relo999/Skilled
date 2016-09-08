@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour {
         Health,
         Points
     }
-
+    public GameObject[] itemPickups;
     private int players = 2;    //TODO get number of players in game
     public Text[] scoreText;    //TODO based on number of players + find textfields through script
     public int[] score { private set; get; }
