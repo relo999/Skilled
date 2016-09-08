@@ -48,13 +48,8 @@ public class PlayerMovement : MonoBehaviour {
         //racasts checking if player is standing on a block, casts from both edges of hitbox
         RaycastHit2D hit =  Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
         RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
-
-
         if ((hit.transform != null && hit.transform != transform) || (hit2.transform != null && hit2.transform != transform))
-        {
-
             grounded = true;
-        }
         Grounded = grounded;
 
             //Quickstop before input check
@@ -82,8 +77,7 @@ public class PlayerMovement : MonoBehaviour {
             _isJumping = false;
             _rigid.AddForce(Vector2.down * JumpENDForceDown);
         }
-
-        if (Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
+        if (Input.GetKeyDown(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
         {
             if (!_isJumping && (grounded || MultipleJumps))
             {
@@ -91,14 +85,13 @@ public class PlayerMovement : MonoBehaviour {
                 _currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
                 _rigid.AddForce(Vector2.up * JumpForce);
             }
-            //if (_isJumping)
-            //{
-            //_rigid.force
+        }
+        if (Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) && _isJumping)
+        {
 
             _rigid.AddForce(Vector2.up * _currentJumpForce);
-            
-                _currentJumpForce *= HoldJumpDecay;
-            //}
+
+            _currentJumpForce *= HoldJumpDecay;
         }
 
         CapSpeed();//do this last in update

@@ -16,7 +16,7 @@ public class BombPowerup : PowerupBase
     {
         if(!_holdingBomb)
         {
-            bomb = GameObject.Instantiate(PowerupManager.instance.PowerupsPrefabs[0], owner.transform.position, Quaternion.identity) as GameObject; //TODO enums etc to choose powerup
+            bomb = GameObject.Instantiate(PowerupManager.instance.PowerupsPrefabs[0], owner.transform.position + Vector3.up * 0.2f, Quaternion.identity) as GameObject; //TODO enums etc to choose powerup
             bomb.transform.parent = owner.transform;
             _holdingBomb = true;
             return;
@@ -28,6 +28,7 @@ public class BombPowerup : PowerupBase
             bRigid.AddForce(new Vector2(5 * (owner.GetComponent<PlayerMovement>().LastMovedRight ? 1 : -1), 5) * _throwForce);   
             bomb.GetComponent<BoxCollider2D>().isTrigger = false;
             bomb.GetComponent<BombExplode>().StartCountdown(owner);
+            bomb.AddComponent<LoopOutLevel>();
             _holdingBomb = false;
             _currentCooldown = _cooldown;
             return;
