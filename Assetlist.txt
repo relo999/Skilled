@@ -1,0 +1,18 @@
+-walk animation
+-Death animation
+-Spawn animation
+-Jump Animation
+-Edge balance animation
+
+-block bump animation for multiple blocks
+-Item box animation
+-Used Item box
+
+-Power-up versions
+-Power-up Icons animated
+-Power-up misc.
+
+-Background
+-Splat 
+-Splat fade
+
