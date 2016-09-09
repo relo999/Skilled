@@ -6,11 +6,25 @@ using System.Net.Sockets;
 using System;
 using System.Text;
 
+/// <summary>
+/// 
+/// TODO
+/// 
+/// Connect to home server using udp    (for both clients)
+/// save ip/port on home server
+/// 
+/// send clients eachothers ip/port
+/// connect eachother
+/// 
+/// </summary>
 public class NetworkTest : MonoBehaviour {
 
     public bool isAtStartup = true;
     NetworkClient myClient;
     string debugText = "";
+
+
+
 
     void Update()
     {

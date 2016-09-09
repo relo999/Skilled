@@ -85,6 +85,8 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
+    <Compile Include="Assets\UDPManager.cs" />
+    <Compile Include="Assets\UDPTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

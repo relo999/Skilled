@@ -10,6 +10,7 @@ public class Bounce : MonoBehaviour {
     void Start()
     {
         _rigid = gameObject.GetComponent<Rigidbody2D>();
+        LevelBounds.Instance.RegisterObject(gameObject);
     }
 
     void CapSpeed(float maxSpeed)
@@ -21,6 +22,11 @@ public class Bounce : MonoBehaviour {
     void Update()
     {
         CapSpeed(MaxSpeed);
+    }
+
+    void OnDestroy()
+    {
+        LevelBounds.Instance.UnRegisterObject(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D c)

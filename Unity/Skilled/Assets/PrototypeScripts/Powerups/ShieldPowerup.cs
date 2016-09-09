@@ -26,7 +26,7 @@ public class ShieldPowerup : PowerupBase
     public void ShieldEnd()
     {
         owner.GetComponent<PlayerHit>().IC -= ShieldEnd;
-        owner.GetComponent<PowerupUser>().SetPowerup(new PowerupBase.EmptyPowerup(owner));
+        owner.GetComponent<PowerupUser>().SetLastingPowerup(new PowerupBase.EmptyPowerup(owner));
         owner.GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.OriginalSprites[playerID];
     }
 }

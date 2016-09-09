@@ -21,7 +21,7 @@ public class LevelBounds : MonoBehaviour {
 
     void Update()
     {
-
+        //TODO OPTIMIZE THIS
         foreach(GameObject obj in objects)
         {
             //below bounds
