@@ -7,6 +7,7 @@
 -block bump animation for multiple blocks
 -Item box animation
 -Used Item box
+-Bomb Animation
 
 -Power-up versions
 -Power-up Icons animated

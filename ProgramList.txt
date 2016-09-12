@@ -1,0 +1,4 @@
+-non physics balls
+-menu
+-delete old powerup if picked up new
+-balls don't spawn above you
