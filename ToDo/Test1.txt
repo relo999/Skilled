@@ -1,2 +1,0 @@
--color coded bombs
--bomb timer animation.
