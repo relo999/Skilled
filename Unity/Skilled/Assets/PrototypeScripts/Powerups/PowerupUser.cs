@@ -16,6 +16,8 @@ public class PowerupUser : MonoBehaviour {
     public void SetPowerup(PowerupBase pwrup)
     {
         //if(currentPowerup != pwrup)   //if the powerup shouldnt be refreshed in case of timers, cooldowns and sprite updates
+        if(currentPowerup != null)
+            currentPowerup.End();
         currentPowerup = pwrup;
     }
     public void SetLastingPowerup(PowerupBase pwrup)

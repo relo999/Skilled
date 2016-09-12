@@ -12,6 +12,14 @@ public class BombPowerup : PowerupBase
         _cooldown = 3f;   //override cooldown for each powerup
     }
 
+    public override void End()
+    {
+        if(bomb != null && _holdingBomb)
+        {
+            GameObject.Destroy(bomb);
+        }
+    }
+
     protected override void Activate()
     {
         if(!_holdingBomb)

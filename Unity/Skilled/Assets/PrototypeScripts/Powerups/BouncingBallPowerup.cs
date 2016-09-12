@@ -15,6 +15,7 @@ public class BouncingBallPowerup : PowerupBase {
         //_cooldown = 0.3f;
     }
 
+
     protected override void Activate()
     {
         int availableID = -1;
@@ -29,12 +30,12 @@ public class BouncingBallPowerup : PowerupBase {
         if (availableID == -1) return;
 
         int rightModifier = owner.GetComponent<PlayerMovement>().LastMovedRight ? 1 : -1;
-        float spawnDistance = 0.32f;
+        float spawnDistance = 0.33f;
         GameObject ball = GameObject.Instantiate(PowerupManager.instance.PowerupsPrefabs[1], owner.transform.position + Vector3.right * rightModifier * spawnDistance, Quaternion.identity) as GameObject;
         ball.GetComponent<Bounce>().owner = owner;
 
         Rigidbody2D bRigid = ball.GetComponent<Rigidbody2D>();
-        bRigid.AddForce(new Vector2(5 * rightModifier, 3) * _throwForce);
+        bRigid.AddForce(new Vector2(5 * rightModifier, 5) * _throwForce);
 
         inGameBalls[availableID] = ball;
 

@@ -22,9 +22,12 @@ public abstract class PowerupBase{
     protected virtual void Start() { }
     protected abstract void Activate();
     
+    public virtual void End()
+    {
+        //cleanup sprites etc
+    }
 
-
-    public void Update(float deltaTime)
+    public virtual void Update(float deltaTime)
     {
         _currentCooldown = _currentCooldown > 0 ? _currentCooldown - deltaTime : 0;
     }
