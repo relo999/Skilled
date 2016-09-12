@@ -1,17 +1,14 @@
 fileFormatVersion: 2
-guid: 038d49586a40d974797983d0996c8c51
-timeCreated: 1473683179
+guid: 4c12efcb07673b64d9d34538d91d6696
+timeCreated: 1473690142
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ItemBlock_0
-    21300002: ItemBlock_1
-    21300004: ItemBlock_2
-    21300006: ItemBlock_3
-    21300008: ItemBlock_4
-    21300010: ItemBlock_5
-    21300012: ItemBlock_6
-    21300014: ItemBlock_7
+    21300000: Run_0
+    21300002: Run_1
+    21300004: Run_2
+    21300006: Run_3
+    21300008: Run_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -34,8 +31,8 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -3
-  maxTextureSize: 64
+  textureFormat: -1
+  maxTextureSize: 128
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -58,92 +55,59 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: ItemBlock_0
+    - name: Run_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
+        y: 14
         width: 16
-        height: 16
+        height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: ItemBlock_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: ItemBlock_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: ItemBlock_4
+    - name: Run_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 14
         width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_5
+    - name: Run_2
       rect:
         serializedVersion: 2
         x: 16
-        y: 0
+        y: 14
         width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_6
+    - name: Run_3
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 14
         width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_7
+    - name: Run_4
       rect:
         serializedVersion: 2
         x: 48
-        y: 0
+        y: 14
         width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

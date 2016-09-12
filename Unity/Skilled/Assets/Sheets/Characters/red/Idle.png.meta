@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: a2ebd966f6d3356469d65b78767fc1a2
-timeCreated: 1473683822
+guid: dd0e173b8002504479e05b144e0da525
+timeCreated: 1473688016
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: HitBlock_0
-    21300002: HitBlock_1
+    21300000: Idle_0
+    21300002: Idle_1
+    21300004: Idle_2
+    21300006: Idle_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -29,7 +31,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 32
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -52,26 +54,48 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: HitBlock_0
+    - name: Idle_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 47
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: HitBlock_1
+    - name: Idle_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 17
+        y: 47
+        width: 16
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Idle_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 47
+        width: 16
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Idle_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 30
         width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

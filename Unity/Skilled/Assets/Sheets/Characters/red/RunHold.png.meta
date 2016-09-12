@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: a2ebd966f6d3356469d65b78767fc1a2
-timeCreated: 1473683822
+guid: b3982fa2f7e7c90489c4ee788fe384d6
+timeCreated: 1473688796
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: HitBlock_0
-    21300002: HitBlock_1
+    21300000: RunHold_0
+    21300002: RunHold_1
+    21300004: RunHold_2
+    21300006: RunHold_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -29,7 +31,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 32
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -52,26 +54,48 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: HitBlock_0
+    - name: RunHold_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 14
         width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: HitBlock_1
+    - name: RunHold_1
       rect:
         serializedVersion: 2
         x: 16
-        y: 0
+        y: 14
         width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: RunHold_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 14
+        width: 16
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: RunHold_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 14
+        width: 16
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

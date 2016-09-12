@@ -1,17 +1,15 @@
 fileFormatVersion: 2
-guid: 038d49586a40d974797983d0996c8c51
-timeCreated: 1473683179
+guid: edde69ac39561144ebd7f692ccf4bc80
+timeCreated: 1473689814
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ItemBlock_0
-    21300002: ItemBlock_1
-    21300004: ItemBlock_2
-    21300006: ItemBlock_3
-    21300008: ItemBlock_4
-    21300010: ItemBlock_5
-    21300012: ItemBlock_6
-    21300014: ItemBlock_7
+    21300000: Balance_0
+    21300002: Balance_1
+    21300004: Balance_2
+    21300006: Balance_3
+    21300008: Balance_4
+    21300010: Balance_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -34,8 +32,8 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -3
-  maxTextureSize: 64
+  textureFormat: -1
+  maxTextureSize: 128
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -58,89 +56,67 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: ItemBlock_0
+    - name: Balance_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
-        width: 16
+        y: 44
+        width: 17
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_1
+    - name: Balance_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
+        x: 20
+        y: 44
+        width: 17
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_2
+    - name: Balance_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
+        x: 40
+        y: 44
+        width: 17
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: ItemBlock_4
+    - name: Balance_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 16
+        y: 24
+        width: 17
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_5
+    - name: Balance_4
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
+        x: 20
+        y: 24
+        width: 17
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_6
+    - name: Balance_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: ItemBlock_7
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
+        x: 40
+        y: 24
+        width: 17
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
