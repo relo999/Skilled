@@ -45,7 +45,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\HostGame.cs" />
+     <Compile Include="Assets\LoopOutLevel.cs" />
+     <Compile Include="Assets\NetworkTest.cs" />
+     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\HitAbove.cs" />
+     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ItemBlock.cs" />
+     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\KillOnHit.cs" />
+     <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />
+     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
+     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
      <Compile Include="Assets\PrototypeScripts\PlayerMovement.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\BombExplode.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\BombPickup.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\BombPowerup.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\Bounce.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPickup.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPowerup.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\ItemPickup.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupBase.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupManager.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupUser.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPickup.cs" />
+     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPowerup.cs" />
+     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
+     <Compile Include="Assets\UDPManager.cs" />
+     <Compile Include="Assets\UDPTest.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
