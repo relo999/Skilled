@@ -20,6 +20,8 @@ public class ItemBlock : MonoBehaviour {
         if(_currentCooldown <= 0)
         {
             //sprite update to Active
+            Animator animator = GetComponent<Animator>();
+            if (animator != null) animator.enabled = true;
             GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ExtraSprites[0];
         }
     }
@@ -46,6 +48,8 @@ public class ItemBlock : MonoBehaviour {
             _currentCooldown = _cooldown;
             //GameObject.Destroy(gameObject);
             //Sprite update to Inactive
+            Animator animator = GetComponent<Animator>();
+            if (animator != null) animator.enabled = false;
             GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ExtraSprites[1];
             return true;
         }
