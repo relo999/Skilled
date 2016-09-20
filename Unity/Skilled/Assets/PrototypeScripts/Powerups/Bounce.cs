@@ -2,16 +2,24 @@
 using System.Collections;
 
 public class Bounce : MonoBehaviour {
-
     public GameObject owner;
     Rigidbody2D _rigid;
     public float MaxSpeed = 1f;
     int _colCount = 0;
+    public int MaxBalls = 5;
+    public static int Max_Balls;
     public float constXSpeed = 3.0f;
+    public float BounceForce = 250.0f;
     private Vector3 _lastPos = Vector2.zero;
+
+    void Awake()
+    {
+        Max_Balls = MaxBalls;
+    }
 
     void Start()
     {
+        
         _rigid = gameObject.GetComponent<Rigidbody2D>();
         LevelBounds.Instance.RegisterObject(gameObject);
     }
@@ -63,7 +71,7 @@ public class Bounce : MonoBehaviour {
         if(c.transform.position.y < transform.position.y)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
-            _rigid.AddForce(Vector2.up * 250f);
+            _rigid.AddForce(Vector2.up * BounceForce);
         }
 
         bool toDestroy = false;

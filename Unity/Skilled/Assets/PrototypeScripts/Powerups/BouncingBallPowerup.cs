@@ -6,18 +6,30 @@ public class BouncingBallPowerup : PowerupBase {
 
     public BouncingBallPowerup(GameObject owner) : base(owner) { }
     float _throwForce = 50f;
-    const int _MAXBALLS = 5;
+    public int MaxBalls = 5;
     GameObject[] inGameBalls;
 
     protected override void Start()
     {
-        inGameBalls = new GameObject[_MAXBALLS];
+        inGameBalls = new GameObject[MaxBalls];
         //_cooldown = 0.3f;
     }
 
 
     protected override void Activate()
     {
+        if(MaxBalls != Bounce.Max_Balls && Bounce.Max_Balls != 0)
+        {
+            MaxBalls = Bounce.Max_Balls;
+            GameObject[] temp = new GameObject[MaxBalls];
+            Array.Copy(inGameBalls, temp, MaxBalls);
+
+            inGameBalls = new GameObject[MaxBalls];
+            for (int i = 0; i < MaxBalls; i++)
+            {
+                inGameBalls[i] = temp[i];
+            }
+        }
         int availableID = -1;
         for (int i = 0; i < inGameBalls.GetLength(0); i++)
         {
