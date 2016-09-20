@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using TeamUtility.IO;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public PlayerID playerID;
     public Controls controls = Controls.WASD;
     public float JumpForce = 250.0f;
     public float HoldJumpDecay = 0.75f; //lower means higher/longer jumps
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (grounded || AirControl)
         {
-            if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow))
+            if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow) )
             {
                 _rigid.velocity = new Vector2(Vector2.left.x * MoveSpeed, _rigid.velocity.y);
                 LastMovedRight = false;
@@ -77,12 +79,14 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f))
+
+        Debug.Log(InputManager.GetButtonDown("Jump", playerID));
+        if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f) )
         {
             _isJumping = false;
             _rigid.AddForce(Vector2.down * JumpENDForceDown);
         }
-        if (Input.GetKeyDown(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow))
+        if (Input.GetKeyDown(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButtonDown("Jump", playerID))
         {
             if (!_isJumping && (grounded || MultipleJumps))
             {
@@ -91,7 +95,7 @@ public class PlayerMovement : MonoBehaviour {
                 _rigid.AddForce(Vector2.up * JumpForce);
             }
         }
-        if (Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) && _isJumping)
+        if ((Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButton("Jump", playerID)) && _isJumping)
         {
 
             _rigid.AddForce(Vector2.up * _currentJumpForce);
