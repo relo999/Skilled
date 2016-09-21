@@ -4,15 +4,6 @@ using TeamUtility.IO;
 
 public class ControllerBind : MonoBehaviour {
 
-    public enum Buttons
-    {
-
-    }
-    bool setup = false;
-    public bool GetButtonDown()
-    {
-        return false;
-    }
 	// Use this for initialization
 	void Awake () {
         CreateJoystickConfiguration();
@@ -20,22 +11,31 @@ public class ControllerBind : MonoBehaviour {
     private void CreateJoystickConfiguration()
     {
 
-        InputManager.CreateInputConfiguration("MyJoystickConfig");
-        InputManager.CreateAnalogAxis("MyJoystickConfig", "Horizontal", 0, 0, 1.0f, 0.1f);
-        InputManager.CreateAnalogAxis("MyJoystickConfig", "Vertical", 0, 1, 1.0f, 0.1f);
-        InputManager.CreateButton("MyJoystickConfig", "Jump", KeyCode.JoystickButton3);
+        string p1 = "P1Controls";
+        InputManager.CreateInputConfiguration(p1);
+        InputManager.CreateAnalogAxis(p1, "Horizontal", 0, 0, 1.0f, 0.1f);
+        //InputManager.CreateAnalogAxis("MyJoystickConfig", "Vertical", 1, 1, 1.0f, 0.1f);
+        InputManager.CreateButton(p1, "Jump", KeyCode.Joystick1Button2);
+        InputManager.CreateButton(p1, "Action", KeyCode.Joystick1Button3);
+        InputManager.SetInputConfiguration(p1, PlayerID.One);
 
-        InputManager.SetInputConfiguration("MyJoystickConfig", PlayerID.One);
 
+        string p2 = "P2Controls";
+        InputManager.CreateInputConfiguration(p2);
+        InputManager.CreateAnalogAxis(p2, "Horizontal", 1, 0, 1.0f, 0.1f);
+        //InputManager.CreateAnalogAxis("MyJoystickConfig2", "Vertical", 2, 1, 1.0f, 0.1f);
+        InputManager.CreateButton(p2, "Jump", KeyCode.Joystick2Button2);
+        InputManager.CreateButton(p2, "Action", KeyCode.Joystick2Button3);
 
-        InputManager.CreateInputConfiguration("MyJoystickConfig2");
-        InputManager.CreateAnalogAxis("MyJoystickConfig2", "Horizontal", 0, 0, 1.0f, 0.1f);
-        InputManager.CreateAnalogAxis("MyJoystickConfig2", "Vertical", 0, 1, 1.0f, 0.1f);
-        InputManager.CreateButton("MyJoystickConfig2", "Jump", KeyCode.JoystickButton3);
+        InputManager.SetInputConfiguration(p2, PlayerID.Two);
 
-        InputManager.SetInputConfiguration("MyJoystickConfig2", PlayerID.Two);
+        Debug.Log(InputManager.GetAxisConfiguration(p1, "Jump").positive);
+    }
 
-        //InputManager.set
+    public void ChangeButton(PlayerID playerID, string buttonName, KeyCode newButton)
+    {
+        AxisConfiguration button = InputManager.GetAxisConfiguration(playerID, buttonName);
+        button.positive = newButton;
     }
 
     // Update is called once per frame
@@ -50,14 +50,18 @@ public class ControllerBind : MonoBehaviour {
         //bool input2 = Input.GetButtonDown("YButton2");
         // Debug.Log("YButton2: " + input2);
 
-       // for (int i = 0; i < 20; i++)
-        //{
-          //  if (Input.GetKeyDown("joystick 1 button " + i))
-         //   {
-         //       Debug.Log("joystick 1 button " + i);
-           // }
+        /*
+        for (int i = 0; i < 20; i++)
+        {
+            if (Input.GetKeyDown("joystick 1 button " + i))
+            {
+                Debug.Log("joystick 1 button " + i);
+            }
        
-        //}
+        }
+
+    */
+
         //Debug.Log(InputManager.GetButtonDown("Jump", PlayerID.One));
        
 

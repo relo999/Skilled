@@ -67,12 +67,12 @@ public class PlayerMovement : MonoBehaviour {
 
         if (grounded || AirControl)
         {
-            if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow) )
+            if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow)  || InputManager.GetAxis("Horizontal", playerID) < 0)
             {
                 _rigid.velocity = new Vector2(Vector2.left.x * MoveSpeed, _rigid.velocity.y);
                 LastMovedRight = false;
             }
-            if (Input.GetKey(controls == Controls.WASD ? KeyCode.D : KeyCode.RightArrow))
+            if (Input.GetKey(controls == Controls.WASD ? KeyCode.D : KeyCode.RightArrow) || InputManager.GetAxis("Horizontal", playerID) > 0)
             {
                 _rigid.velocity = new Vector2(Vector2.right.x * MoveSpeed, _rigid.velocity.y);
                 LastMovedRight = true;
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
 
-        Debug.Log(InputManager.GetButtonDown("Jump", playerID));
+        //Debug.Log(InputManager.GetButtonDown("Jump", playerID));
         if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f) )
         {
             _isJumping = false;
