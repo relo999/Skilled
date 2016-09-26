@@ -48,7 +48,7 @@ public class GameServer : NetworkBase {
         if (t.Equals(typeof(PlayerInput)))
         {
             //update corresponding player object based on input
-
+            Debug.Log("handling player input..");
             //pseudo code:
             PlayerInput input = (PlayerInput)data;
             PlayerMovement player = Array.Find(GameObject.FindObjectsOfType<PlayerMovement>(), x => (int)x.playerID == input.playerID);

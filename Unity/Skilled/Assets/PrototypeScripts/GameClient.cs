@@ -12,6 +12,7 @@ public class GameClient : NetworkBase {
     }
     public override void Update()
     {
+        Debug.Log("Sent player input");
         SendPlayerInput(ownMovement.input);
         serverClient.BeginReceive(receive, null);
     }

@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void DoMovement(NetworkBase.PlayerInput input)
     {
+        Debug.Log("Axis received: " + input.xAxis);
         if(input.xAxis < 0)
         {
             _rigid.velocity = new Vector2(Vector2.left.x * MoveSpeed, _rigid.velocity.y);
