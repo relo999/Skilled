@@ -45,13 +45,13 @@ public class NetworkBase{
         string stringData = Encoding.UTF8.GetString(received);
         Debug.Log("received: " + stringData);
         HandleSerializedData(DeserializeClass(received));
-        receiveCallback(res);
+        //receiveCallback(res);
         serverClient.BeginReceive(new AsyncCallback(receive), null);
     }
 
     protected virtual void receiveCallback(IAsyncResult res)
     {
-
+        //not in use
     }
 
     //client + server

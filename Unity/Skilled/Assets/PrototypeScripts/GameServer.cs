@@ -22,7 +22,7 @@ public class GameServer : NetworkBase {
         PlayerUpdates updates = new PlayerUpdates(playerInfos);
         SendPlayerUpdates(updates);
         */
-        serverClient.BeginReceive(new AsyncCallback(receive), null);
+        //serverClient.BeginReceive(new AsyncCallback(receive), null);
 
     }
 
@@ -48,6 +48,7 @@ public class GameServer : NetworkBase {
 
     protected override void HandleSerializedData(SerializeBase data)
     {
+        return;
         Type t = data.GetType();
 
         if (t.Equals(typeof(PlayerInput)))

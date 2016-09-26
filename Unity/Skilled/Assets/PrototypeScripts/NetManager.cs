@@ -48,7 +48,7 @@ public class NetManager : MonoBehaviour {
 
         string stringData = Encoding.UTF8.GetString(received);
         Debug.Log("received: " + stringData);
-        if (stringData.Contains(":"))    //it contains a ip:port
+        if (stringData.Contains(":") && Connectedclient == null)    //it contains a ip:port
         {
             string[] splitData = stringData.Split(':');
             Connectedclient = new NetworkBase.UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
@@ -65,6 +65,7 @@ public class NetManager : MonoBehaviour {
                 GameServer server = networkBase as GameServer;
                 server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
             }
+            //return;
 
             //this.Start();
         }

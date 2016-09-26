@@ -14,11 +14,12 @@ public class GameClient : NetworkBase {
     }
     public override void Update()
     {
-        SendToClient(connectedClient, Encoding.ASCII.GetBytes("send test...."));
+        Debug.Log("UPDATE");
+        //SendToClient(connectedClient, Encoding.ASCII.GetBytes("send test...."));
         //Debug.Log("Sent player input");
        // if (ownMovement == null) SetPlayerID();
         //SendPlayerInput(ownMovement.input);
-        serverClient.BeginReceive(new AsyncCallback(receive), null);
+        //serverClient.BeginReceive(new AsyncCallback(receive), null);
         //IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, 8000);
         //byte[] data = serverClient.Receive(ref endpoint);
         //string stringData = Encoding.UTF8.GetString(data);
@@ -26,7 +27,7 @@ public class GameClient : NetworkBase {
     }
     public GameClient(UdpClient client) : base(client)
     {
-        serverClient.BeginReceive(new AsyncCallback(receive), null);
+        //serverClient.BeginReceive(new AsyncCallback(receive), null);
     }
     public void SetPlayerID()
     { 
@@ -39,6 +40,7 @@ public class GameClient : NetworkBase {
 
     protected override void HandleSerializedData(SerializeBase data)
     {
+        return;
         Type t = data.GetType();
 
 
