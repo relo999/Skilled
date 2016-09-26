@@ -18,7 +18,7 @@ public class GameServer : NetworkBase {
         }
         PlayerUpdates updates = new PlayerUpdates(playerInfos);
         SendPlayerUpdates(updates);
-        serverClient.BeginReceive(receive, null);
+        serverClient.BeginReceive(new AsyncCallback(receive), null);
     }
 
     protected override void receiveCallback(IAsyncResult res)

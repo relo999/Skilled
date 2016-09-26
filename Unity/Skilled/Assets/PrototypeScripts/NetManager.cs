@@ -59,8 +59,8 @@ public class NetManager : MonoBehaviour {
             {
                 StartClient();
                 networkBase.playerID = int.Parse(splitData[3]);
-                GameClient gameC = networkBase as GameClient;
-                gameC.SetPlayerID();
+                //GameClient gameC = networkBase as GameClient;
+                //gameC.SetPlayerID();
             }
             
             //this.Start();

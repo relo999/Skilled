@@ -13,15 +13,16 @@ public class GameClient : NetworkBase {
     public override void Update()
     {
         Debug.Log("Sent player input");
+        if (ownMovement == null) SetPlayerID();
         SendPlayerInput(ownMovement.input);
-        serverClient.BeginReceive(receive, null);
+        serverClient.BeginReceive(new AsyncCallback(receive), null);
     }
     public GameClient(UdpClient client) : base(client)
     { 
         
     }
     public void SetPlayerID()
-    {
+    { 
         ownMovement = Array.Find(GameObject.FindObjectsOfType<PlayerMovement>(), x => (int)x.playerID == this.playerID);
     }
     public void SendPlayerInput(PlayerInput input)
