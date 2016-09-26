@@ -38,7 +38,7 @@ public class NetManager : MonoBehaviour {
         byte[] data = NetworkBase.UDPClient.StringToBytes("connect");
 
         SendToClient(Mainserver, data);
-        client.BeginReceive(receive, null);
+        client.BeginReceive(new AsyncCallback(receive), null);
     }
 
     private void receive(IAsyncResult res)
@@ -50,7 +50,6 @@ public class NetManager : MonoBehaviour {
         Debug.Log("received: " + stringData);
         if (stringData.Contains(":"))    //it contains a ip:port
         {
-            Debug.Log("ready to type");
             string[] splitData = stringData.Split(':');
             Connectedclient = new NetworkBase.UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
             
