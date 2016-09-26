@@ -66,6 +66,7 @@ public class NetManager : MonoBehaviour {
                 server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
             }
             //return;
+            SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
 
             //this.Start();
         }
