@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Net.Sockets;
+using System.Text;
 
 public class GameServer : NetworkBase {
 
@@ -9,6 +10,8 @@ public class GameServer : NetworkBase {
 
     public override void Update()
     {
+        SendToClient(connectedClient, Encoding.ASCII.GetBytes("test send....."));
+        /*
         base.Update();
         PlayerMovement[] players = GameObject.FindObjectsOfType<PlayerMovement>();
         PlayerInfo[] playerInfos = new PlayerInfo[players.Length];
@@ -18,7 +21,9 @@ public class GameServer : NetworkBase {
         }
         PlayerUpdates updates = new PlayerUpdates(playerInfos);
         SendPlayerUpdates(updates);
+        */
         serverClient.BeginReceive(new AsyncCallback(receive), null);
+
     }
 
     protected override void receiveCallback(IAsyncResult res)

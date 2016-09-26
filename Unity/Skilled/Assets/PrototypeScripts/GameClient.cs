@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
 public class GameClient : NetworkBase {
 
@@ -12,14 +14,19 @@ public class GameClient : NetworkBase {
     }
     public override void Update()
     {
-        Debug.Log("Sent player input");
-        if (ownMovement == null) SetPlayerID();
-        SendPlayerInput(ownMovement.input);
+        SendToClient(connectedClient, Encoding.ASCII.GetBytes("send test...."));
+        //Debug.Log("Sent player input");
+       // if (ownMovement == null) SetPlayerID();
+        //SendPlayerInput(ownMovement.input);
         serverClient.BeginReceive(new AsyncCallback(receive), null);
+        //IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, 8000);
+        //byte[] data = serverClient.Receive(ref endpoint);
+        //string stringData = Encoding.UTF8.GetString(data);
+        //Debug.Log("received: " + stringData);
     }
     public GameClient(UdpClient client) : base(client)
-    { 
-        
+    {
+        serverClient.BeginReceive(new AsyncCallback(receive), null);
     }
     public void SetPlayerID()
     { 
