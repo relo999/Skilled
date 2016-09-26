@@ -59,10 +59,14 @@ public class NetManager : MonoBehaviour {
             {
                 StartClient();
                 networkBase.playerID = int.Parse(splitData[3]);
-                //GameClient gameC = networkBase as GameClient;
-                //gameC.SetPlayerID();
             }
-            
+            networkBase.connectedClient = Connectedclient;
+            if(splitData[2] == "server")
+            {
+                GameServer server = networkBase as GameServer;
+                server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
+            }
+
             //this.Start();
         }
 

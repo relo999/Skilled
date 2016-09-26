@@ -27,7 +27,7 @@ public class GameClient : NetworkBase {
     }
     public void SendPlayerInput(PlayerInput input)
     {
-        SendToClient(Mainserver, SerializeClass(input));
+        SendToClient(connectedClient, SerializeClass(input));
     }
 
     protected override void HandleSerializedData(SerializeBase data)

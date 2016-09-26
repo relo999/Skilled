@@ -16,6 +16,7 @@ public class NetworkBase{
     protected UDPClient Mainserver;
     BinaryFormatter bFormatter;
     public int playerID;
+    public UDPClient connectedClient = null;
     
     public NetworkBase(UdpClient client)
     {
