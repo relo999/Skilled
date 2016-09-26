@@ -53,8 +53,16 @@ public class NetManager : MonoBehaviour {
             Debug.Log("ready to type");
             string[] splitData = stringData.Split(':');
             Connectedclient = new NetworkBase.UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
+            
             if (splitData[2] == "server") StartServer();
-            if (splitData[2] == "client") StartServer();
+            if (splitData[2] == "client")
+            {
+                StartClient();
+                networkBase.playerID = int.Parse(splitData[3]);
+                GameClient gameC = networkBase as GameClient;
+                gameC.SetPlayerID();
+            }
+            
             //this.Start();
         }
 

@@ -5,7 +5,6 @@ using System.Net.Sockets;
 
 public class GameClient : NetworkBase {
 
-    int playerID = 0;
     PlayerMovement ownMovement;
     protected override void receiveCallback(IAsyncResult res)
     {
@@ -18,7 +17,11 @@ public class GameClient : NetworkBase {
     }
     public GameClient(UdpClient client) : base(client)
     { 
-
+        
+    }
+    public void SetPlayerID()
+    {
+        ownMovement = Array.Find(GameObject.FindObjectsOfType<PlayerMovement>(), x => (int)x.playerID == this.playerID);
     }
     public void SendPlayerInput(PlayerInput input)
     {
