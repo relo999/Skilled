@@ -3,8 +3,10 @@ using System.Collections;
 using UnityEngine.Networking;
 using TeamUtility.IO;
 
+
 public class PlayerMovement : MonoBehaviour {
 
+    public NetworkBase.PlayerInput input;
     public PlayerID playerID;
     public Controls controls = Controls.WASD;
     public float JumpForce = 250.0f;
@@ -49,9 +51,29 @@ public class PlayerMovement : MonoBehaviour {
         _rigid.velocity = Vector2.zero;
     }
 
+    public void DoMovement(NetworkBase.PlayerInput input)
+    {
+        if(input.xAxis < 0)
+        {
+            _rigid.velocity = new Vector2(Vector2.left.x * MoveSpeed, _rigid.velocity.y);
+            LastMovedRight = false;
+        }
+        if (input.xAxis > 0)
+        {
+            _rigid.velocity = new Vector2(Vector2.right.x * MoveSpeed, _rigid.velocity.y);
+            LastMovedRight = true;
+        }
+    }
+
 	void Update () {
+        input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),InputManager.GetButtonDown("Jump", playerID));
+
+        //return;
+
+
+
         bool grounded = false;
-        
+
         //racasts checking if player is standing on a block, casts from both edges of hitbox
         RaycastHit2D hit =  Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
         RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);

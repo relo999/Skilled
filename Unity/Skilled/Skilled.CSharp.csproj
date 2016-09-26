@@ -114,9 +114,13 @@
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ItemBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\KillOnHit.cs" />
+    <Compile Include="Assets\PrototypeScripts\ClientBase.cs" />
     <Compile Include="Assets\PrototypeScripts\ControllerBind.cs" />
     <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />
+    <Compile Include="Assets\PrototypeScripts\GameClient.cs" />
+    <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
+    <Compile Include="Assets\PrototypeScripts\NetManager.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerMovement.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BombExplode.cs" />
@@ -125,6 +129,7 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\Bounce.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPowerup.cs" />
+    <Compile Include="Assets\PrototypeScripts\Powerups\ClientBase.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\ItemPickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupBase.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupManager.cs" />
@@ -132,6 +137,7 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
+    <Compile Include="Assets\PrototypeScripts\ServerBase.cs" />
     <Compile Include="Assets\UDPManager.cs" />
     <Compile Include="Assets\UDPTest.cs" />
   </ItemGroup>
