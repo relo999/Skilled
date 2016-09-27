@@ -57,7 +57,7 @@ public class ItemBlock : ActionBlock {
         //Debug.Log(hits.Length);
         for (int i = hits.GetLength(0) - 1; i >= 0; i--)
         {
-            if (Vector2.Distance(hits[i].transform.position, gameObject.transform.position) > 1) continue;
+            if (Vector2.Distance(hits[i].transform.position, gameObject.transform.position) > 0.40f) continue;
             if (hits[i].transform.position.y > transform.position.y && hits[i].gameObject.GetComponent<PlayerMovement>().Grounded)
             {
                 hits[i].OnDeath(activator);
