@@ -65,15 +65,19 @@ public class NetManager : MonoBehaviour {
                 GameServer server = networkBase as GameServer;
                 server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
             }
+            //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //return;
             SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
-
+            //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //this.Start();
         }
 
         client.BeginReceive(new AsyncCallback(receive), null);
     }
-
+    public IPEndPoint GetLocalEndPoint()    //to get own port
+    {
+        return (IPEndPoint)client.Client.LocalEndPoint;
+    }
     public void SendToClient(NetworkBase.UDPClient Client, byte[] data)
     {
         Debug.Log("Sent: " + Encoding.UTF8.GetString(data));

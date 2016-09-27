@@ -27,22 +27,27 @@ public class LevelBounds : MonoBehaviour {
             //below bounds
             if (obj.transform.position.y <= bounds.center.y - bounds.size.y / 2f)
             {
+                //GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity); 
                 obj.transform.position += new Vector3(0, bounds.size.y, 0);
+                
             }
             //above bounds
             if (obj.transform.position.y >= bounds.center.y + bounds.size.y / 2f)
             {
+                //GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
                 obj.transform.position += new Vector3(0, -bounds.size.y, 0);
             }
 
             //left of bounds
             if (obj.transform.position.x <= bounds.center.x - bounds.size.x / 2f)
             {
+                //GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
                 obj.transform.position += new Vector3(bounds.size.x, 0, 0);
             }
             //right of bounds
             if (obj.transform.position.x >= bounds.center.x + bounds.size.x / 2f)
             {
+                //GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
                 obj.transform.position += new Vector3(-bounds.size.x, 0, 0);
             }
         }
