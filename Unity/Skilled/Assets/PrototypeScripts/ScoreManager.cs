@@ -34,7 +34,7 @@ public class ScoreManager : MonoBehaviour {
     {
         if (playerID >= players)
         {
-            Debug.LogError("tried to add score for player that doesnt exist");
+            Debug.Log("tried to add score for player that doesnt exist");
             return;
         }
         if (scoreMode == ScoreMode.Health)

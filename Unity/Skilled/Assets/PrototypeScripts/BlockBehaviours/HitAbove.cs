@@ -1,9 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 [RequireComponent(typeof(Collider2D))]
-public class HitAbove : MonoBehaviour
+public class HitAbove : ActionBlock
 {
+    public override void Activate(GameObject activator)
+    {
+        GetComponent<Animation>().Play();
+        PlayerHit[] hits = FindObjectsOfType<PlayerHit>();
+       
+        for (int i = hits.GetLength(0) - 1; i >= 0; i--)
+        {
+            if (Vector2.Distance(hits[i].transform.position, gameObject.transform.position) > 1) continue;
+            if (hits[i].transform.position.y > transform.position.y && hits[i].gameObject.GetComponent<PlayerMovement>().Grounded)
+            {
+                hits[i].OnDeath(activator);
+            }
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D c)
     {
         
@@ -12,15 +28,7 @@ public class HitAbove : MonoBehaviour
         
         if (hit.gameObject.transform.position.y < this.transform.position.y)
         {
-            GetComponent<Animation>().Play();
-            PlayerHit[] hits = FindObjectsOfType<PlayerHit>();
-            for (int i = hits.GetLength(0)-1; i >= 0; i--)
-            {
-                if(GetComponent<Collider2D>().IsTouching(hits[i].gameObject.GetComponent<Collider2D>()) && hits[i].transform.position.y > transform.position.y && hits[i].gameObject.GetComponent<PlayerMovement>().Grounded)
-                {
-                    hits[i].OnDeath(hit.gameObject);
-                }
-            }     
+            Activate(hit.gameObject);
         }
     }
 }

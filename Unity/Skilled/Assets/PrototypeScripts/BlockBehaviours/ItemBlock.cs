@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemBlock : MonoBehaviour {
+
+public class ItemBlock : ActionBlock {
 
     private float _cooldown = 10.0f;
     private float _currentCooldown = 0.0f;
@@ -13,7 +14,7 @@ public class ItemBlock : MonoBehaviour {
 
     }
 
-    void Update()
+    protected override void BlockUpdate()
     {
         if (_currentCooldown <= 0) return;
         _currentCooldown -= Time.deltaTime;
@@ -34,24 +35,7 @@ public class ItemBlock : MonoBehaviour {
 
         if (hit.gameObject.transform.position.y < this.transform.position.y)
         {
-            GetComponent<Animation>().Play();
-            PlayerHit[] hits = FindObjectsOfType<PlayerHit>();
-            for (int i = hits.GetLength(0) - 1; i >= 0; i--)
-            {
-                if (GetComponent<Collider2D>().IsTouching(hits[i].gameObject.GetComponent<Collider2D>()) && hits[i].transform.position.y > transform.position.y && hits[i].gameObject.GetComponent<PlayerMovement>().Grounded)
-                {
-                    hits[i].OnDeath(hit.gameObject);
-                }
-            }
-            hit.GetComponent<PlayerMovement>().ForceStopJump();
-            DropItem(transform.position);
-            _currentCooldown = _cooldown;
-            //GameObject.Destroy(gameObject);
-            //Sprite update to Inactive
-            Animator animator = GetComponent<Animator>();
-            if (animator != null) animator.enabled = false;
-            GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ExtraSprites[1];
-            return true;
+            Activate(hit.gameObject);
         }
         return false;
     }
@@ -64,5 +48,31 @@ public class ItemBlock : MonoBehaviour {
         }
         
 
+    }
+
+    public override void Activate(GameObject activator)
+    {
+         GetComponent<Animation>().Play();
+            PlayerHit[] hits = FindObjectsOfType<PlayerHit>();
+        //Debug.Log(hits.Length);
+        for (int i = hits.GetLength(0) - 1; i >= 0; i--)
+        {
+            if (Vector2.Distance(hits[i].transform.position, gameObject.transform.position) > 1) continue;
+            if (hits[i].transform.position.y > transform.position.y && hits[i].gameObject.GetComponent<PlayerMovement>().Grounded)
+            {
+                hits[i].OnDeath(activator);
+            }
+        }
+        PlayerMovement activatorMov = activator.GetComponent<PlayerMovement>();
+            if(activatorMov != null) activatorMov.ForceStopJump();
+            if (_currentCooldown > 0) return;
+            DropItem(transform.position);
+            _currentCooldown = _cooldown;
+            //GameObject.Destroy(gameObject);
+            //Sprite update to Inactive
+            Animator animator = GetComponent<Animator>();
+            if (animator != null) animator.enabled = false;
+            GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ExtraSprites[1];
+           // return true;
     }
 }

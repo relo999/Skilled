@@ -41,8 +41,12 @@ public class PlayerHit : MonoBehaviour {
 
         }
         int playerID = other.name.Contains("1") ? 0 : (other.name.Contains("2") ? 1 : (other.name.Contains("3") ? 2 : 3));
-        ScoreManager.instance.ChangeScore(playerID, ScorePerKill);
-        if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health && ScoreManager.instance.score[playerID] <= 0)
+        int thisplayerID = gameObject.name.Contains("1") ? 0 : (gameObject.name.Contains("2") ? 1 : (gameObject.name.Contains("3") ? 2 : 3));
+        //if (playerID > ScoreManager.instance.score.Length) playerID = 1;
+        int useingID = ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health ? thisplayerID : playerID;
+
+        ScoreManager.instance.ChangeScore(useingID, ScorePerKill);
+        if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health &&  ScoreManager.instance.score[useingID] <= 0)
             Respawn = false;
 
         if (Respawn)

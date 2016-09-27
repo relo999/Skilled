@@ -111,6 +111,7 @@
     <Compile Include="Assets\InputManager\Source\Runtime\_Support\ScanSettings.cs" />
     <Compile Include="Assets\LoopOutLevel.cs" />
     <Compile Include="Assets\NetworkTest.cs" />
+    <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ActionBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ItemBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\KillOnHit.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />
     <Compile Include="Assets\PrototypeScripts\GameClient.cs" />
     <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
+    <Compile Include="Assets\PrototypeScripts\GhostBehaviour.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
     <Compile Include="Assets\PrototypeScripts\NetManager.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
