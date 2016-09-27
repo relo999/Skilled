@@ -38,15 +38,16 @@ public class LevelBounds : MonoBehaviour {
         }
         public void UpdateClones()
         {
+            
             Vector2 diff = (Vector2)original.transform.position - (Vector2)levelBounds.center;
 
-                float x0 =  diff.x < 0? levelBounds.size.x : -levelBounds.size.x;
-                clones[0].transform.localPosition = new Vector2(x0, 0);
+            float x0 =  diff.x < 0? levelBounds.size.x : -levelBounds.size.x;
+            clones[0].transform.localPosition = new Vector2(x0, 0);
 
-                float x1 = diff.x < 0 ? levelBounds.size.x : -levelBounds.size.x;
-                float y1 = diff.y < 0 ? levelBounds.size.y : -levelBounds.size.y;
-                clones[1].transform.localPosition = new Vector2(x1, y1);
-
+            float x1 = diff.x < 0 ? levelBounds.size.x : -levelBounds.size.x;
+            float y1 = diff.y < 0 ? levelBounds.size.y : -levelBounds.size.y;
+            clones[1].transform.localPosition = new Vector2(x1, y1);
+        
             float x2 = 0;
             float y2 = diff.y < 0 ? levelBounds.size.y : -levelBounds.size.y;
             clones[2].transform.localPosition = new Vector2(x2, y2);
@@ -59,8 +60,10 @@ public class LevelBounds : MonoBehaviour {
     public static LevelBounds Instance { private set; get; }
     public void RegisterObject(GameObject g)
     {
+        
         objects.Add(g);
-        cloneList.Add(new WrapClones(g, bounds));
+        //if (g.name.Contains("Player"))
+            cloneList.Add(new WrapClones(g, bounds));
     }
     public void UnRegisterObject(GameObject g)
     {
