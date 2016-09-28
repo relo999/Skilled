@@ -141,6 +141,8 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
     <Compile Include="Assets\PrototypeScripts\ServerBase.cs" />
+    <Compile Include="Assets\PrototypeScripts\TextLayer.cs" />
+    <Compile Include="Assets\PrototypeScripts\WalkColliders.cs" />
     <Compile Include="Assets\PrototypeScripts\physics\Bounds2D.cs" />
     <Compile Include="Assets\PrototypeScripts\physics\Collision2D.cs" />
     <Compile Include="Assets\PrototypeScripts\physics\SpriteCollider.cs" />

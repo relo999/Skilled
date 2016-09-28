@@ -32,6 +32,7 @@ public class ScoreManager : MonoBehaviour {
     }
     public void ChangeScore(int playerID, int scoreChange)
     {
+        //Debug.Log(playerID + " : " + scoreChange);
         if (playerID >= players)
         {
             Debug.Log("tried to add score for player that doesnt exist");

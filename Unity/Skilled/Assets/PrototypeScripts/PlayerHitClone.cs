@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// not in use, testing only
+/// </summary>
 public class PlayerHitClone : PlayerHit {
 
     protected override void BounceUp(GameObject other)

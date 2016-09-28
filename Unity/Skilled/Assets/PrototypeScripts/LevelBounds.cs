@@ -31,10 +31,15 @@ public class LevelBounds : MonoBehaviour {
                 Component[] components = clone.GetComponents(typeof(Component));
 
                 foreach(Component comp in components)
-                { 
-
+                {
+                    if (comp is PlayerHit)
+                    {
+                        PlayerHit hit = comp as PlayerHit;
+                        hit.isClone = true;
+                    }
                     if (!(comp is Transform) && !(comp is SpriteRenderer) && !(comp is Collider2D) && !(comp is PlayerHit))
                     {
+                        
                         if(comp is LoopOutLevel)
                         {
                             LoopOutLevel loop = comp as LoopOutLevel;
@@ -68,6 +73,8 @@ public class LevelBounds : MonoBehaviour {
         {
             
             Vector2 diff = (Vector2)original.transform.position - (Vector2)levelBounds.center;
+
+            /*
             if(diff.magnitude < 3 && renderingClones)
             {
                 
@@ -77,17 +84,16 @@ public class LevelBounds : MonoBehaviour {
                 }
                 renderingClones = false;
             }
-            else
+            else if(diff.magnitude >=3)
             {
-                if(!renderingClones)
+
+                for (int i = 0; i < 3; i++)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        clones[i].GetComponent<SpriteRenderer>().enabled = true;
-                    }
-                    renderingClones = true;
+                    clones[i].GetComponent<SpriteRenderer>().enabled = true;
                 }
-            }
+                renderingClones = true;
+      
+            }*/
 
             foreach(GameObject clone in clones)
             {

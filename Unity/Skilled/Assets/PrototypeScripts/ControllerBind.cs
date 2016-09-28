@@ -29,7 +29,6 @@ public class ControllerBind : MonoBehaviour {
 
         InputManager.SetInputConfiguration(p2, PlayerID.Two);
 
-        Debug.Log(InputManager.GetAxisConfiguration(p1, "Jump").positive);
     }
 
     public void ChangeButton(PlayerID playerID, string buttonName, KeyCode newButton)
