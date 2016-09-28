@@ -51,7 +51,9 @@ public class PlayerHit : MonoBehaviour {
 
         if (Respawn)
             {
-                PlayerMovement.Controls controls = gameObject.GetComponent<PlayerMovement>().controls;
+                PlayerMovement pm = gameObject.GetComponent<PlayerMovement>();
+                if (pm == null) pm = gameObject.transform.parent.GetComponent<PlayerMovement>();
+                PlayerMovement.Controls controls = pm.controls;
                 transform.position = Vector3.zero;
             }
             else
@@ -60,6 +62,16 @@ public class PlayerHit : MonoBehaviour {
             }
         
     }
+
+    protected virtual void BounceUp(GameObject other)
+    {
+        PlayerMovement playerMov = gameObject.GetComponent<PlayerMovement>();
+        if (playerMov == null) playerMov = gameObject.transform.parent.GetComponent<PlayerMovement>();
+        Rigidbody2D rigid = other.GetComponent<Rigidbody2D>();
+        if (rigid == null) rigid = other.transform.parent.GetComponent<Rigidbody2D>();
+        rigid.velocity = new Vector2(rigid.velocity.x, 0);
+        rigid.AddForce(Vector2.up * (playerMov.JumpForce / 10f * BounceStrength));
+    }
     void OnCollisionEnter2D(Collision2D c)
     {
         if (didCollisionCheck) return;  //because multiple colliders are present on players
@@ -67,14 +79,14 @@ public class PlayerHit : MonoBehaviour {
         if (c.collider.gameObject.layer != LayerMask.NameToLayer("PlayerHitbox")) return;
        
         
-        PlayerMovement playerMov = gameObject.GetComponent<PlayerMovement>();
+        
         GameObject other = c.collider.gameObject;
         Bounds thisBounds = gameObject.GetComponent<SpriteRenderer>().sprite.bounds;
         Bounds otherBounds = other.GetComponent<SpriteRenderer>().sprite.bounds;
         //Debug.Log("1: " + (other.transform.position.y /*- otherBounds.size.y / 4f*/ >= transform.position.y + thisBounds.size.y / 2f));
         //Debug.Log("2: " + (other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f));
         //Debug.Log("3: " + (other.transform.position.x - otherBounds.size.x / 2f <= transform.position.x + thisBounds.size.x / 2f));
-        if (other.GetComponent<PlayerHit>() &&
+        if ((other.GetComponent<PlayerHit>()) &&
             other.transform.position.y  /*- otherBounds.size.y / 4f */>= transform.position.y + thisBounds.size.y / 2f &&   //TODO NEEDS WORK, more precise
             other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f &&
             other.transform.position.x - otherBounds.size.x / 2f <= transform.position.x + thisBounds.size.x / 2f
@@ -83,9 +95,7 @@ public class PlayerHit : MonoBehaviour {
             didCollisionCheck = true;
 
             //bounce
-            Rigidbody2D rigid = other.GetComponent<Rigidbody2D>();
-            rigid.velocity = new Vector2(rigid.velocity.x, 0);
-            rigid.AddForce(Vector2.up * (playerMov.JumpForce / 10f * BounceStrength));
+            BounceUp(other);
 
             //death
             this.OnDeath(other);

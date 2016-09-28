@@ -11,6 +11,7 @@ public class Bounce : MonoBehaviour {
     public float constXSpeed = 3.0f;
     public float BounceForce = 250.0f;
     private Vector3 _lastPos = Vector2.zero;
+    public bool isClone = false;
 
     void Awake()
     {
@@ -21,7 +22,8 @@ public class Bounce : MonoBehaviour {
     {
         
         _rigid = gameObject.GetComponent<Rigidbody2D>();
-        LevelBounds.Instance.RegisterObject(gameObject);
+        if(!isClone)
+            LevelBounds.Instance.RegisterObject(gameObject);
     }
 
     void CapSpeed(float maxSpeed, float maxYSpeed = -1)
@@ -53,7 +55,8 @@ public class Bounce : MonoBehaviour {
 
     void OnDestroy()
     {
-        LevelBounds.Instance.UnRegisterObject(gameObject);
+        if(!isClone)
+            LevelBounds.Instance.UnRegisterObject(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D c)
@@ -76,12 +79,12 @@ public class Bounce : MonoBehaviour {
 
         bool toDestroy = false;
 
-        Vector2 diff = c.transform.position - _lastPos;
-        if(Mathf.Abs(diff.x) > Mathf.Abs(diff.y))   //TODO NEEDS WORK, high velocity falling causes small y diff
-        {
-            toDestroy = true;
-            Debug.Log(true);
-        }
+        //Vector2 diff = c.transform.position - _lastPos;
+        //if(Mathf.Abs(diff.x) > Mathf.Abs(diff.y))   //TODO NEEDS WORK, high velocity falling causes small y diff
+        //{
+        //    toDestroy = true;
+        //    Debug.Log(true);
+        //}
 
 
         

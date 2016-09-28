@@ -14,7 +14,7 @@ public class LevelBounds : MonoBehaviour {
     class WrapClones
     {
         GameObject[] clones;
-        GameObject original;
+        public GameObject original;
         Bounds levelBounds;
         public WrapClones(GameObject original, Bounds levelBounds)
         {
@@ -24,12 +24,39 @@ public class LevelBounds : MonoBehaviour {
             for (int i = 0; i < clones.Length; i++)
             {
                 GameObject clone = GameObject.Instantiate(this.original);
-                GameObject.Destroy(clone.GetComponent<LoopOutLevel>());
-                GameObject.Destroy(clone.GetComponent<Rigidbody2D>());
-                GameObject.Destroy(clone.GetComponent<PlayerMovement>());
-                GameObject.Destroy(clone.GetComponent<PowerupUser>());
-                GameObject.Destroy(clone.GetComponent<PlayerHit>());    //TODO KEEP THIS           
-                clones[i] = clone;
+ 
+
+
+                Component[] components = clone.GetComponents(typeof(Component));
+
+                foreach(Component comp in components)
+                { 
+
+                    if (!(comp is Transform) && !(comp is SpriteRenderer) && !(comp is Collider2D) && !(comp is PlayerHit))
+                    {
+                        if(comp is LoopOutLevel)
+                        {
+                            LoopOutLevel loop = comp as LoopOutLevel;
+                            loop.isClone = true;
+                        }
+                        if (comp is Bounce)
+                        {
+                            Bounce bounce = comp as Bounce;
+                            bounce.isClone = true;
+                        }
+                        //if (comp is PlayerHit) clone.AddComponent<PlayerHitClone>();
+                        Destroy(comp);
+
+
+                    }
+                }
+
+
+            
+
+        
+
+        clones[i] = clone;
             }
             foreach (GameObject clone in clones)
             {
@@ -55,6 +82,13 @@ public class LevelBounds : MonoBehaviour {
 
 
         }
+        public void DestroyClones()
+        {
+            for (int i = clones.Length-1; i > 0; i--)
+            {
+                GameObject.Destroy(clones[i]);
+            }
+        }
     }
 
     public static LevelBounds Instance { private set; get; }
@@ -69,6 +103,10 @@ public class LevelBounds : MonoBehaviour {
     {
         //TODO REMOVE CLONES
         objects.Remove(g);
+        WrapClones clones = cloneList.Find(x => x.original == g);
+        clones.DestroyClones();
+        cloneList.Remove(clones);
+        
     }
 
     bool CheckBounds(GameObject obj, bool checkonly = false)

@@ -33,6 +33,7 @@ public class BombPowerup : PowerupBase
         {
             bomb.transform.parent = null;
             Rigidbody2D bRigid =  bomb.AddComponent<Rigidbody2D>();
+            bRigid.freezeRotation = true;
             bRigid.AddForce(new Vector2(5 * (owner.GetComponent<PlayerMovement>().LastMovedRight ? 1 : -1), 5) * _throwForce);   
             bomb.GetComponent<BoxCollider2D>().isTrigger = false;
             bomb.GetComponent<BombExplode>().StartCountdown(owner);

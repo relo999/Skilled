@@ -3,12 +3,19 @@ using System.Collections;
 
 public class LoopOutLevel : MonoBehaviour {
 
+    public bool isClone = false;
 	void Start()
     {
-        LevelBounds.Instance.RegisterObject(gameObject);
+        if(!isClone)
+        //if(!gameObject.name.Contains("Clone"))
+            LevelBounds.Instance.RegisterObject(gameObject);
+        //Debug.Log(gameObject.name + " reg");
     }
     void OnDestroy()
     {
-        LevelBounds.Instance.UnRegisterObject(gameObject);
+        if(!isClone)
+        //if (!gameObject.name.Contains("Clone"))
+            LevelBounds.Instance.UnRegisterObject(gameObject);
+        //Debug.Log(gameObject.name + " un reg");
     }
 }
