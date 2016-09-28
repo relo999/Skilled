@@ -54,7 +54,11 @@ public class WalkColliders : MonoBehaviour {
     {
         //current.GetComponent<SpriteRenderer>().sprite = null;
         GameObject leftNext = walkables.Find(x => x.transform.position.x > current.transform.position.x && Vector2.Distance((Vector2)x.transform.position, (Vector2)current.transform.position) < 0.33f);
-        if (leftNext == null) return count;
+        if (leftNext == null)
+        {
+            //TODO find edge of level block and connect it somehow to other end block (if there is one) (now player can get stuck on edge)
+            return count;
+        }
         walkables.Remove(leftNext);
         return FindRightCount(leftNext, count + 1);
     }
