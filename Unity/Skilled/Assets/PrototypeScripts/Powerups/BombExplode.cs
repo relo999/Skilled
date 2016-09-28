@@ -45,7 +45,7 @@ public class BombExplode : MonoBehaviour {
     {
         PlayerHit hit = other.collider.gameObject.GetComponent<PlayerHit>();
         if (hit == null) return;
-        if (hit.gameObject == owner) return;
+        if (hit.gameObject == owner || hit.gameObject.transform.parent.gameObject == owner) return;
         Explode();
     }
 	

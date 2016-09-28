@@ -7,7 +7,7 @@ public class LevelBounds : MonoBehaviour {
     Bounds bounds;
     GameObject[] players;
     List<GameObject> objects;
-    bool _requestFindPlayers = false;
+    bool _requestFindPlayers = true;
     List<WrapClones> cloneList;
 
 
@@ -16,6 +16,7 @@ public class LevelBounds : MonoBehaviour {
         GameObject[] clones;
         public GameObject original;
         Bounds levelBounds;
+        bool renderingClones = false;
         public WrapClones(GameObject original, Bounds levelBounds)
         {
             this.original = original;
@@ -67,6 +68,34 @@ public class LevelBounds : MonoBehaviour {
         {
             
             Vector2 diff = (Vector2)original.transform.position - (Vector2)levelBounds.center;
+            if(diff.magnitude < 3 && renderingClones)
+            {
+                
+                for (int i = 0; i < 3; i++)
+                {
+                    clones[i].GetComponent<SpriteRenderer>().enabled = false;
+                }
+                renderingClones = false;
+            }
+            else
+            {
+                if(!renderingClones)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        clones[i].GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                    renderingClones = true;
+                }
+            }
+
+            foreach(GameObject clone in clones)
+            {
+                SpriteRenderer cloneRen = clone.GetComponent<SpriteRenderer>();
+                SpriteRenderer origRen = original.GetComponent<SpriteRenderer>();
+                if (cloneRen.sprite == origRen.sprite) break;
+                cloneRen.sprite = origRen.sprite;
+            }
 
             float x0 =  diff.x < 0? levelBounds.size.x : -levelBounds.size.x;
             clones[0].transform.localPosition = new Vector2(x0, 0);
