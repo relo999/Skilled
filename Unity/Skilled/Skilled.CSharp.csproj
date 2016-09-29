@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DisableOnStart.cs" />
     <Compile Include="Assets\HostGame.cs" />
     <Compile Include="Assets\InputManager\Addons\InputAdapter\Runtime\InputAdapter.cs" />
     <Compile Include="Assets\InputManager\Addons\InputEvents\Runtime\InputEvent.cs" />
@@ -122,6 +123,9 @@
     <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
     <Compile Include="Assets\PrototypeScripts\GhostBehaviour.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
+    <Compile Include="Assets\PrototypeScripts\Menu\KeepOnSceneChange.cs" />
+    <Compile Include="Assets\PrototypeScripts\Menu\MenuController.cs" />
+    <Compile Include="Assets\PrototypeScripts\Menu\PressAnyMenu.cs" />
     <Compile Include="Assets\PrototypeScripts\NetManager.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerHit.cs" />
     <Compile Include="Assets\PrototypeScripts\PlayerHitClone.cs" />
