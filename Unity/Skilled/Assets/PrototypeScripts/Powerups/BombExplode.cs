@@ -23,6 +23,7 @@ public class BombExplode : MonoBehaviour {
 
     void Explode()
     {
+        if (!started) return;
         GameObject.Destroy(GetComponent<Rigidbody2D>());
         ExplosionSprite.SetActive(true);
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);

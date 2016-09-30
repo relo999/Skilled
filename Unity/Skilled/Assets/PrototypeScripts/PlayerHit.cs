@@ -14,6 +14,7 @@ public class PlayerHit : MonoBehaviour {
     public delegate void ImmunityCallback();
     public ImmunityCallback IC;
     public bool isClone = false;
+    public IdleAnimation.PlayerColor color = IdleAnimation.PlayerColor.red;
 
     void Update()
     {
@@ -34,6 +35,13 @@ public class PlayerHit : MonoBehaviour {
 
     public void OnDeath(GameObject other)
     {
+        GameObject splatObject = new GameObject("splatInstance");
+        splatObject.transform.position = this.gameObject.transform.position;
+        SpriteRenderer SR = splatObject.AddComponent<SpriteRenderer>();
+        SR.sortingOrder = -14;  //before background but behind the rest
+        IdleAnimation ani = splatObject.AddComponent<IdleAnimation>();
+        LevelBounds.instance.RegisterObject(splatObject);
+        ani.PlayAnimation("Splat", color, false, 1);
         //score
         if(Immunity)
         {
@@ -58,7 +66,7 @@ public class PlayerHit : MonoBehaviour {
                 PlayerMovement pm = gameObject.GetComponent<PlayerMovement>();
                 if (pm == null) pm = gameObject.transform.parent.GetComponent<PlayerMovement>();
                 PlayerMovement.Controls controls = pm.controls;
-                transform.position = Vector3.zero;
+                pm.gameObject.transform.position = Vector3.zero;
             }
             else
             {
@@ -101,7 +109,7 @@ public class PlayerHit : MonoBehaviour {
         {
             if (other.GetComponent<PlayerHit>().isClone) return;
             didCollisionCheck = true;
-            Debug.Log(other.transform.position.y + " : " + transform.position.y);
+           
             //bounce
             BounceUp(other);
             

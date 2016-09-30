@@ -47,7 +47,7 @@ public class BouncingBallPowerup : PowerupBase {
         ball.GetComponent<Bounce>().owner = owner;
 
         Rigidbody2D bRigid = ball.GetComponent<Rigidbody2D>();
-        bRigid.AddForce(new Vector2(5 * rightModifier, 5) * _throwForce);
+        bRigid.velocity = new Vector2(5 * rightModifier, 5) * _throwForce;
 
         inGameBalls[availableID] = ball;
 

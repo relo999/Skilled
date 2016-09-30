@@ -4,16 +4,18 @@ using System.Collections.Generic;
 [RequireComponent(typeof(BoxCollider2D))]
 public class LevelBounds : MonoBehaviour {
 
-    Bounds bounds;
+    public Bounds bounds;
     GameObject[] players;
     List<GameObject> objects;
     bool _requestFindPlayers = true;
     List<WrapClones> cloneList;
 
+    public static LevelBounds instance;
 
     class WrapClones
     {
         GameObject[] clones;
+        int originalLayer;
         public GameObject original;
         Bounds levelBounds;
         bool renderingClones = false;
@@ -21,6 +23,7 @@ public class LevelBounds : MonoBehaviour {
         {
             this.original = original;
             this.levelBounds = levelBounds;
+            originalLayer = original.layer;
             clones = new GameObject[3]; //max 3 clones for each corner +original
             for (int i = 0; i < clones.Length; i++)
             {
@@ -71,8 +74,20 @@ public class LevelBounds : MonoBehaviour {
         }
         public void UpdateClones()
         {
-            
-            Vector2 diff = (Vector2)original.transform.position - (Vector2)levelBounds.center;
+
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject clone = clones[i];
+                if(Mathf.Abs(clone.transform.position.x - levelBounds.center.x) - 0.16f > levelBounds.size.x / 2f  ||
+                   Mathf.Abs(clone.transform.position.y - levelBounds.center.y) - 0.16f > levelBounds.size.y / 2f)
+                {
+                    clone.layer = LayerMask.NameToLayer("IgnoreCollisions");
+                }
+                else
+                {
+                    clone.layer = originalLayer;
+                }
+            }
 
             /*
             if(diff.magnitude < 3 && renderingClones)
@@ -94,25 +109,29 @@ public class LevelBounds : MonoBehaviour {
                 renderingClones = true;
       
             }*/
-
-            foreach(GameObject clone in clones)
+            
+            //update sprite changes made by the original
+            foreach (GameObject clone in clones)
             {
                 SpriteRenderer cloneRen = clone.GetComponent<SpriteRenderer>();
                 SpriteRenderer origRen = original.GetComponent<SpriteRenderer>();
                 if (cloneRen.sprite == origRen.sprite) break;
                 cloneRen.sprite = origRen.sprite;
+                cloneRen.flipX = origRen.flipX;
             }
 
-            float x0 =  diff.x < 0? levelBounds.size.x : -levelBounds.size.x;
-            clones[0].transform.localPosition = new Vector2(x0, 0);
+            Vector2 diff = original.transform.position - levelBounds.center;
+            float newXpos = diff.x < 0 ? levelBounds.size.x : -levelBounds.size.x;
+            float newYpos = diff.y < 0 ? levelBounds.size.y : -levelBounds.size.y;
 
-            float x1 = diff.x < 0 ? levelBounds.size.x : -levelBounds.size.x;
-            float y1 = diff.y < 0 ? levelBounds.size.y : -levelBounds.size.y;
-            clones[1].transform.localPosition = new Vector2(x1, y1);
+
+            clones[0].transform.localPosition = new Vector2(newXpos, 0);
+
+
+            clones[1].transform.localPosition = new Vector2(newXpos, newYpos);
         
-            float x2 = 0;
-            float y2 = diff.y < 0 ? levelBounds.size.y : -levelBounds.size.y;
-            clones[2].transform.localPosition = new Vector2(x2, y2);
+
+            clones[2].transform.localPosition = new Vector2(0, newYpos);
 
 
 
@@ -169,7 +188,7 @@ public class LevelBounds : MonoBehaviour {
                 //newTemps.Add(obj2);
                 obj.transform.position += new Vector3(0, bounds.size.y, 0);
             }
-        }
+        }else
         //above bounds
         if (obj.transform.position.y >= bounds.center.y + bounds.size.y / 2f)
         {
@@ -192,7 +211,7 @@ public class LevelBounds : MonoBehaviour {
                 //newTemps.Add(obj2);
                 obj.transform.position += new Vector3(bounds.size.x, 0, 0);
             }
-        }
+        }else
         //right of bounds
         if (obj.transform.position.x >= bounds.center.x + bounds.size.x / 2f)
         {
@@ -278,6 +297,7 @@ public class LevelBounds : MonoBehaviour {
     void Awake()
     {
         //FindPlayers();
+        instance = this;
         bounds = GetComponent<BoxCollider2D>().bounds;
         objects = new List<GameObject>();
         cloneList = new List<WrapClones>();

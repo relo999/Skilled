@@ -46,6 +46,12 @@ public class WalkColliders : MonoBehaviour {
     int FindLeftCount(GameObject current, int count = 0)
     {
         //current.GetComponent<SpriteRenderer>().sprite = null; //debug only
+
+        //if the next predicted position is outside the level, add an extra collider bit to ensure smooth transition when wrapping to other side of the level
+        float nextXPos = current.transform.position.x - 0.32f;
+        if (nextXPos < LevelBounds.instance.bounds.center.x - LevelBounds.instance.bounds.size.x / 2f) return count + 1;
+
+        //find a block that is directly next to the currently selected block
         GameObject leftNext = walkables.Find(x => x.transform.position.x < current.transform.position.x && Vector2.Distance((Vector2)x.transform.position, (Vector2)current.transform.position) < 0.33f);
         if (leftNext == null) return count;
         walkables.Remove(leftNext);
@@ -55,6 +61,10 @@ public class WalkColliders : MonoBehaviour {
     int FindRightCount(GameObject current, int count = 0)
     {
         //current.GetComponent<SpriteRenderer>().sprite = null; //debug only
+
+        float nextXPos = current.transform.position.x + 0.32f;
+        if (nextXPos > LevelBounds.instance.bounds.center.x + LevelBounds.instance.bounds.size.x / 2f) return count + 1;
+
         GameObject leftNext = walkables.Find(x => x.transform.position.x > current.transform.position.x && Vector2.Distance((Vector2)x.transform.position, (Vector2)current.transform.position) < 0.33f);
         if (leftNext == null)
         {

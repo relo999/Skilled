@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: e81ef27cb66970845bc9c3b6a6372eaa
-timeCreated: 1473687156
-licenseType: Pro
+timeCreated: 1475241139
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Spawn_0
@@ -65,8 +65,8 @@ TextureImporter:
         y: 32
         width: 6
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_1
@@ -76,8 +76,8 @@ TextureImporter:
         y: 32
         width: 6
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_2
@@ -86,9 +86,9 @@ TextureImporter:
         x: 40
         y: 32
         width: 20
-        height: 28
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_3
@@ -97,9 +97,9 @@ TextureImporter:
         x: 61
         y: 32
         width: 18
-        height: 19
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_5
@@ -108,9 +108,9 @@ TextureImporter:
         x: 102
         y: 32
         width: 16
-        height: 15
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_4
@@ -119,9 +119,9 @@ TextureImporter:
         x: 82
         y: 32
         width: 16
-        height: 8
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_6
@@ -131,8 +131,8 @@ TextureImporter:
         y: 0
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_7
@@ -142,8 +142,8 @@ TextureImporter:
         y: 0
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

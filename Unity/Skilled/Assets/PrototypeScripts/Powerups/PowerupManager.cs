@@ -10,6 +10,8 @@ public class PowerupManager : MonoBehaviour {
     public Sprite[] ExtraSprites;
     [HideInInspector]
     public Sprite[] OriginalSprites;
+
+
     void Awake()
     {
         instance = this;

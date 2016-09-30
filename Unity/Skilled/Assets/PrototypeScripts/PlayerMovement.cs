@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour {
     float _currentJumpForce;
     private float jumpTimer = 0.0f;
 
+    SpriteRenderer SpriteR;
+
     public enum Controls
     {
         WASD,
@@ -39,6 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         _rigid = GetComponent<Rigidbody2D>();
+        SpriteR = GetComponent<SpriteRenderer>();
 	}
 	
     void CapSpeed()
@@ -72,6 +75,7 @@ public class PlayerMovement : MonoBehaviour {
             LastMovedRight = true;
         }
         _rigid.velocity = movement;
+        SpriteR.flipX = !LastMovedRight;
     }
 
 	void Update () {
@@ -83,15 +87,16 @@ public class PlayerMovement : MonoBehaviour {
 
         bool grounded = false;
 
+        float spriteXSizeHalf = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f;
         //racasts checking if player is standing on a block, casts from both edges of hitbox
-        RaycastHit2D hit =  Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
+        RaycastHit2D hit =  Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(spriteXSizeHalf, 0), -Vector2.up, 0.10f);
         //RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
         //if ((hit.transform != null && hit.transform != transform) || (hit2.transform != null && hit2.transform != transform))
         //    grounded = true;
         if (hit.transform != null && hit.transform != transform) grounded = true;
         else
         {
-            RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
+            RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(spriteXSizeHalf, 0), -Vector2.up, 0.10f);
             if (hit2.transform != null && hit2.transform != transform) grounded = true;
         }
         Grounded = grounded;
@@ -153,7 +158,7 @@ public class PlayerMovement : MonoBehaviour {
             _rigid.gravityScale = 1.0f;
         }
         if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
-
+        SpriteR.flipX = !LastMovedRight;
         CapSpeed();//do this last in update
     }
 }

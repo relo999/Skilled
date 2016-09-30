@@ -122,6 +122,7 @@
     <Compile Include="Assets\PrototypeScripts\GameClient.cs" />
     <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
     <Compile Include="Assets\PrototypeScripts\GhostBehaviour.cs" />
+    <Compile Include="Assets\PrototypeScripts\IdleAnimation.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
     <Compile Include="Assets\PrototypeScripts\Menu\KeepOnSceneChange.cs" />
     <Compile Include="Assets\PrototypeScripts\Menu\MenuController.cs" />

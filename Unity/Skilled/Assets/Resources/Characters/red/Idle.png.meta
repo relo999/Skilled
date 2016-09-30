@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 504dceb6196e1194c822ca26df432765
-timeCreated: 1473690041
-licenseType: Pro
+guid: dd0e173b8002504479e05b144e0da525
+timeCreated: 1475240862
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Idle_0
@@ -30,8 +30,8 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 128
+  textureFormat: -3
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -60,9 +60,9 @@ TextureImporter:
         x: 0
         y: 47
         width: 16
-        height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_1
@@ -72,8 +72,8 @@ TextureImporter:
         y: 47
         width: 16
         height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_2
@@ -83,8 +83,8 @@ TextureImporter:
         y: 47
         width: 16
         height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_3
@@ -93,9 +93,9 @@ TextureImporter:
         x: 0
         y: 30
         width: 16
-        height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []
