@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: 038d49586a40d974797983d0996c8c51
-timeCreated: 1473683179
+guid: 973f0a99344aa424cae4967d88f01331
+timeCreated: 1475231463
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ItemBlock_0
-    21300002: ItemBlock_1
-    21300004: ItemBlock_2
-    21300006: ItemBlock_3
-    21300008: ItemBlock_4
-    21300010: ItemBlock_5
-    21300012: ItemBlock_6
-    21300014: ItemBlock_7
+    21300000: BreakBlock_0
+    21300002: BreakBlock_1
+    21300004: BreakBlock_2
+    21300006: BreakBlock_3
+    21300008: BreakBlock_4
+    21300010: BreakBlock_5
+    21300012: BreakBlock_6
+    21300014: BreakBlock_7
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -58,88 +58,88 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: ItemBlock_0
+    - name: BreakBlock_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
+        y: 48
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_1
+    - name: BreakBlock_1
       rect:
         serializedVersion: 2
         x: 16
-        y: 16
+        y: 48
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_2
+    - name: BreakBlock_2
       rect:
         serializedVersion: 2
         x: 32
-        y: 16
+        y: 48
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_3
+    - name: BreakBlock_3
       rect:
         serializedVersion: 2
         x: 48
-        y: 16
+        y: 48
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_4
+    - name: BreakBlock_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 32
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_5
+    - name: BreakBlock_5
       rect:
         serializedVersion: 2
         x: 16
-        y: 0
+        y: 32
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_6
+    - name: BreakBlock_6
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 32
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: ItemBlock_7
+    - name: BreakBlock_7
       rect:
         serializedVersion: 2
         x: 48
-        y: 0
+        y: 32
         width: 16
         height: 16
       alignment: 0
