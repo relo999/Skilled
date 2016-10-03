@@ -9,7 +9,7 @@ public class PlayerHit : MonoBehaviour {
     public int ScorePerKill = 1;
     bool didCollisionCheck = false;
 
-    public bool Immunity = false;
+    bool Immunity = false;
     public bool StayImmune = false; //if false, immunity goes away after 1 hit
     public delegate void ImmunityCallback();
     public ImmunityCallback IC;
@@ -35,6 +35,8 @@ public class PlayerHit : MonoBehaviour {
 
     public void OnDeath(GameObject other)
     {
+        
+        //splat
         GameObject splatObject = new GameObject("splatInstance");
         splatObject.transform.position = this.gameObject.transform.position;
         SpriteRenderer SR = splatObject.AddComponent<SpriteRenderer>();
@@ -42,14 +44,15 @@ public class PlayerHit : MonoBehaviour {
         IdleAnimation ani = splatObject.AddComponent<IdleAnimation>();
         LevelBounds.instance.RegisterObject(splatObject);
         ani.PlayAnimation("Splat", color, false, 1);
-        //score
+        /*
+        //shield powerup / spawn immunity
         if(Immunity)
         {
             if (!StayImmune) Immunity = false;
             IC();
             return;
-
-        }
+        }*/
+        //score
         //Debug.Log(other.name + gameObject.name);
         int playerID = other.name.Contains("1") ? 0 : (other.name.Contains("2") ? 1 : (other.name.Contains("3") ? 2 : 3));
         int thisplayerID = gameObject.name.Contains("1") ? 0 : (gameObject.name.Contains("2") ? 1 : (gameObject.name.Contains("3") ? 2 : 3));
@@ -61,12 +64,13 @@ public class PlayerHit : MonoBehaviour {
         if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health &&  ScoreManager.instance.score[useingID] <= 0)
             Respawn = false;
 
+
         if (Respawn)
             {
                 PlayerMovement pm = gameObject.GetComponent<PlayerMovement>();
                 if (pm == null) pm = gameObject.transform.parent.GetComponent<PlayerMovement>();
                 PlayerMovement.Controls controls = pm.controls;
-                pm.gameObject.transform.position = Vector3.zero;
+                pm.gameObject.transform.position = SpawnManager.instance.GetRandomSpawnPoint();
             }
             else
             {
