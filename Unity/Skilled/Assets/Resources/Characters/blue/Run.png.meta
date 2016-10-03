@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4c12efcb07673b64d9d34538d91d6696
-timeCreated: 1473690142
+timeCreated: 1475492515
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -31,8 +31,8 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 128
+  textureFormat: -3
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -84,8 +84,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Run_3
@@ -95,8 +95,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Run_4
@@ -106,8 +106,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

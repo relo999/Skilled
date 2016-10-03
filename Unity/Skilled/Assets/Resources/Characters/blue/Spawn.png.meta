@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ca2455de9bcaff64eb1db38770746d1c
-timeCreated: 1473690354
+timeCreated: 1475492569
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -34,7 +34,7 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
+  textureFormat: -3
   maxTextureSize: 256
   textureSettings:
     filterMode: 0
@@ -49,7 +49,7 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 50
@@ -65,8 +65,8 @@ TextureImporter:
         y: 32
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_1
@@ -76,8 +76,8 @@ TextureImporter:
         y: 32
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_2
@@ -87,8 +87,8 @@ TextureImporter:
         y: 32
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_3
@@ -98,8 +98,8 @@ TextureImporter:
         y: 32
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_4
@@ -109,8 +109,8 @@ TextureImporter:
         y: 32
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_5
@@ -120,8 +120,8 @@ TextureImporter:
         y: 32
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_6
@@ -131,8 +131,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Spawn_7
@@ -142,8 +142,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

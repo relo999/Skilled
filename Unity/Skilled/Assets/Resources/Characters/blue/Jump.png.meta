@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 3bbb554fc33df3347a25126c0af9ba08
-timeCreated: 1473690002
+timeCreated: 1475492395
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -32,8 +32,8 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 128
+  textureFormat: -3
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -61,10 +61,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 47
-        width: 16
+        width: 17
         height: 17
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_1
@@ -74,19 +74,19 @@ TextureImporter:
         y: 47
         width: 17
         height: 17
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_2
       rect:
         serializedVersion: 2
-        x: 35
+        x: 34
         y: 47
-        width: 16
+        width: 17
         height: 17
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_3
@@ -94,10 +94,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 30
-        width: 16
+        width: 17
         height: 17
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_4
@@ -105,10 +105,10 @@ TextureImporter:
         serializedVersion: 2
         x: 17
         y: 30
-        width: 16
+        width: 17
         height: 17
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_5
@@ -118,8 +118,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

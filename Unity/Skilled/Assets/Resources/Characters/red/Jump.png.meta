@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0959860f16c8dd84886b70f01c16af8d
-timeCreated: 1473688643
+timeCreated: 1475492758
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -63,8 +63,8 @@ TextureImporter:
         y: 47
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_1
@@ -74,8 +74,8 @@ TextureImporter:
         y: 47
         width: 17
         height: 15
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_2
@@ -85,8 +85,8 @@ TextureImporter:
         y: 47
         width: 15
         height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_3
@@ -96,8 +96,8 @@ TextureImporter:
         y: 30
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_4
@@ -107,8 +107,8 @@ TextureImporter:
         y: 30
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_5
@@ -118,8 +118,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 15
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

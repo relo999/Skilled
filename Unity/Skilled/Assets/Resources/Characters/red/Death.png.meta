@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d2bf7af517202014e9e7921eeb60a7bc
-timeCreated: 1473687803
+timeCreated: 1475492721
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -62,8 +62,8 @@ TextureImporter:
         y: 16
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Death_1
@@ -73,8 +73,8 @@ TextureImporter:
         y: 16
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Death_2
@@ -84,8 +84,8 @@ TextureImporter:
         y: 16
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Death_3
@@ -95,8 +95,8 @@ TextureImporter:
         y: 16
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Death_4
@@ -106,8 +106,8 @@ TextureImporter:
         y: 0
         width: 16
         height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []
