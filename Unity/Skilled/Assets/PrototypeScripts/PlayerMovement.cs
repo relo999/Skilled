@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public enum Controls
     {
+        CONTROLLER,
         WASD,
         ARROWS
     }
@@ -110,12 +111,13 @@ public class PlayerMovement : MonoBehaviour {
         if (grounded || AirControl)
         {
             Vector2 movement = new Vector2(0, _rigid.velocity.y);
-            if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow)  || InputManager.GetAxis("Horizontal", playerID) < 0)
+            //if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow)  || InputManager.GetAxis("Horizontal", playerID) < 0)
+            if ((controls == Controls.WASD && Input.GetKey(KeyCode.A)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.LeftArrow))  || InputManager.GetAxis("Horizontal", playerID) < 0)
             {
                 movement.x += Vector2.left.x * MoveSpeed;
                 LastMovedRight = false;
             }
-            if (Input.GetKey(controls == Controls.WASD ? KeyCode.D : KeyCode.RightArrow) || InputManager.GetAxis("Horizontal", playerID) > 0)
+            if ((controls == Controls.WASD && Input.GetKey(KeyCode.D)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.RightArrow)) || InputManager.GetAxis("Horizontal", playerID) > 0)
             {
                 movement.x += Vector2.right.x * MoveSpeed;
                 LastMovedRight = true;
@@ -125,13 +127,13 @@ public class PlayerMovement : MonoBehaviour {
 
 
         //Debug.Log(InputManager.GetButtonDown("Jump", playerID));
-        if (Input.GetKeyUp(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f) )
+        if ((controls == Controls.WASD && Input.GetKeyUp(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyUp(KeyCode.UpArrow)) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f) )
         {
             _isJumping = false;
            // _rigid.AddForce(Vector2.down * JumpENDForceDown);
             //_rigid.gravityScale = 1.0f;
         }
-        if (Input.GetKeyDown(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButtonDown("Jump", playerID))
+        if ((controls == Controls.WASD && Input.GetKeyDown(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyDown(KeyCode.UpArrow)) || InputManager.GetButtonDown("Jump", playerID))
         {
             if (!_isJumping && (grounded || MultipleJumps))
             {
@@ -141,7 +143,7 @@ public class PlayerMovement : MonoBehaviour {
                 _rigid.AddForce(Vector2.up * JumpForce);
             }
         }
-        if ((Input.GetKey(controls == Controls.WASD ? KeyCode.W : KeyCode.UpArrow) || InputManager.GetButton("Jump", playerID)) && _isJumping)
+        if ((controls == Controls.WASD && Input.GetKey(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.UpArrow)) || InputManager.GetButton("Jump", playerID) && _isJumping)
         {
             
              
