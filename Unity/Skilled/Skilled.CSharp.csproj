@@ -112,6 +112,12 @@
     <Compile Include="Assets\InputManager\Source\Runtime\_Support\ScanSettings.cs" />
     <Compile Include="Assets\LoopOutLevel.cs" />
     <Compile Include="Assets\NetworkTest.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasWorldScaler.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\Internal\VectorSwizzleExtensions.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelPerfectCamera.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ActionBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ItemBlock.cs" />
@@ -177,6 +183,8 @@
     <None Include="Assets\InputManager\Examples\Common\Packages\KennyUI\ui_pack_license.txt" />
     <None Include="Assets\InputManager\Source\Resources\input_manager_default_config.xml" />
     <None Include="Assets\InputManager\Source\Resources\input_manager_project_settings.txt" />
+    <None Include="Assets\PixelPerfectCamera\README.txt" />
+    <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Xml.Serialization;
 
 public class NetworkBase{
 
@@ -14,15 +15,32 @@ public class NetworkBase{
     protected const string SERVER_IP = "86.80.201.15";
     protected UdpClient serverClient;
     protected UDPClient Mainserver;
-    BinaryFormatter bFormatter;
     public int playerID;
     public UDPClient connectedClient = null;
+    XmlSerializer xmlSerializer;
     
     public NetworkBase(UdpClient client)
     {
-        bFormatter = new BinaryFormatter();
+        xmlSerializer = new XmlSerializer(typeof(SerializeBase));
         Mainserver = new UDPClient(IPAddress.Parse(SERVER_IP), SERVER_PORT);
         serverClient = client;
+        /*
+
+        SerializeBase test = DeserializeClass(SerializeClass(new PlayerInput(1, 2, true, true)));
+        if (test.GetType().Equals(typeof(PlayerInput)))
+        {
+            PlayerInput testI = (PlayerInput)test;
+            Debug.Log(testI.xAxis);
+        }
+
+        SerializeBase test2 = DeserializeClass(SerializeClass(new PlayerUpdates(new PlayerInfo[] { new PlayerInfo(1, 2, 3) })));
+        if (test.GetType().Equals(typeof(PlayerUpdates)))
+        {
+            PlayerUpdates testI = (PlayerUpdates)test;
+            Debug.Log(testI.PlayerInfos[0].xPos);
+        }*/
+
+
         serverClient.BeginReceive(receive, null);
     }
 
@@ -65,6 +83,7 @@ public class NetworkBase{
             this.Jump = Jump;
             this.Action = Action;
         }
+        public PlayerInput() { }
         public int playerID;
         public float xAxis;
         public bool Jump;
@@ -72,13 +91,15 @@ public class NetworkBase{
     }
 
     //client + server
-    [Serializable]
-    public abstract class SerializeBase
+    [XmlInclude(typeof(PlayerInfo))]
+    [XmlInclude(typeof(PlayerInput))]
+    [XmlInclude(typeof(PlayerUpdates))]
+    public abstract class SerializeBase  //abstract?
     {
-
+        //public SerializeBase() { }
     }
     //client + server
-    [Serializable]
+    //[Serializable]
     public class PlayerInfo : SerializeBase
     {
         public int playerID;
@@ -90,10 +111,11 @@ public class NetworkBase{
             this.xPos = xPos;
             this.yPos = yPos;
         }
+        public PlayerInfo() { }
     }
 
     //client + server
-    [Serializable]
+    //[Serializable]
     public class PlayerUpdates : SerializeBase
     {
         public PlayerInfo[] PlayerInfos;
@@ -101,6 +123,7 @@ public class NetworkBase{
         {
             this.PlayerInfos = PlayerInfos;
         }
+        public PlayerUpdates() { }
     }
 
     //client + server
@@ -190,22 +213,24 @@ public class NetworkBase{
     }
 
     //server + client
-    protected byte[] SerializeClass(SerializeBase input)
+    public byte[] SerializeClass(SerializeBase input)
     {
         using (var memStream = new MemoryStream())
         {
-            bFormatter.Serialize(memStream, input);
+            xmlSerializer.Serialize(memStream, input);
+            Debug.Log(memStream.ToArray().Length);
             return memStream.ToArray();
         }
+       
     }
     //server + client
-    protected SerializeBase DeserializeClass(byte[] data)
+    public SerializeBase DeserializeClass(byte[] data)
     {
         using (var memStream = new MemoryStream())
         { 
             memStream.Write(data, 0, data.Length);
             memStream.Seek(0, SeekOrigin.Begin);
-            return (SerializeBase)bFormatter.Deserialize(memStream);
+            return (SerializeBase)xmlSerializer.Deserialize(memStream);
         }
     }
 

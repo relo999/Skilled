@@ -129,6 +129,8 @@
     <None Include="Assets\InputManager\Examples\Common\Packages\KennyUI\ui_pack_license.txt" />
     <None Include="Assets\InputManager\Source\Resources\input_manager_default_config.xml" />
     <None Include="Assets\InputManager\Source\Resources\input_manager_project_settings.txt" />
+    <None Include="Assets\PixelPerfectCamera\README.txt" />
+    <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

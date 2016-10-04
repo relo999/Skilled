@@ -14,35 +14,125 @@ public class MenuController : MonoBehaviour {
     const float _changebuttonCooldown = 0.1f;
     bool inMenu = true;
     int localPlayers = 2;
+    public GameObject controllerMenu;
     // Use this for initialization
     string sceneName = null;
 
+    void GetButtons()
+    {
+        buttons = FindObjectsOfType<Button>();   
+    }
+
+    void SortButtons()
+    {
+        Array.Sort(buttons, (a, b) => b.transform.position.y.CompareTo(a.transform.position.y));
+    }
 
     void Start () {
         DontDestroyOnLoad(this.gameObject);
-        buttons = FindObjectsOfType<Button>();
-        Array.Sort(buttons, (a, b) => b.transform.position.y.CompareTo(a.transform.position.y));
+        GetButtons();
+        SortButtons();
         selectedButton = 0;
 	}
 
     void ExecuteButton(Button b)
     {
+        KeyCode buttonPressed = GetButtonPressed();
+
         switch (b.name)
         {
             case "Local":
                 StartLocalGame();
                 break;
+
+                //change amount of local players
             case "PlayerCount":
                 localPlayers++;
                 localPlayers = localPlayers < 1 ? 1 : localPlayers > 4 ? 1 : localPlayers;
                 b.GetComponentInChildren<Text>().text = "Players: " + localPlayers;
                 break;
+
+                //open rebinding menu
+            case "RebindButton":
+                if (buttonPressed == KeyCode.None) break;   //cant open rebinding menu with a keyboard(currently)
+                bool isActive = controllerMenu.activeSelf;
+                controllerMenu.SetActive(!isActive);
+                if (isActive)
+                {
+                    GetButtons();
+                    SortButtons();
+                }
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    if(buttons[i].transform.parent != controllerMenu.transform && buttons[i].transform != controllerMenu.transform && buttons[i] != b )
+                        buttons[i].transform.position += Vector3.down * 500 * (isActive? -1 : 1);
+                }
+                if(!isActive)GetButtons();
+                SortButtons();
+                int playerID = buttonPressed == KeyCode.None ? -1 : int.Parse(buttonPressed.ToString()[8].ToString());
+                UpdateButtonNames(playerID);
+                b.GetComponentInChildren<Text>().text = isActive? "controls" : "controls player " + (buttonPressed == KeyCode.None? "Keyboard?" :  playerID.ToString());
+                selectedButton = Array.FindIndex(buttons, x => x.name == "RebindButton");
+                break;
+
+                //rebinding
+            case "Jump":
+            case "Action":
+            case "Menu":
+                if (buttonPressed != KeyCode.None)
+                {
+                    b.GetComponentInChildren<Text>().text = b.name + ": " + buttonPressed;
+                    ChangeButtonBind(b.name, buttonPressed);
+                }
+                break;
+         
+
             default:
                 Debug.Log("missing button name or behaviour not made");
                 break;
 
         }
 
+    }
+
+    //update the text of rebinding menu buttons to corresponding in game button for each player
+    void UpdateButtonNames(int playerID)
+    {
+        InputConfiguration config = InputManager.GetInputConfiguration("P" + playerID + "Controls");    
+        foreach (Button b in buttons)
+        {
+            if(b.name == "Jump"|| b.name == "Action"||b.name == "Menu")
+            {
+                AxisConfiguration button = config.axes.Find(x => x.name == b.name);
+                b.GetComponentInChildren<Text>().text = b.name + ": " + button.positive;
+            }
+        }
+    }
+
+    void ChangeButtonBind(string buttonName, KeyCode newButton)
+    {
+        InputConfiguration config = InputManager.GetInputConfiguration("P" + newButton.ToString()[8].ToString() + "Controls");
+        
+        AxisConfiguration button = config.axes.Find(x => x.name == buttonName);
+        button.positive = newButton;
+    }
+
+
+    //find joystick button pressed, returns none if its a keyboard key
+    KeyCode GetButtonPressed()
+    {
+        for (int i = 1; i < 4; i++)  //4 max controllers plugged in, starts at 1
+        {
+            for (int j = 1; j < 20; j++)    //20 max joystick buttons, starts at 1
+            {
+                KeyCode key = (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + i+ "Button" + j);
+                if (Input.GetKey(key))
+                {
+                    return key;
+                }
+            }
+        }
+        return KeyCode.None;
     }
 
 
@@ -65,12 +155,12 @@ public class MenuController : MonoBehaviour {
 
     void ConfirmButtonHandler()
     {
-
-        if (Input.GetKey(KeyCode.JoystickButton2) || Input.GetKey(KeyCode.Space))
+        Button currentButton = buttons[selectedButton];
+        if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.Space) || currentButton.transform.parent == controllerMenu.transform)
         {
-            Button currentButton = buttons[selectedButton];
+            
             ExecuteButton(currentButton);
-            _currentButtonCooldown = _changebuttonCooldown;
+            //_currentButtonCooldown = _changebuttonCooldown;
         }
     }
 
@@ -115,8 +205,8 @@ public class MenuController : MonoBehaviour {
             _currentButtonCooldown -= Time.deltaTime;
         else
         {
-            //if(SpawnManager.ConnectedControllers() > 0)
-                //InputManager.StartJoystickAxisScan(AxisHandler, null, 1, null, null);
+            if(SpawnManager.ConnectedControllers() > 0)
+                InputManager.StartJoystickAxisScan(AxisHandler, null, 1, null, null);
         }
         
 

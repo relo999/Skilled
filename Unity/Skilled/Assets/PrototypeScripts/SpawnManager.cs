@@ -8,12 +8,16 @@ public class SpawnManager : MonoBehaviour {
     public static SpawnManager instance;
     bool initialized = false;
     const float minSpawnDistance = 3;
+
 	// Use this for initialization
 	void Awake () {
         instance = this;
         blocks = GameObject.FindGameObjectsWithTag("Walkable");
-        
+        NetworkBase b = new NetworkBase(new System.Net.Sockets.UdpClient());
+
 	}
+
+
 
     public static int ConnectedControllers()
     {
@@ -72,6 +76,7 @@ public class SpawnManager : MonoBehaviour {
             SpawnPlayer(i);
         }
         initialized = true;
+        FindObjectOfType<ScoreManager>().Initialize();
     }
 
     void SpawnPlayer(int playerID)

@@ -19,6 +19,7 @@ public class ControllerBind : MonoBehaviour {
         //InputManager.CreateAnalogAxis("MyJoystickConfig", "Vertical", 1, 1, 1.0f, 0.1f);
         InputManager.CreateButton(configName, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick"+ (playerid+1) + "Button2"));
         InputManager.CreateButton(configName, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (playerid+1) + "Button3"));
+        InputManager.CreateButton(configName, "Menu", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (playerid + 1) + "Button9"));
         InputManager.SetInputConfiguration(configName, (PlayerID)playerid);
     }
     private void CreateJoystickConfiguration()
