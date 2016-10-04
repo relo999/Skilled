@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a216e57d2a34298439f142d7f454dc29
-timeCreated: 1475492039
+timeCreated: 1475580288
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -60,10 +60,10 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 47
-        width: 17
+        y: 46
+        width: 16
         height: 17
-      alignment: 0
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -73,9 +73,9 @@ TextureImporter:
         x: 17
         y: 47
         width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_2
@@ -85,8 +85,8 @@ TextureImporter:
         y: 47
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_3
@@ -96,8 +96,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_4
@@ -107,8 +107,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Jump_5
@@ -118,8 +118,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []
