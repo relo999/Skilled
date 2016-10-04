@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 97cb75300fcd2514dbde0e02937843e7
-timeCreated: 1475493554
+timeCreated: 1475580867
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -60,8 +60,8 @@ TextureImporter:
         y: 15
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Throw_1
@@ -71,8 +71,8 @@ TextureImporter:
         y: 15
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Throw_2
@@ -82,8 +82,8 @@ TextureImporter:
         y: 15
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d29c178e7ed96574b828055744d006a8
-timeCreated: 1475493131
+timeCreated: 1475580577
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -61,8 +61,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Run_1
@@ -72,8 +72,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Run_2
@@ -83,8 +83,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Run_3
@@ -94,8 +94,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

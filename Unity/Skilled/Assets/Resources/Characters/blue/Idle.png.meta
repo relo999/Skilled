@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 504dceb6196e1194c822ca26df432765
-timeCreated: 1475244812
-licenseType: Free
+timeCreated: 1475579856
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: Idle_0
@@ -61,8 +61,8 @@ TextureImporter:
         y: 47
         width: 16
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_1
@@ -72,8 +72,8 @@ TextureImporter:
         y: 47
         width: 16
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_2
@@ -83,8 +83,8 @@ TextureImporter:
         y: 47
         width: 16
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_3
@@ -94,8 +94,8 @@ TextureImporter:
         y: 30
         width: 16
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

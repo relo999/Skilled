@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 193925e5d14b23a4c91ff7091d6e58a4
-timeCreated: 1475493115
+timeCreated: 1475580548
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -63,8 +63,8 @@ TextureImporter:
         y: 47
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_1
@@ -74,8 +74,8 @@ TextureImporter:
         y: 47
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_2
@@ -85,8 +85,8 @@ TextureImporter:
         y: 47
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_3
@@ -96,8 +96,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_4
@@ -107,8 +107,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_5
@@ -118,8 +118,8 @@ TextureImporter:
         y: 30
         width: 17
         height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.46875, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7443d1f1cf5282c41b6f4dfab7816199
-timeCreated: 1475493450
+timeCreated: 1475580836
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -61,8 +61,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: RunHold_1
@@ -72,8 +72,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: RunHold_2
@@ -83,8 +83,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: RunHold_3
@@ -94,8 +94,8 @@ TextureImporter:
         y: 14
         width: 16
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []
