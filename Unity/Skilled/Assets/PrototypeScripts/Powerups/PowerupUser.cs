@@ -27,6 +27,14 @@ public class PowerupUser : MonoBehaviour {
     {
         lastingPowerup = pwrup;
     }
+
+    public void EndAllPowerups()
+    {
+        currentPowerup = new PowerupBase.EmptyPowerup(gameObject);
+        lastingPowerup = new PowerupBase.EmptyPowerup(gameObject);
+        BombExplode BE = GetComponentInChildren<BombExplode>();
+        if (BE) GameObject.Destroy(BE.gameObject);
+    }
 	
 	// Update is called once per frame
 	void Update () {

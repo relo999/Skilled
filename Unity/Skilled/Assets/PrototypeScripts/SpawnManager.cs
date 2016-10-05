@@ -73,13 +73,16 @@ public class SpawnManager : MonoBehaviour {
         players = new GameObject[amount];
         for (int i = 0; i < amount; i++)
         {
-            SpawnPlayer(i);
+            GameObject p = SpawnPlayer(i);
+            float spawnTime = 0.5f;
+            p.GetComponent<SheetAnimation>().PlayAnimation("Spawn", p.GetComponent<PlayerHit>().color, false, 8.0f / spawnTime);
+            p.GetComponent<PlayerMovement>().StunnedTimer = spawnTime;
         }
         initialized = true;
         FindObjectOfType<ScoreManager>().Initialize();
     }
 
-    void SpawnPlayer(int playerID)
+    GameObject SpawnPlayer(int playerID)
     {
         GameObject player = GameObject.Instantiate(Resources.Load("Prefabs/Player")) as GameObject;
         player.name += playerID+1;
@@ -96,6 +99,7 @@ public class SpawnManager : MonoBehaviour {
         player.GetComponent<PlayerHit>().color = (SheetAnimation.PlayerColor)playerID;
         player.AddComponent<SheetAnimation>();
         players[playerID] = player;
+        return player;
     }
 	
 	// Update is called once per frame

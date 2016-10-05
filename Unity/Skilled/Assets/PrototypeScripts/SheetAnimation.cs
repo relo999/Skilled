@@ -28,6 +28,11 @@ public class SheetAnimation : MonoBehaviour {
 
     }
 
+    public bool OnLastFrame()
+    {
+        return (int)currentSprite == sprites.Length - 1;
+    }
+
     public string GetAnimation()
     {
         return currentAnimation;

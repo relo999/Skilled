@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour {
     float _currentJumpForce;
     private float jumpTimer = 0.0f;
 
+    public float StunnedTimer = 0;
+
     SpriteRenderer SpriteR;
 
     SheetAnimation SAnimation;
@@ -89,8 +91,11 @@ public class PlayerMovement : MonoBehaviour {
         //input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),InputManager.GetButtonDown("Jump", playerID));
 
         //return;
-
-
+        if(StunnedTimer >0)
+        {
+            StunnedTimer -= Time.deltaTime/1.5f;
+            return;
+        }
 
         bool grounded = false;
 
@@ -114,7 +119,7 @@ public class PlayerMovement : MonoBehaviour {
             if(SAnimation.GetFrame() != newFrame)
                 SAnimation.SetFrame(newFrame);
         }
-        if (!Grounded && grounded) SAnimation.PlayAnimation("Idle", Pcolor);
+        //if (!Grounded && grounded) SAnimation.PlayAnimation("Idle", Pcolor);
         Grounded = grounded;
 
             //Quickstop before input check
@@ -146,7 +151,7 @@ public class PlayerMovement : MonoBehaviour {
                         SAnimation.PlayAnimation("Run", Pcolor, true, 16);
                     }
                 }
-                else if (SAnimation.GetAnimation() != "Idle")
+                else if (SAnimation.GetAnimation() != "Idle" && (SAnimation.GetAnimation() != "Spawn" || (SAnimation.GetAnimation() == "Spawn"&& SAnimation.OnLastFrame())))
                 {
                     SAnimation.PlayAnimation("Idle", Pcolor, true, 5);
                 }

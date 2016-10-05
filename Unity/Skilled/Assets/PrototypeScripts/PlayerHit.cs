@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class PlayerHit : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class PlayerHit : MonoBehaviour {
 
     bool Immunity = false;
     public bool StayImmune = false; //if false, immunity goes away after 1 hit
+    float ImmunityTimer = 0;
     public delegate void ImmunityCallback();
     public ImmunityCallback IC;
     public bool isClone = false;
@@ -19,19 +21,30 @@ public class PlayerHit : MonoBehaviour {
     void Update()
     {
         didCollisionCheck = false;
+        if (ImmunityTimer > 0) ImmunityTimer -= Time.deltaTime;
+        else if (Immunity)
+        {
+            Immunity = false;
+            StayImmune = false;
+            OnImmunityEnd();
+        }
     }
 
-    public void SetImmunity(bool Immunity, bool StayImmune = false)
+    public void SetImmunity(bool Immunity, bool StayImmune = false, float seconds = 99.0f)
     {
         this.Immunity = Immunity;
         this.StayImmune = StayImmune;
+        this.ImmunityTimer = seconds;
     }
     void Start()
     {
         IC = OnImmunityEnd;
     }
 
-    void OnImmunityEnd() { }
+    void OnImmunityEnd()
+    {
+
+    }
 
     public void OnDeath(GameObject other)
     {
@@ -64,21 +77,70 @@ public class PlayerHit : MonoBehaviour {
         if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health &&  ScoreManager.instance.score[useingID] <= 0)
             Respawn = false;
 
+        
 
+        float deathTime = 0.5f;
+        PlayerMovement pm = isClone ? gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>() : GetComponent<PlayerMovement>();
+        pm.StunnedTimer = deathTime;
+        Rigidbody2D rig = isClone ? gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>() : GetComponent<Rigidbody2D>();
+        rig.gravityScale = 0;
+        rig.velocity = Vector2.zero;
+        PowerupUser pu = isClone? gameObject.transform.parent.gameObject.GetComponent<PowerupUser>() : GetComponent<PowerupUser>();
+        pu.EndAllPowerups();
+        Array.ForEach(GetComponentsInChildren<Collider2D>(), x => x.isTrigger = true);
+        SheetAnimation sa = isClone ? gameObject.transform.parent.gameObject.GetComponent<SheetAnimation>() : GetComponent<SheetAnimation>();
+        sa.PlayAnimation("Death", color, false, 5.0f/ deathTime);
+        StartCoroutine(DelayedRespawn(deathTime));
+        /*
         if (Respawn)
-            {
-                PlayerMovement pm = gameObject.GetComponent<PlayerMovement>();
-                if (pm == null) pm = gameObject.transform.parent.GetComponent<PlayerMovement>();
-                PlayerMovement.Controls controls = pm.controls;
-                pm.gameObject.transform.position = SpawnManager.instance.GetRandomSpawnPoint();
-            }
-            else
-            {
-                GameObject.Destroy(this.gameObject);
-            }
+        {
+            PlayerMovement pm = gameObject.GetComponent<PlayerMovement>();
+            if (pm == null) pm = gameObject.transform.parent.GetComponent<PlayerMovement>();
+            PlayerMovement.Controls controls = pm.controls;
+            pm.gameObject.transform.position = SpawnManager.instance.GetRandomSpawnPoint();
+        }
+        else
+        {
+            GameObject.Destroy(this.gameObject);
+        }*/
         
     }
 
+    IEnumerator DelayedRespawn(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (Respawn)
+        {
+            PlayerMovement pm = gameObject.GetComponent<PlayerMovement>();
+            if (pm == null) pm = gameObject.transform.parent.GetComponent<PlayerMovement>();
+
+            pm.gameObject.transform.position = SpawnManager.instance.GetRandomSpawnPoint();
+
+            Rigidbody2D rig = isClone ? gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>() : GetComponent<Rigidbody2D>();
+            //animations, immunity and stopping movement during that
+            rig.gravityScale = 1;
+            Array.ForEach(GetComponentsInChildren<Collider2D>(), x => x.isTrigger = false);
+            SheetAnimation ani = isClone ? gameObject.transform.parent.gameObject.GetComponent<SheetAnimation>() : GetComponent<SheetAnimation>();
+            float spawnTime = 0.5f;
+            ani.PlayAnimation("Spawn", color, false, 8.0f / spawnTime);
+            SetImmunity(true, true, spawnTime * 2.0f);  //extra immunity after spawning (*2.0f)
+            pm.StunnedTimer = spawnTime;
+            rig.isKinematic = true;
+            StartCoroutine(SpawnCallback(spawnTime));
+        }
+        else
+        {
+            GameObject.Destroy(this.gameObject);
+        }
+    }
+
+    IEnumerator SpawnCallback(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GetComponent<Rigidbody2D>().isKinematic = false;
+    }
+
+    //bounces other up
     protected virtual void BounceUp(GameObject other)
     {
         PlayerMovement playerMov = gameObject.GetComponent<PlayerMovement>();
@@ -98,7 +160,7 @@ public class PlayerHit : MonoBehaviour {
 
       
         GameObject other = c.collider.gameObject;
-
+        
         
         Bounds thisBounds = gameObject.GetComponent<SpriteRenderer>().sprite.bounds;
         Bounds otherBounds = other.GetComponent<SpriteRenderer>().sprite.bounds;
@@ -116,7 +178,18 @@ public class PlayerHit : MonoBehaviour {
            
             //bounce
             BounceUp(other);
-            
+
+            //immunity, do the bounce, but don't do the death
+            if (Immunity)
+            {
+                if (!StayImmune)
+                {
+                    Immunity = false;
+                    OnImmunityEnd();
+                }
+                return;
+            }
+
             //death
             this.OnDeath(other);
         }
