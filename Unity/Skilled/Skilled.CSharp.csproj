@@ -128,7 +128,6 @@
     <Compile Include="Assets\PrototypeScripts\GameClient.cs" />
     <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
     <Compile Include="Assets\PrototypeScripts\GhostBehaviour.cs" />
-    <Compile Include="Assets\PrototypeScripts\IdleAnimation.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />
     <Compile Include="Assets\PrototypeScripts\Menu\KeepOnSceneChange.cs" />
     <Compile Include="Assets\PrototypeScripts\Menu\MenuController.cs" />
@@ -152,6 +151,7 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\ShieldPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\ScoreManager.cs" />
     <Compile Include="Assets\PrototypeScripts\ServerBase.cs" />
+    <Compile Include="Assets\PrototypeScripts\SheetAnimation.cs" />
     <Compile Include="Assets\PrototypeScripts\SpawnManager.cs" />
     <Compile Include="Assets\PrototypeScripts\TextLayer.cs" />
     <Compile Include="Assets\PrototypeScripts\WalkColliders.cs" />

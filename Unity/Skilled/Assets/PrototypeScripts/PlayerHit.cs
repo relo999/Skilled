@@ -14,7 +14,7 @@ public class PlayerHit : MonoBehaviour {
     public delegate void ImmunityCallback();
     public ImmunityCallback IC;
     public bool isClone = false;
-    public IdleAnimation.PlayerColor color = IdleAnimation.PlayerColor.red;
+    public SheetAnimation.PlayerColor color = SheetAnimation.PlayerColor.red;
 
     void Update()
     {
@@ -41,7 +41,7 @@ public class PlayerHit : MonoBehaviour {
         splatObject.transform.position = this.gameObject.transform.position;
         SpriteRenderer SR = splatObject.AddComponent<SpriteRenderer>();
         SR.sortingOrder = -14;  //before background but behind the rest
-        IdleAnimation ani = splatObject.AddComponent<IdleAnimation>();
+        SheetAnimation ani = splatObject.AddComponent<SheetAnimation>();
         LevelBounds.instance.RegisterObject(splatObject);
         ani.PlayAnimation("Splat", color, false, 1);
         /*

@@ -93,8 +93,8 @@ public class SpawnManager : MonoBehaviour {
         int newControls = playerID >= controllerCount ? playerID - controllerCount + 1 : 0;
         if (newControls > 2) Debug.LogError("too many players for amount of controllers connected");
         mov.controls = (PlayerMovement.Controls)newControls;
-        player.GetComponent<PlayerHit>().color = (IdleAnimation.PlayerColor)playerID;
-        player.AddComponent<IdleAnimation>();
+        player.GetComponent<PlayerHit>().color = (SheetAnimation.PlayerColor)playerID;
+        player.AddComponent<SheetAnimation>();
         players[playerID] = player;
     }
 	

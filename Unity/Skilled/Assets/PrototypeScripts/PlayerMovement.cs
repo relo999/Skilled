@@ -32,6 +32,9 @@ public class PlayerMovement : MonoBehaviour {
 
     SpriteRenderer SpriteR;
 
+    SheetAnimation SAnimation;
+    SheetAnimation.PlayerColor Pcolor;
+
     public enum Controls
     {
         CONTROLLER,
@@ -43,6 +46,9 @@ public class PlayerMovement : MonoBehaviour {
 	void Start () {
         _rigid = GetComponent<Rigidbody2D>();
         SpriteR = GetComponent<SpriteRenderer>();
+
+        SAnimation = GetComponent<SheetAnimation>();
+        Pcolor = GetComponent<PlayerHit>().color;
 	}
 	
     void CapSpeed()
@@ -100,6 +106,15 @@ public class PlayerMovement : MonoBehaviour {
             RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(spriteXSizeHalf, 0), -Vector2.up, 0.10f);
             if (hit2.transform != null && hit2.transform != transform) grounded = true;
         }
+
+
+        if (SAnimation.GetAnimation() == "Jump")
+        {
+            int newFrame = _rigid.velocity.y > -1 ? (_rigid.velocity.y < 1 ? 3 : 2) : 4;
+            if(SAnimation.GetFrame() != newFrame)
+                SAnimation.SetFrame(newFrame);
+        }
+        if (!Grounded && grounded) SAnimation.PlayAnimation("Idle", Pcolor);
         Grounded = grounded;
 
             //Quickstop before input check
@@ -122,9 +137,24 @@ public class PlayerMovement : MonoBehaviour {
                 movement.x += Vector2.right.x * MoveSpeed;
                 LastMovedRight = true;
             }
+            if (Grounded && !_isJumping)
+            {
+                if (movement.x != 0)
+                {
+                    if (SAnimation.GetAnimation() != "Run")
+                    {
+                        SAnimation.PlayAnimation("Run", Pcolor, true, 16);
+                    }
+                }
+                else if (SAnimation.GetAnimation() != "Idle")
+                {
+                    SAnimation.PlayAnimation("Idle", Pcolor, true, 5);
+                }
+            }
             _rigid.velocity = movement;
         }
 
+        
 
         //Debug.Log(InputManager.GetButtonDown("Jump", playerID));
         if ((controls == Controls.WASD && Input.GetKeyUp(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyUp(KeyCode.UpArrow)) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f) )
@@ -139,6 +169,8 @@ public class PlayerMovement : MonoBehaviour {
             {
                 jumpTimer = HoldJumpMaxSec;
                 _isJumping = true;
+                SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 2, 0);
+                SAnimation.SetFrame(2);
                 //_currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
                 _rigid.AddForce(Vector2.up * JumpForce);
             }
@@ -151,6 +183,10 @@ public class PlayerMovement : MonoBehaviour {
             {
                 _rigid.gravityScale = jumpGravityScale;
                 _rigid.AddForce(Vector2.up * HoldJumpForce * Time.deltaTime);
+            }
+            else
+            {
+                //if (_rigid.velocity.y > -1) SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 3);
             }
 
             //_currentJumpForce *= HoldJumpDecay;
