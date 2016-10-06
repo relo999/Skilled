@@ -10,6 +10,7 @@ public class SheetAnimation : MonoBehaviour {
     bool looping;
     int stopAtFrame = -1;
     string currentAnimation = "none";
+    public bool doIdle = true;
     public enum PlayerColor
     {
         red,
@@ -23,9 +24,15 @@ public class SheetAnimation : MonoBehaviour {
         SRenderer = GetComponent<SpriteRenderer>();
 
 
-        if (sprites == null) PlayAnimation("Idle", GetComponent<PlayerHit>().color);
+        if (sprites == null && doIdle) PlayAnimation("Idle", GetComponent<PlayerHit>().color);
         
 
+    }
+
+    public void StopAnimation()
+    {
+        fps = 0;
+        SRenderer.sprite = null;
     }
 
     public bool OnLastFrame()
@@ -49,6 +56,7 @@ public class SheetAnimation : MonoBehaviour {
     public void SetFrame(int frame)
     {
         currentSprite = frame;
+        SetSprite();
     }
     public int GetFrame()
     {
@@ -82,17 +90,22 @@ public class SheetAnimation : MonoBehaviour {
         this.fps = 0;
         this.stopAtFrame = stayFrame;
         currentSprite = stayFrame;
-        sprites = Resources.LoadAll<Sprite>(path);
+        sprites = Resources.LoadAll<Sprite>(path + "_" + color.ToString().ToUpper()[0]);
         currentAnimation = path;
+        SetFrame(stayFrame);
     }
 
+    void SetSprite()
+    {
+        SRenderer.sprite = sprites[(int)currentSprite];
+        if (doIdle) GetComponent<SpriteOverlay>().OnChangedSprite();
+    }
     // Update is called once per frame
     void Update () {
-        
+        if (sprites == null || fps == 0) return;
         if(looping || (currentSprite < sprites.Length -Time.deltaTime * fps && (stopAtFrame<0 || currentSprite < stopAtFrame )))
             currentSprite += Time.deltaTime * fps;
         currentSprite %= sprites.Length;
-
-        SRenderer.sprite = sprites[(int)currentSprite];
+        SetSprite();
     }
 }

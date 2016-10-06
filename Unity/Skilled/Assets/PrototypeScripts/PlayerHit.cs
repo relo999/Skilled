@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+
+
+/// <summary>
+/// rigidBodys and other components that are only present on the main character have to be checked on the clones to find the correct one
+/// </summary>
 public class PlayerHit : MonoBehaviour {
 
     public bool Respawn = true;
@@ -137,7 +142,8 @@ public class PlayerHit : MonoBehaviour {
     IEnumerator SpawnCallback(float delay)
     {
         yield return new WaitForSeconds(delay);
-        GetComponent<Rigidbody2D>().isKinematic = false;
+        Rigidbody2D rig = isClone ? gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>() : GetComponent<Rigidbody2D>();
+        rig.isKinematic = false;
     }
 
     //bounces other up

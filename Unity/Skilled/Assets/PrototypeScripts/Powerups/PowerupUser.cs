@@ -25,11 +25,17 @@ public class PowerupUser : MonoBehaviour {
     }
     public void SetLastingPowerup(PowerupBase pwrup)
     {
+        if (lastingPowerup != null)
+            lastingPowerup.End();
         lastingPowerup = pwrup;
     }
 
     public void EndAllPowerups()
     {
+        if (currentPowerup != null)
+            currentPowerup.End();
+        if (lastingPowerup != null)
+            lastingPowerup.End();
         currentPowerup = new PowerupBase.EmptyPowerup(gameObject);
         lastingPowerup = new PowerupBase.EmptyPowerup(gameObject);
         BombExplode BE = GetComponentInChildren<BombExplode>();

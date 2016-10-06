@@ -73,7 +73,6 @@ public class Bounce : MonoBehaviour {
         //to make sure it doesn't hit multiple colliders on the players only 1 collisioncheck is allowed per frame
         if (_colCount > 0) return;
         _colCount++;
-        Debug.Log(_rigid.velocity.x);
         //bounce from atop of blocks
         if (c.transform.position.y < transform.position.y)
         {

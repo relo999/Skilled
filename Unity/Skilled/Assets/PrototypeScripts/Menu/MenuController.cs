@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using TeamUtility.IO;
 using UnityEngine.SceneManagement;
-using UnityEditor;
+//using UnityEditor;    //crashes on build, dont use this
 
 public class MenuController : MonoBehaviour {
 

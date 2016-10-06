@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     public bool Grounded { private set; get; }
     public float MaxYSpeed = 15.0f;
     public bool LastMovedRight { private set; get; }
+    SpriteOverlay overlay;
 
     bool _isJumping = false;
     float _currentJumpForce;
@@ -51,6 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 
         SAnimation = GetComponent<SheetAnimation>();
         Pcolor = GetComponent<PlayerHit>().color;
+        overlay = GetComponent<SpriteOverlay>();
 	}
 	
     void CapSpeed()
@@ -202,6 +204,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         SpriteR.flipX = !LastMovedRight;
+        overlay.flipX = !LastMovedRight;
         CapSpeed();//do this last in update
     }
 }
