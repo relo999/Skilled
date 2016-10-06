@@ -73,9 +73,21 @@ public class SheetAnimation : MonoBehaviour {
         sprites = Resources.LoadAll<Sprite>(coloredPath);
         currentAnimation = path;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    //lastFrame -1 is default last frame, lastFrame requires 'loop' to be false
+    public void PlayAnimationCustom(string path, PlayerColor color, int stayFrame)
+    {
+       // string coloredPath = "Characters/" + color.ToString() + "/" + path;
+        this.looping = false;
+        this.fps = 0;
+        this.stopAtFrame = stayFrame;
+        currentSprite = stayFrame;
+        sprites = Resources.LoadAll<Sprite>(path);
+        currentAnimation = path;
+    }
+
+    // Update is called once per frame
+    void Update () {
         
         if(looping || (currentSprite < sprites.Length -Time.deltaTime * fps && (stopAtFrame<0 || currentSprite < stopAtFrame )))
             currentSprite += Time.deltaTime * fps;

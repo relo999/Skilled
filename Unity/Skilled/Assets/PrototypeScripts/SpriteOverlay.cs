@@ -7,17 +7,31 @@ using System.Collections;
 public class SpriteOverlay : MonoBehaviour {
 
     SpriteRenderer SRenderer;
-
+    SheetAnimation SAnimation;
+    string spriteName;
     void Start()
     {
         GameObject overlayObject = new GameObject("OverlayObject");
         overlayObject.transform.parent = gameObject.transform;
         SRenderer = overlayObject.AddComponent<SpriteRenderer>();
+        SAnimation = overlayObject.AddComponent<SheetAnimation>();
+
+    }
+
+    public void SetFrame(int frame)
+    {
+        SAnimation.SetFrame(frame);
+    }
+
+    public void SetOffset(Vector2 offset)
+    {
+        transform.localPosition = offset;
     }
 
     public void SetSprite(string path)
     {
-        //SRenderer.sprite = Resources.Load
+        spriteName = path;
+        SAnimation.PlayAnimationCustom(path, GetComponent<PlayerHit>().color, 0);
     }
 	
 
