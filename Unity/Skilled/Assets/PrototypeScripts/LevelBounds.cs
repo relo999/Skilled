@@ -145,12 +145,12 @@ public class LevelBounds : MonoBehaviour {
 
     public void StopClonesUpdate(GameObject g)
     {
+        GameObject.Destroy(g.GetComponent<SheetAnimation>());
         WrapClones clones = cloneList.Find(x => x.original == g);
         for (int i = clones.clones.Length-1; i >= 0; i--)
         {
             GameObject clone = clones.clones[i];
             if (clone == null) continue;
-            //Debug.Log((clone.transform.position.x - bounds.center.x) + " : " +  bounds.size.x / 2f);
             if (Mathf.Abs(clone.transform.position.x - bounds.center.x) - 0.16f > bounds.size.x / 2f ||
                Mathf.Abs(clone.transform.position.y - bounds.center.y) - 0.16f > bounds.size.y / 2f)
             {

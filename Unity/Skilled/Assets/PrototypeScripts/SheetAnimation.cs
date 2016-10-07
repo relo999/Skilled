@@ -115,7 +115,8 @@ public class SheetAnimation : MonoBehaviour {
 
     void SetSprite()
     {
-        SRenderer.sprite = sprites[(int)currentSprite];
+        if(SRenderer.sprite != sprites[(int)currentSprite])
+            SRenderer.sprite = sprites[(int)currentSprite];
         if (doIdle)
         {
             SpriteOverlay overlay = GetComponent<SpriteOverlay>();
