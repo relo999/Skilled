@@ -16,6 +16,12 @@ public class PowerupUser : MonoBehaviour {
         _playerID = this.gameObject.GetComponent<PlayerMovement>().playerID;
     }
 
+
+    public void EndPowerup()
+    {
+        if (currentPowerup != null) currentPowerup.End();
+        currentPowerup = new PowerupBase.EmptyPowerup(gameObject);
+    }
     public void SetPowerup(PowerupBase pwrup)
     {
         //if(currentPowerup != pwrup)   //if the powerup shouldnt be refreshed in case of timers, cooldowns and sprite updates

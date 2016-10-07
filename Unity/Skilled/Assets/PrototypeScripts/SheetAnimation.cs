@@ -11,6 +11,11 @@ public class SheetAnimation : MonoBehaviour {
     int stopAtFrame = -1;
     string currentAnimation = "none";
     public bool doIdle = true;
+    bool hasStopped = false;
+
+    public delegate void StoppedCallback(GameObject g);
+    public StoppedCallback StoppedHandler;
+
     public enum PlayerColor
     {
         red,
@@ -22,10 +27,19 @@ public class SheetAnimation : MonoBehaviour {
     // Use this for initialization
     void Start () {
         SRenderer = GetComponent<SpriteRenderer>();
-
+        StoppedHandler = OnStoppedAnimation;
+        if (gameObject.name.Contains("splat"))
+        {
+            StoppedHandler += FindObjectOfType<LevelBounds>().StopClonesUpdate;
+        }
 
         if (sprites == null && doIdle) PlayAnimation("Idle", GetComponent<PlayerHit>().color);
         
+
+    }
+
+    public void OnStoppedAnimation(GameObject g)
+    {
 
     }
 
@@ -63,6 +77,8 @@ public class SheetAnimation : MonoBehaviour {
         return (int)currentSprite;
     }
 
+
+
     //for animation that are color independant
     public void PlayAnimationUnC(string path, bool loop = true, float fps = 5)
     {
@@ -77,9 +93,11 @@ public class SheetAnimation : MonoBehaviour {
         this.looping = loop;
         this.fps = fps;
         this.stopAtFrame = lastFrame;
+        
         currentSprite = startingFrame;
         sprites = Resources.LoadAll<Sprite>(coloredPath);
-        currentAnimation = path;
+        if (!loop && stopAtFrame == -1) stopAtFrame = sprites.Length;
+         currentAnimation = path;
     }
 
     //lastFrame -1 is default last frame, lastFrame requires 'loop' to be false
@@ -98,13 +116,30 @@ public class SheetAnimation : MonoBehaviour {
     void SetSprite()
     {
         SRenderer.sprite = sprites[(int)currentSprite];
-        if (doIdle) GetComponent<SpriteOverlay>().OnChangedSprite();
+        if (doIdle)
+        {
+            SpriteOverlay overlay = GetComponent<SpriteOverlay>();
+            if(overlay)
+                overlay.OnChangedSprite();
+        }
     }
     // Update is called once per frame
     void Update () {
         if (sprites == null || fps == 0) return;
-        if(looping || (currentSprite < sprites.Length -Time.deltaTime * fps && (stopAtFrame<0 || currentSprite < stopAtFrame )))
+        if(!looping && (int)currentSprite == stopAtFrame && !hasStopped)
+        {
+            hasStopped = true;
+            StoppedHandler(gameObject);
+        }
+        if (looping || (currentSprite < sprites.Length - Time.deltaTime * fps && (stopAtFrame < 0 || currentSprite < stopAtFrame)))
+        {
             currentSprite += Time.deltaTime * fps;
+        }
+        else if(!hasStopped)
+        {
+            hasStopped = true;
+            StoppedHandler(gameObject);
+        }
         currentSprite %= sprites.Length;
         SetSprite();
     }

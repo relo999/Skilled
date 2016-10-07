@@ -31,7 +31,7 @@ public class PlayerHit : MonoBehaviour {
         {
             Immunity = false;
             StayImmune = false;
-            OnImmunityEnd();
+            IC();
         }
     }
 
@@ -60,7 +60,7 @@ public class PlayerHit : MonoBehaviour {
         SpriteRenderer SR = splatObject.AddComponent<SpriteRenderer>();
         SR.sortingOrder = -14;  //before background but behind the rest
         SheetAnimation ani = splatObject.AddComponent<SheetAnimation>();
-        LevelBounds.instance.RegisterObject(splatObject);
+        LevelBounds.instance.RegisterObject(splatObject, true);
         ani.PlayAnimation("Splat", color, false, 1);
         /*
         //shield powerup / spawn immunity
@@ -191,7 +191,7 @@ public class PlayerHit : MonoBehaviour {
                 if (!StayImmune)
                 {
                     Immunity = false;
-                    OnImmunityEnd();
+                    IC();
                 }
                 return;
             }

@@ -17,7 +17,7 @@ public class SpriteOverlay : MonoBehaviour {
         set { SRenderer.flipX = value; }
     }
     
-    void Start()
+    void Awake()
     {
         overlayObject = new GameObject("OverlayObject");
        

@@ -6,6 +6,8 @@ public class BombPickup : ItemPickup
 {
     protected override void Pickup(GameObject player)
     {
-        player.GetComponent<PowerupUser>().SetPowerup(new BombPowerup(player));
+        PowerupUser PU = player.GetComponent<PowerupUser>();
+        PU.EndPowerup();
+        PU.SetPowerup(new BombPowerup(player));
     }
 }

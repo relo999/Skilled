@@ -12,11 +12,17 @@ public class ShieldPowerup : PowerupBase
         hit = owner.GetComponent<PlayerHit>();
         hit.IC += ShieldEnd;
         hit.SetImmunity(true, false);
-        playerID = owner.name.Contains("1") ? 0 : (owner.name.Contains("2") ? 1 : (owner.name.Contains("3") ? 2 : 3));
 
+
+
+        //playerID = owner.name.Contains("1") ? 0 : (owner.name.Contains("2") ? 1 : (owner.name.Contains("3") ? 2 : 3));
+
+        /*
         if(PowerupManager.instance.OriginalSprites[playerID] == null)
             PowerupManager.instance.OriginalSprites[playerID] = owner.GetComponent<SpriteRenderer>().sprite;
-        owner.GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ShieldSprites[playerID];
+        owner.GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.ShieldSprites[playerID];*/
+
+        owner.GetComponent<SpriteOverlay>().SetSprite("PowerUps/Powers/Shield/Shield", owner.GetComponent<PlayerHit>().color);
     }
     protected override void Activate()
     {
@@ -27,6 +33,7 @@ public class ShieldPowerup : PowerupBase
     {
         owner.GetComponent<PlayerHit>().IC -= ShieldEnd;
         owner.GetComponent<PowerupUser>().SetLastingPowerup(new PowerupBase.EmptyPowerup(owner));
-        owner.GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.OriginalSprites[playerID];
+        //owner.GetComponent<SpriteRenderer>().sprite = PowerupManager.instance.OriginalSprites[playerID];
+        owner.GetComponent<SpriteOverlay>().DestroySprite();
     }
 }

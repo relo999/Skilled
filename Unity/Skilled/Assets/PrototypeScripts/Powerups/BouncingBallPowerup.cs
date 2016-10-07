@@ -15,6 +15,11 @@ public class BouncingBallPowerup : PowerupBase {
         //_cooldown = 0.3f;
     }
 
+    public override void End()
+    {
+
+    }
+
 
     protected override void Activate()
     {

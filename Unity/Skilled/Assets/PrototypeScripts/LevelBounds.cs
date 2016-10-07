@@ -14,15 +14,17 @@ public class LevelBounds : MonoBehaviour {
 
     class WrapClones
     {
-        GameObject[] clones;
+        public GameObject[] clones;
         int originalLayer;
         public GameObject original;
         Bounds levelBounds;
         bool renderingClones = false;
-        public WrapClones(GameObject original, Bounds levelBounds)
+        public bool isStatic = false;
+        public WrapClones(GameObject original, Bounds levelBounds, bool isStatic = false)
         {
             this.original = original;
             this.levelBounds = levelBounds;
+            this.isStatic = isStatic;
             originalLayer = original.layer;
             clones = new GameObject[3]; //max 3 clones for each corner +original
             for (int i = 0; i < clones.Length; i++)
@@ -74,7 +76,7 @@ public class LevelBounds : MonoBehaviour {
         }
         public void UpdateClones()
         {
-
+            
             for (int i = 0; i < 3; i++)
             {
                 GameObject clone = clones[i];
@@ -88,34 +90,19 @@ public class LevelBounds : MonoBehaviour {
                     clone.layer = originalLayer;
                 }
             }
-
             /*
-            if(diff.magnitude < 3 && renderingClones)
+            if (original.name.Contains("splat"))
             {
-                
-                for (int i = 0; i < 3; i++)
-                {
-                    clones[i].GetComponent<SpriteRenderer>().enabled = false;
-                }
-                renderingClones = false;
-            }
-            else if(diff.magnitude >=3)
-            {
-
-                for (int i = 0; i < 3; i++)
-                {
-                    clones[i].GetComponent<SpriteRenderer>().enabled = true;
-                }
-                renderingClones = true;
-      
+                Debug.Log(true);
             }*/
-            
+
             //update sprite changes made by the original
+            SpriteRenderer origRen = original.GetComponent<SpriteRenderer>();
             foreach (GameObject clone in clones)
             {
                 SpriteRenderer cloneRen = clone.GetComponent<SpriteRenderer>();
-                SpriteRenderer origRen = original.GetComponent<SpriteRenderer>();
-                if (cloneRen.sprite == origRen.sprite) break;
+                
+                if (cloneRen.sprite == origRen.sprite) continue;
                 cloneRen.sprite = origRen.sprite;
                 cloneRen.flipX = origRen.flipX;
             }
@@ -146,16 +133,36 @@ public class LevelBounds : MonoBehaviour {
     }
 
     public static LevelBounds Instance { private set; get; }
-    public void RegisterObject(GameObject g)
+    public void RegisterObject(GameObject g, bool isStatic = false)
     {
         
         objects.Add(g);
-        //if (g.name.Contains("Player"))
-            cloneList.Add(new WrapClones(g, bounds));
+
+        WrapClones newClones = new WrapClones(g, bounds, isStatic);
+            cloneList.Add(newClones);
+        newClones.UpdateClones();
     }
+
+    public void StopClonesUpdate(GameObject g)
+    {
+        WrapClones clones = cloneList.Find(x => x.original == g);
+        for (int i = clones.clones.Length-1; i >= 0; i--)
+        {
+            GameObject clone = clones.clones[i];
+            if (clone == null) continue;
+            //Debug.Log((clone.transform.position.x - bounds.center.x) + " : " +  bounds.size.x / 2f);
+            if (Mathf.Abs(clone.transform.position.x - bounds.center.x) - 0.16f > bounds.size.x / 2f ||
+               Mathf.Abs(clone.transform.position.y - bounds.center.y) - 0.16f > bounds.size.y / 2f)
+            {
+                GameObject.Destroy(clone);
+            }
+        }
+        objects.Remove(g);
+        cloneList.Remove(clones);
+    }
+
     public void UnRegisterObject(GameObject g)
     {
-        //TODO REMOVE CLONES
         objects.Remove(g);
         WrapClones clones = cloneList.Find(x => x.original == g);
         clones.DestroyClones();
@@ -165,27 +172,13 @@ public class LevelBounds : MonoBehaviour {
 
     bool CheckBounds(GameObject obj, bool checkonly = false)
     {
-        //List<GameObject> newTemps = new List<GameObject>();
-        bool inbounds = false;
-        //Bounds objBounds = obj.GetComponent<SpriteRenderer>().bounds;
-        //float halfY = objBounds.size.y / 2f;
-        //float halfX = objBounds.size.x / 2f;
-        /*
-        if (obj.transform.position.y - halfY > bounds.center.y - bounds.size.y / 2f &&
-            obj.transform.position.y + halfY < bounds.center.y + bounds.size.y / 2f &&
 
-            obj.transform.position.x - halfX > bounds.center.x - bounds.size.x / 2f &&
-            obj.transform.position.x + halfX < bounds.center.y + bounds.size.x / 2f)
-            inbounds = true;*/
-        //below bounds
-        //newTemps.Add(obj);
+        bool inbounds = false;
+
         if (obj.transform.position.y <= bounds.center.y - bounds.size.y / 2f)
         {
             if (!checkonly)
             {
-                //GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
-                //GameObject.Destroy(obj2.GetComponent<LoopOutLevel>());
-                //newTemps.Add(obj2);
                 obj.transform.position += new Vector3(0, bounds.size.y, 0);
             }
         }else
@@ -194,9 +187,6 @@ public class LevelBounds : MonoBehaviour {
         {
             if (!checkonly)
             {
-               // GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
-               // GameObject.Destroy(obj2.GetComponent<LoopOutLevel>());
-                //newTemps.Add(obj2);
                 obj.transform.position += new Vector3(0, -bounds.size.y, 0);        
             }
         }
@@ -206,9 +196,6 @@ public class LevelBounds : MonoBehaviour {
         {
             if (!checkonly)
             {
-               // GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
-               // GameObject.Destroy(obj2.GetComponent<LoopOutLevel>());
-                //newTemps.Add(obj2);
                 obj.transform.position += new Vector3(bounds.size.x, 0, 0);
             }
         }else
@@ -217,9 +204,6 @@ public class LevelBounds : MonoBehaviour {
         {
             if (!checkonly)
             {
-               // GameObject obj2 = (GameObject)GameObject.Instantiate(obj, obj.transform.position, Quaternion.identity);
-               // GameObject.Destroy(obj2.GetComponent<LoopOutLevel>());
-                //newTemps.Add(obj2);
                 obj.transform.position += new Vector3(-bounds.size.x, 0, 0);
             }
         }
@@ -236,51 +220,9 @@ public class LevelBounds : MonoBehaviour {
         }
         foreach(WrapClones clones in cloneList)
         {
+            //if (clones.isStatic) continue;
             clones.UpdateClones();
         }
-        /*
-        foreach(List<GameObject> temp in tempObjects)
-        {
-            if(CheckBounds(temp[0], true))
-            {
-                for (int i = temp.Count-1; i > 0; i--)
-                {
-                    GameObject.Destroy(temp[i]);
-                }
-            }
-        }*/
-        /*
-        foreach(GameObject player in players)
-        {
-            if (_requestFindPlayers) FindPlayers();
-            if(player == null)
-            {
-                _requestFindPlayers = true;
-                continue;
-            }
-
-            //below bounds
-            if(player.transform.position.y <= bounds.center.y - bounds.size.y/2f)
-            {
-                player.transform.position += new Vector3(0, bounds.size.y, 0);
-            }
-            //above bounds
-            if (player.transform.position.y >= bounds.center.y + bounds.size.y / 2f)
-            {
-                player.transform.position += new Vector3(0, -bounds.size.y, 0);
-            }
-
-            //left of bounds
-            if (player.transform.position.x <= bounds.center.x - bounds.size.x / 2f)
-            {
-                player.transform.position += new Vector3(bounds.size.x, 0, 0);
-            }
-            //right of bounds
-            if (player.transform.position.x >= bounds.center.x + bounds.size.x / 2f)
-            {
-                player.transform.position += new Vector3(-bounds.size.x, 0, 0);
-            }
-        }*/
     }
 
     public void FindPlayers()
