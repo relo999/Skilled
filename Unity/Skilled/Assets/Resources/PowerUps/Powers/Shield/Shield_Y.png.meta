@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0c76f56792bd5254d9c16a53799f363f
-timeCreated: 1475677478
+timeCreated: 1475848943
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -59,8 +59,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Shield_Y_1
@@ -70,8 +70,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

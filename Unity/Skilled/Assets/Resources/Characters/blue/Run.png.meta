@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4c12efcb07673b64d9d34538d91d6696
-timeCreated: 1475579997
+timeCreated: 1475849539
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -72,9 +72,9 @@ TextureImporter:
         x: 16
         y: 14
         width: 16
-        height: 17
-      alignment: 9
-      pivot: {x: 0.5, y: 0.46875}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Run_3

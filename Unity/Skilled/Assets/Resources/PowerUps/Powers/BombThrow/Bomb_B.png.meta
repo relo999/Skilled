@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ffc24651fb0ffbc4c980011c09b49ecd
-timeCreated: 1475677704
+timeCreated: 1475849153
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -59,8 +59,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Bomb_B_1
@@ -70,8 +70,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

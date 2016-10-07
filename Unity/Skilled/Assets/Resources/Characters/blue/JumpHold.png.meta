@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0d2947312094164489401dcc40759865
-timeCreated: 1475579944
+timeCreated: 1475849524
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -73,20 +73,20 @@ TextureImporter:
         x: 17
         y: 47
         width: 17
-        height: 16
+        height: 15
       alignment: 9
-      pivot: {x: 0.46875, y: 0.5}
+      pivot: {x: 0.46875, y: 0.5333}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_2
       rect:
         serializedVersion: 2
-        x: 34
+        x: 35
         y: 47
-        width: 17
+        width: 15
         height: 17
       alignment: 9
-      pivot: {x: 0.46875, y: 0.46875}
+      pivot: {x: 0.533, y: 0.46875}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: JumpHold_3

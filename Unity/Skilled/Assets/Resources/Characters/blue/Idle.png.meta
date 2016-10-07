@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 504dceb6196e1194c822ca26df432765
-timeCreated: 1475579856
+timeCreated: 1475849312
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -60,9 +60,9 @@ TextureImporter:
         x: 0
         y: 47
         width: 16
-        height: 17
-      alignment: 9
-      pivot: {x: 0.5, y: 0.46875}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Idle_1
@@ -93,9 +93,9 @@ TextureImporter:
         x: 0
         y: 30
         width: 16
-        height: 17
-      alignment: 9
-      pivot: {x: 0.5, y: 0.46875}
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []
