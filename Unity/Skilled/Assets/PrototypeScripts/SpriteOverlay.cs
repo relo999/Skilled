@@ -6,12 +6,13 @@ using System.Collections;
 /// </summary>
 public class SpriteOverlay : MonoBehaviour {
 
-    SpriteRenderer SRenderer;
+    public SpriteRenderer SRenderer;
     SheetAnimation SAnimation;
     SpriteRenderer MainRenderer;
     GameObject overlayObject;
     Sprite OldMainSprite;
     string spriteName;
+    public Vector2 currentOFfset = Vector2.zero;
     public bool flipX
     {
         set { SRenderer.flipX = value; }
@@ -24,9 +25,11 @@ public class SpriteOverlay : MonoBehaviour {
         overlayObject.transform.parent = gameObject.transform;
         overlayObject.transform.localPosition = Vector3.zero;
         SRenderer = overlayObject.AddComponent<SpriteRenderer>();
+        SRenderer.sortingOrder = -10;
         SAnimation = overlayObject.AddComponent<SheetAnimation>();
         SAnimation.doIdle = false;
         MainRenderer = GetComponent<SpriteRenderer>();
+        LevelBounds.instance.RegisterObject(overlayObject);
         
     }
 
@@ -61,6 +64,7 @@ public class SpriteOverlay : MonoBehaviour {
     public void SetOffset(Vector2 offset)
     {
         overlayObject.transform.localPosition = offset;
+        currentOFfset = offset;
     }
 
     public void SetSprite(string path, SheetAnimation.PlayerColor color)

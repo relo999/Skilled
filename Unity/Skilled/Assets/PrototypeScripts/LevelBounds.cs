@@ -101,10 +101,10 @@ public class LevelBounds : MonoBehaviour {
             foreach (GameObject clone in clones)
             {
                 SpriteRenderer cloneRen = clone.GetComponent<SpriteRenderer>();
-                
+                cloneRen.flipX = origRen.flipX;
                 if (cloneRen.sprite == origRen.sprite) continue;
                 cloneRen.sprite = origRen.sprite;
-                cloneRen.flipX = origRen.flipX;
+                
             }
 
             Vector2 diff = original.transform.position - levelBounds.center;

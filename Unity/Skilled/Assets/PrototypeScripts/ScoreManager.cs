@@ -17,6 +17,7 @@ public class ScoreManager : MonoBehaviour {
     private int players = 2;    //TODO get number of players in game
     SpriteRenderer[] playerSprites;
     SpriteRenderer[] hudSprites;
+    SpriteRenderer[] overlayHudSprites;
     [HideInInspector]
     public Text[] scoreText;    //TODO based on number of players + find textfields through script
     public Canvas canvas;
@@ -31,6 +32,7 @@ public class ScoreManager : MonoBehaviour {
         initialized = true;
         PlayerMovement[] tempps = FindObjectsOfType<PlayerMovement>();
         PlayerMovement[] ps = new PlayerMovement[tempps.Length];
+
         for (int i = 0; i < tempps.Length; i++) //sorting based on playerID
         {
             ps[(int)tempps[i].playerID] = tempps[i];
@@ -38,6 +40,7 @@ public class ScoreManager : MonoBehaviour {
         players = ps.Length;
         playerSprites = new SpriteRenderer[ps.Length];
         hudSprites = new SpriteRenderer[ps.Length];
+        overlayHudSprites = new SpriteRenderer[ps.Length];
         scoreText = new Text[ps.Length];
         for (int i = 0; i < ps.Length; i++)
         {
@@ -59,6 +62,15 @@ public class ScoreManager : MonoBehaviour {
             scoreText[i] = textHolder.AddComponent<Text>();
             scoreText[i].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
             textHolder.GetComponent<RectTransform>().localPosition = new Vector3(1.5f, -1.08f, 0);
+
+            
+            GameObject overlay = new GameObject("HudSpriteOverlay " + i);
+            overlay.transform.parent = sprite.transform;
+            overlay.transform.localPosition = Vector2.zero;
+            overlay.transform.localScale *= sprite.transform.localScale.x;
+            SpriteRenderer overSR = overlay.AddComponent<SpriteRenderer>();
+            overSR.sortingOrder = -8;
+            overlayHudSprites[i] = overSR;
         }
         
         ScoreManager.instance = this;
@@ -92,6 +104,11 @@ public class ScoreManager : MonoBehaviour {
         for (int i = 0; i < playerSprites.Length; i++)
         {
             hudSprites[i].sprite = playerSprites[i].sprite;
+            SpriteOverlay ov = playerSprites[i].gameObject.GetComponent<SpriteOverlay>();
+            overlayHudSprites[i].gameObject.transform.localPosition = ov.currentOFfset;
+
+            if(overlayHudSprites[i].sprite != ov.SRenderer.sprite)
+                overlayHudSprites[i].sprite = ov.SRenderer.sprite;
         }
     }
 

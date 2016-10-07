@@ -58,6 +58,9 @@ public class PlayerHit : MonoBehaviour {
         GameObject splatObject = new GameObject("splatInstance");
         splatObject.transform.position = this.gameObject.transform.position;
         SpriteRenderer SR = splatObject.AddComponent<SpriteRenderer>();
+        SR.flipX = UnityEngine.Random.Range(0, 2) == 0? false : true;
+        SR.flipY = UnityEngine.Random.Range(0, 2) == 0 ? false : true;
+
         SR.sortingOrder = -14;  //before background but behind the rest
         SheetAnimation ani = splatObject.AddComponent<SheetAnimation>();
         LevelBounds.instance.RegisterObject(splatObject, true);

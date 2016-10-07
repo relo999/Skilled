@@ -11,12 +11,10 @@ public class BombPowerup : PowerupBase
     {
         _cooldown = 3f;   //override cooldown for each powerup
         owner.GetComponent<SpriteOverlay>().SetSprite("PowerUps/Powers/BombThrow/Bomb", owner.GetComponent<PlayerHit>().color);
-        Debug.Log("started");
     }
 
     public override void End()
     {
-        Debug.Log("ended");
         owner.GetComponent<SpriteOverlay>().DestroySprite();
         if(bomb != null && _holdingBomb)
         {

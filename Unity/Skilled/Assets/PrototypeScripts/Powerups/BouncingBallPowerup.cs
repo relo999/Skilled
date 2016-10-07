@@ -13,11 +13,12 @@ public class BouncingBallPowerup : PowerupBase {
     {
         inGameBalls = new GameObject[MaxBalls];
         //_cooldown = 0.3f;
+        owner.GetComponent<SpriteOverlay>().SetSprite("PowerUps/Powers/Shooter/Shooter", owner.GetComponent<PlayerHit>().color);
     }
 
     public override void End()
     {
-
+        owner.GetComponent<SpriteOverlay>().DestroySprite();
     }
 
 
