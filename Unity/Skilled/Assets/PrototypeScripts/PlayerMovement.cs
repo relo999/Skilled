@@ -205,6 +205,17 @@ public class PlayerMovement : MonoBehaviour {
         if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         SpriteR.flipX = !LastMovedRight;
         overlay.flipX = !LastMovedRight;
+
+        if ((controls == Controls.WASD && Input.GetKey(KeyCode.S)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.DownArrow)) || InputManager.GetAxis("Vertical", playerID) < 0)
+        {
+            if (SAnimation.GetAnimation() != "Jump")
+            {
+                SAnimation.PlayAnimation("Jump", Pcolor, false, 0, 7, 7);
+
+            }
+            SAnimation.SetFrame(5);
+        }
+
         CapSpeed();//do this last in update
     }
 }
