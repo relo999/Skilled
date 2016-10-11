@@ -16,11 +16,15 @@ public class ControllerBind : MonoBehaviour {
         InputManager.CreateInputConfiguration(configName);
         InputManager.CreateAnalogAxis(configName, "Horizontal", playerid, 0, 1.0f, 0.1f);
         InputManager.CreateAnalogAxis(configName, "Vertical", playerid, 1, 1.0f, 0.1f);
-        //InputManager.CreateAnalogAxis("MyJoystickConfig", "Vertical", 1, 1, 1.0f, 0.1f);
+
+        InputManager.CreateAnalogAxis(configName, "AxisSwitch", playerid, 7, 1.0f, 0.1f);
+
         InputManager.CreateButton(configName, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick"+ (playerid+1) + "Button2"));
         InputManager.CreateButton(configName, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (playerid+1) + "Button3"));
         InputManager.CreateButton(configName, "Menu", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (playerid + 1) + "Button9"));
         InputManager.SetInputConfiguration(configName, (PlayerID)playerid);
+
+
     }
     private void CreateJoystickConfiguration()
     {
@@ -29,27 +33,6 @@ public class ControllerBind : MonoBehaviour {
         {
             CreateConfig(i);
         }
-        /*
-
-        string p1 = "P1Controls";
-        InputManager.CreateInputConfiguration(p1);
-        InputManager.CreateAnalogAxis(p1, "Horizontal", 0, 0, 1.0f, 0.1f);
-        InputManager.CreateAnalogAxis(p1, "Vertical", 0, 1, 1.0f, 0.1f);
-        //InputManager.CreateAnalogAxis("MyJoystickConfig", "Vertical", 1, 1, 1.0f, 0.1f);
-        InputManager.CreateButton(p1, "Jump", KeyCode.Joystick1Button2);
-        InputManager.CreateButton(p1, "Action", KeyCode.Joystick1Button3);
-        InputManager.SetInputConfiguration(p1, PlayerID.One);
-
-
-        string p2 = "P2Controls";
-        InputManager.CreateInputConfiguration(p2);
-        InputManager.CreateAnalogAxis(p2, "Horizontal", 1, 0, 1.0f, 0.1f);
-        //InputManager.CreateAnalogAxis("MyJoystickConfig2", "Vertical", 2, 1, 1.0f, 0.1f);
-        InputManager.CreateButton(p2, "Jump", KeyCode.Joystick2Button2);
-        InputManager.CreateButton(p2, "Action", KeyCode.Joystick2Button3);
-
-        InputManager.SetInputConfiguration(p2, PlayerID.Two);
-        */
     }
 
     public void ChangeButton(PlayerID playerID, string buttonName, KeyCode newButton)

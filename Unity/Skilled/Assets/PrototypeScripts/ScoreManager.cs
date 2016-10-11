@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using TeamUtility.IO;
 
 public class ScoreManager : MonoBehaviour {
 
@@ -89,14 +90,28 @@ public class ScoreManager : MonoBehaviour {
 
     void Start()
     {
-        
-
+    }
+    KeyCode GetButtonPressed()
+    {
+        for (int i = 1; i < 4; i++)  //4 max controllers plugged in, starts at 1
+        {
+            for (int j = 0; j < 20; j++)    //20 max joystick buttons, starts at 1
+            {
+                KeyCode key = (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + i + "Button" + j);
+                if (Input.GetKey(key))
+                {
+                    return key;
+                }
+            }
+        }
+        return KeyCode.None;
     }
 
     void Update()
     {
         if (!initialized) return;
         UpdatePlayerSprites();
+        //Debug.Log(GetButtonPressed());
     }
 
     void UpdatePlayerSprites()

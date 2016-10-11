@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 using TeamUtility.IO;
-
+using System;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour {
 
     SheetAnimation SAnimation;
     SheetAnimation.PlayerColor Pcolor;
+    int currentAxis = 0;
 
     public enum Controls
     {
@@ -53,7 +54,14 @@ public class PlayerMovement : MonoBehaviour {
         SAnimation = GetComponent<SheetAnimation>();
         Pcolor = GetComponent<PlayerHit>().color;
         overlay = GetComponent<SpriteOverlay>();
-	}
+        if (currentAxis == 0 && InputManager.GetAxis("Horizontal", playerID) != 0)
+        {
+            ChangeAxis();
+            ControllerBind bindings = FindObjectOfType<ControllerBind>();
+            bindings.ChangeButton(playerID, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode),"Joystick" + (int)(playerID+1) + "Button" + 0));
+            bindings.ChangeButton(playerID, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 2));
+        }
+    }
 	
     void CapSpeed()
     {
@@ -89,17 +97,29 @@ public class PlayerMovement : MonoBehaviour {
         SpriteR.flipX = !LastMovedRight;
     }
 
+    void ChangeAxis()
+    {
+        currentAxis = 7;
+        AxisConfiguration button = InputManager.GetAxisConfiguration((PlayerID)playerID, "Horizontal");
+        button.axis = 7;
+    }
+
+
 	void Update () {
         //input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),InputManager.GetButtonDown("Jump", playerID));
 
         //return;
-        if(StunnedTimer >0)
+
+        
+
+
+        if (StunnedTimer >0)
         {
             StunnedTimer -= Time.deltaTime/1.5f;
             return;
         }
 
-        bool grounded = false;
+        bool grounded = false;            
 
         float spriteXSizeHalf = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f;
         //racasts checking if player is standing on a block, casts from both edges of hitbox
@@ -125,7 +145,7 @@ public class PlayerMovement : MonoBehaviour {
         Grounded = grounded;
 
             //Quickstop before input check
-        if (QuickStop && (grounded || QuickStopAIR))
+        if ((QuickStop && grounded) || (!grounded && QuickStopAIR))
         {
             _rigid.velocity = new Vector2(0, _rigid.velocity.y);
         }
@@ -158,6 +178,7 @@ public class PlayerMovement : MonoBehaviour {
                     SAnimation.PlayAnimation("Idle", Pcolor, true, 5);
                 }
             }
+            if (movement.x == 0 && ((!QuickStopAIR && !grounded) || (!QuickStop && grounded))) movement = _rigid.velocity;
             _rigid.velocity = movement;
         }
 

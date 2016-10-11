@@ -119,9 +119,13 @@
     <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ActionBlock.cs" />
+    <Compile Include="Assets\PrototypeScripts\BlockBehaviours\BounceBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\HitAbove.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ItemBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\KillOnHit.cs" />
+    <Compile Include="Assets\PrototypeScripts\BlockBehaviours\PassThrough.cs" />
+    <Compile Include="Assets\PrototypeScripts\BlockBehaviours\SwitchActivator.cs" />
+    <Compile Include="Assets\PrototypeScripts\BlockBehaviours\SwitchBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\ClientBase.cs" />
     <Compile Include="Assets\PrototypeScripts\ControllerBind.cs" />
     <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />

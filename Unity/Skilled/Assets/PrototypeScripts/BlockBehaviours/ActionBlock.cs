@@ -5,11 +5,17 @@ public abstract class ActionBlock : MonoBehaviour {
 
     public abstract void Activate(GameObject activator);
 
-    private Bounds _bounds;
+    protected Bounds _bounds;
 
     void Start()
     {
         _bounds = GetComponent<SpriteRenderer>().bounds;
+        Initialize();
+    }
+
+    protected virtual void Initialize()
+    {
+
     }
 
     protected bool inBounds(Vector2 position)
