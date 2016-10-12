@@ -15,7 +15,7 @@ public class MouseController : MonoBehaviour {
         SpriteRenderer spriteR = gameObject.AddComponent<SpriteRenderer>();
         spriteR.sprite = Resources.Load<Sprite>("Menu/Cursor_" + color.ToString().ToUpper()[0]);
         buttons = FindObjectsOfType<Button>();
-
+        spriteR.sortingOrder = 5;
         pointOffset = new Vector2(spriteR.bounds.size.x - spriteR.bounds.center.x,     spriteR.bounds.size.y - spriteR.bounds.center.y);
     }
 
@@ -24,7 +24,7 @@ public class MouseController : MonoBehaviour {
 	void Update () {
         float xChange = InputManager.GetAxis("Horizontal", (PlayerID)playerid);
         float yChange = InputManager.GetAxis("Vertical", (PlayerID)playerid);
-        transform.position += new Vector3((xChange < 0 ? -1 : xChange > 0 ? 1 : 0) * Time.deltaTime * 5.0f, (yChange < 0 ? 1 : xChange > 0 ? -1 : 0) * Time.deltaTime * 5.0f, 0);
+        transform.position += new Vector3((xChange < 0 ? -1 : xChange > 0 ? 1 : 0) * Time.deltaTime * 5.0f, (yChange < 0 ? 1 : yChange > 0 ? -1 : 0) * Time.deltaTime * 5.0f, 0);
         if(InputManager.GetButtonDown("Jump", (PlayerID)playerid) || InputManager.GetButtonDown("Menu", (PlayerID)playerid))
         {
             ButtonPress();

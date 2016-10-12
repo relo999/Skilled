@@ -28,7 +28,7 @@ public class LobbyMenu : MonoBehaviour {
         Instance = this;
         for (int i = 0; i < 4; i++) //max 4 players
         {
-            if(InputManager.GetAxis("Horizontal", (PlayerID)i) != 0)
+            if(InputManager.GetAxis("Horizontal", (PlayerID)i) != 0 || InputManager.GetAxis("Vertical", (PlayerID)i) != 0)
             {
                 ChangeAxis((PlayerID)i);
             }
@@ -44,6 +44,10 @@ public class LobbyMenu : MonoBehaviour {
     {
         AxisConfiguration button = InputManager.GetAxisConfiguration((PlayerID)playerID, "Horizontal");
         button.axis = 7;
+
+        AxisConfiguration button2 = InputManager.GetAxisConfiguration((PlayerID)playerID, "Vertical");
+        button2.sensitivity *= -1.0f;   //some controllers have inverted axis for some reason
+        button2.axis = 8;
 
         ControllerBind bindings = FindObjectOfType<ControllerBind>();
         bindings.ChangeButton(playerID, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 0));
@@ -92,11 +96,13 @@ public class LobbyMenu : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         CheckSceneSwitch();
-        AddPlayer();
+        if(inMenu)
+            AddPlayer();
     }
 
     public void ActivateButton(Button button)
     {
+        if (!inMenu) return;
         switch(button.name)
         {
             case "StartGame":
@@ -110,20 +116,24 @@ public class LobbyMenu : MonoBehaviour {
 
     void CheckSceneSwitch()
     {
-        if (sceneName != SceneManager.GetActiveScene().name)
+        string newScene = SceneManager.GetActiveScene().name;
+        if (sceneName != newScene)
         {
             // New scene has been loaded
             if (sceneName != null)   //first scene switch is to the menu itself
             {
-                FindObjectOfType<SpawnManager>().SetPlayers(localPlayers);
+                Debug.Log(sceneName + " : " + newScene);
+                FindObjectOfType<SpawnManager>().SetPlayers(playersConnected);
                 ScoreManager scoreM = FindObjectOfType<ScoreManager>();
                 scoreM.MaxScore = menuOptions.MaxScore;
                 scoreM.StartingLives = menuOptions.StartingLives;
                 scoreM.scoreMode = menuOptions.scoreMode;
                 scoreM.Initialize();
+                sceneName = newScene;
+                Debug.Log(sceneName + " :2 " + newScene);
             }
 
-            sceneName = SceneManager.GetActiveScene().name;
+            sceneName = newScene;
         }
     }
 
@@ -131,6 +141,16 @@ public class LobbyMenu : MonoBehaviour {
     {
         inMenu = false;
         SceneManager.LoadScene("prototypeScene2");
+    }
+
+    int PlayerCount()
+    {
+        int players = 0;
+        foreach(bool player in playersConnected)
+        {
+            if (player) players++;
+        }
+        return players;
     }
 
     private class MenuOptions

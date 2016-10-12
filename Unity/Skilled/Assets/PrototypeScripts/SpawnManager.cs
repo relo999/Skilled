@@ -68,11 +68,12 @@ public class SpawnManager : MonoBehaviour {
         return GetRandomSpawnPoint(0.1f);   //fail safe, if no suitable spawn point is found, search for a block closer to players
     }
 
-    public void SetPlayers(int amount)
+    public void SetPlayers(bool[] playersready)
     {
-        players = new GameObject[amount];
-        for (int i = 0; i < amount; i++)
+        players = new GameObject[playersready.Length];
+        for (int i = 0; i < playersready.Length; i++)
         {
+            if (!playersready[i]) continue;
             GameObject p = SpawnPlayer(i);
             float spawnTime = 0.5f;
             p.GetComponent<SheetAnimation>().PlayAnimation("Spawn", p.GetComponent<PlayerHit>().color, false, 8.0f / spawnTime);
@@ -103,6 +104,6 @@ public class SpawnManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!initialized) SetPlayers(2);
+        if (!initialized) SetPlayers(new bool[4] {true,true,false,false });
     }
 }

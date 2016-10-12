@@ -191,8 +191,9 @@ public class MenuController : MonoBehaviour {
         if (sceneName != SceneManager.GetActiveScene().name)
         {
             // New scene has been loaded
-            if(sceneName != null)   //first scene switch is to the menu itself
-                FindObjectOfType<SpawnManager>().SetPlayers(localPlayers);
+            if (sceneName != null)   //first scene switch is to the menu itself
+                //FindObjectOfType<SpawnManager>().SetPlayers(localPlayers);
+                Debug.LogError("spawning don't work with this old script");
 
             sceneName = SceneManager.GetActiveScene().name;
         }

@@ -39,20 +39,20 @@ public class ScoreManager : MonoBehaviour {
     {
         initialized = true;
         PlayerMovement[] tempps = FindObjectsOfType<PlayerMovement>();
-        PlayerMovement[] ps = new PlayerMovement[tempps.Length];
+        PlayerMovement[] ps = new PlayerMovement[4];
 
         for (int i = 0; i < tempps.Length; i++) //sorting based on playerID
         {
             ps[(int)tempps[i].playerID] = tempps[i];
         }
-        players = ps.Length;
-        playerSprites = new SpriteRenderer[ps.Length];
-        hudSprites = new SpriteRenderer[ps.Length];
-        overlayHudSprites = new SpriteRenderer[ps.Length];
-        scoreText = new Text[ps.Length];
-        for (int i = 0; i < ps.Length; i++)
+        players = 4;
+        playerSprites = new SpriteRenderer[4];
+        hudSprites = new SpriteRenderer[4];
+        overlayHudSprites = new SpriteRenderer[4];
+        scoreText = new Text[4];
+        for (int i = 0; i < 4; i++)
         {
-            
+            if (ps[i] == null) continue;
             playerSprites[i] = ps[i].gameObject.GetComponent<SpriteRenderer>();
 
             //create new object to hold the hud image
@@ -130,6 +130,7 @@ public class ScoreManager : MonoBehaviour {
     {
         for (int i = 0; i < playerSprites.Length; i++)
         {
+            if (playerSprites[i] == null) continue;
             hudSprites[i].sprite = playerSprites[i].sprite;
             SpriteOverlay ov = playerSprites[i].gameObject.GetComponent<SpriteOverlay>();
             overlayHudSprites[i].gameObject.transform.localPosition = ov.currentOFfset;
@@ -190,8 +191,9 @@ public class ScoreManager : MonoBehaviour {
 
     public void UpdateScore()
     {
-        for (int i = 0; i < scoreText.GetLength(0); i++)
+        for (int i = 0; i < scoreText.Length; i++)
         {
+            if (scoreText[i] == null) continue;
             scoreText[i].text = score[i].ToString();
         }
     }
