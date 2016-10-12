@@ -78,8 +78,7 @@ public class SpawnManager : MonoBehaviour {
             p.GetComponent<SheetAnimation>().PlayAnimation("Spawn", p.GetComponent<PlayerHit>().color, false, 8.0f / spawnTime);
             p.GetComponent<PlayerMovement>().StunnedTimer = spawnTime;
         }
-        initialized = true;
-        FindObjectOfType<ScoreManager>().Initialize();
+        initialized = true;      
     }
 
     GameObject SpawnPlayer(int playerID)

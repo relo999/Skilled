@@ -57,9 +57,7 @@ public class PlayerMovement : MonoBehaviour {
         if (currentAxis == 0 && InputManager.GetAxis("Horizontal", playerID) != 0)
         {
             ChangeAxis();
-            ControllerBind bindings = FindObjectOfType<ControllerBind>();
-            bindings.ChangeButton(playerID, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode),"Joystick" + (int)(playerID+1) + "Button" + 0));
-            bindings.ChangeButton(playerID, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 2));
+            
         }
     }
 	
@@ -102,6 +100,10 @@ public class PlayerMovement : MonoBehaviour {
         currentAxis = 7;
         AxisConfiguration button = InputManager.GetAxisConfiguration((PlayerID)playerID, "Horizontal");
         button.axis = 7;
+
+        ControllerBind bindings = FindObjectOfType<ControllerBind>();
+        bindings.ChangeButton(playerID, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 0));
+        bindings.ChangeButton(playerID, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 2));
     }
 
 

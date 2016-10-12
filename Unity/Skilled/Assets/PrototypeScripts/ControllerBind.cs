@@ -17,7 +17,7 @@ public class ControllerBind : MonoBehaviour {
         InputManager.CreateAnalogAxis(configName, "Horizontal", playerid, 0, 1.0f, 0.1f);
         InputManager.CreateAnalogAxis(configName, "Vertical", playerid, 1, 1.0f, 0.1f);
 
-        InputManager.CreateAnalogAxis(configName, "AxisSwitch", playerid, 7, 1.0f, 0.1f);
+        //InputManager.CreateAnalogAxis(configName, "AxisSwitch", playerid, 7, 1.0f, 0.1f);
 
         InputManager.CreateButton(configName, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick"+ (playerid+1) + "Button2"));
         InputManager.CreateButton(configName, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (playerid+1) + "Button3"));

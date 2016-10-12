@@ -15,18 +15,25 @@ public class ScoreManager : MonoBehaviour {
         Points
     }
     public GameObject[] itemPickups;
-    private int players = 2;    //TODO get number of players in game
+    private int players = 2;   //defaults to 2, more players are detected in initialize
     SpriteRenderer[] playerSprites;
     SpriteRenderer[] hudSprites;
     SpriteRenderer[] overlayHudSprites;
     [HideInInspector]
     public Text[] scoreText;    //TODO based on number of players + find textfields through script
     public Canvas canvas;
-    public Vector2 HudIconPositon = new Vector2(-100, -30);
+    public Vector2 HudIconPositon = new Vector2(-100, -30); //hud position for first player hud, other players' are based on 'spriteDistance'
     public Vector3 SpriteScale = new Vector3(3, 3, 1);
-    public Vector2 SpriteDistance = new Vector2(0, -50);
+    public Vector2 SpriteDistance = new Vector2(0, -50);    //hud y distance each element is apart from one another
     public int[] score { private set; get; }
     bool initialized = false;
+
+
+    public int MaxScore = 10;   //TODO not used atm
+    public int StartingLives = 3;
+
+    float _afkTimer = 0;    //keeps track of seconds that passed without any players input
+    float afkTimeOut = 30;  //seconds of afk until game goes back to menu
 
     public void Initialize()
     {
@@ -48,15 +55,18 @@ public class ScoreManager : MonoBehaviour {
             
             playerSprites[i] = ps[i].gameObject.GetComponent<SpriteRenderer>();
 
+            //create new object to hold the hud image
             GameObject sprite = new GameObject("HudSprite " + i);
             SpriteRenderer newSR = sprite.AddComponent<SpriteRenderer>();
-            newSR.sortingOrder = -9;
+            newSR.sortingOrder = -9;   
             hudSprites[i] = newSR;
 
+            //set its position
             sprite.transform.parent = canvas.transform;
             sprite.transform.position = HudIconPositon + SpriteDistance * i;
             sprite.transform.localScale = SpriteScale;
 
+            //create text next to the image to display score/lives
             GameObject textHolder = new GameObject("hudSprite " + i + " text");
             textHolder.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             textHolder.transform.parent = sprite.transform;           
@@ -64,7 +74,7 @@ public class ScoreManager : MonoBehaviour {
             scoreText[i].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
             textHolder.GetComponent<RectTransform>().localPosition = new Vector3(1.5f, -1.08f, 0);
 
-            
+            //object to hold overlays that are also present on the player (mostly powerup indications)
             GameObject overlay = new GameObject("HudSpriteOverlay " + i);
             overlay.transform.parent = sprite.transform;
             overlay.transform.localPosition = Vector2.zero;
@@ -77,41 +87,42 @@ public class ScoreManager : MonoBehaviour {
         ScoreManager.instance = this;
         score = new int[players];
 
-
+        //set score to set amount of lives instead of 0 in case of health start
         if (scoreMode == ScoreMode.Health)
         {
             for (int i = 0; i < score.GetLength(0); i++)
             {
-                score[i] = 3;
+                score[i] = StartingLives;
             }
         }
         UpdateScore();
     }
 
-    void Start()
-    {
-    }
-    KeyCode GetButtonPressed()
-    {
-        for (int i = 1; i < 4; i++)  //4 max controllers plugged in, starts at 1
-        {
-            for (int j = 0; j < 20; j++)    //20 max joystick buttons, starts at 1
-            {
-                KeyCode key = (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + i + "Button" + j);
-                if (Input.GetKey(key))
-                {
-                    return key;
-                }
-            }
-        }
-        return KeyCode.None;
-    }
+
 
     void Update()
     {
         if (!initialized) return;
         UpdatePlayerSprites();
-        //Debug.Log(GetButtonPressed());
+
+
+        HandleAFK();
+    }
+
+
+    void HandleAFK()
+    {
+        
+        if (CheckAFK())
+        {
+            _afkTimer += Time.deltaTime;
+            //TODO display timer onscreen indicating afk
+            if(_afkTimer >= afkTimeOut)
+            {
+                //TODO back to lobby menu
+            }
+        }
+        else _afkTimer = 0;
     }
 
     void UpdatePlayerSprites()
@@ -125,6 +136,40 @@ public class ScoreManager : MonoBehaviour {
             if(overlayHudSprites[i].sprite != ov.SRenderer.sprite)
                 overlayHudSprites[i].sprite = ov.SRenderer.sprite;
         }
+    }
+
+
+    /// <summary>
+    /// checks all currently configured inputs
+    /// </summary>
+    /// <returns> true = afk, false = not afk </returns>
+    bool CheckAFK()
+    {
+        //controller input check
+        for (int i = 0; i < 4; i++)     //max 4 players
+        {
+            PlayerID id = (PlayerID)i;
+
+            //axis
+            if (InputManager.GetAxis("Horizontal", id) != 0 ||
+                InputManager.GetAxis("Vertical", id) != 0)
+                return false;
+
+            //buttons
+            if(InputManager.GetButton("Jump", id) || InputManager.GetButton("Action", id) || InputManager.GetButton("Menu", id))
+            {
+                return false;
+            }
+        }
+
+        //keyboard input check
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || //keyboardplayer1
+           Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow) ||   //keyboardplayer2
+           Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.L))  //keyboard actions
+            return false;
+
+        //defaults to true
+        return true;
     }
 
     public void ChangeScore(int playerID, int scoreChange)
