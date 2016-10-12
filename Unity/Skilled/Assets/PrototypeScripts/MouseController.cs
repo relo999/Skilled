@@ -7,7 +7,6 @@ public class MouseController : MonoBehaviour {
 
     int playerid;
     Button[] buttons;
-    Vector2 pointOffset;
 
     public void SetColor(int playerid, SheetAnimation.PlayerColor color)
     {
@@ -16,7 +15,6 @@ public class MouseController : MonoBehaviour {
         spriteR.sprite = Resources.Load<Sprite>("Menu/Cursor_" + color.ToString().ToUpper()[0]);
         buttons = FindObjectsOfType<Button>();
         spriteR.sortingOrder = 5;
-        pointOffset = new Vector2(spriteR.bounds.size.x - spriteR.bounds.center.x,     spriteR.bounds.size.y - spriteR.bounds.center.y);
     }
 
 	
@@ -29,6 +27,7 @@ public class MouseController : MonoBehaviour {
         {
             ButtonPress();
         }
+        
 	}
 
 
@@ -36,12 +35,21 @@ public class MouseController : MonoBehaviour {
     {
         for (int i = 0; i < buttons.Length; i++)
         {
+            
             Button button = buttons[i];
-            Texture buttonImage = button.gameObject.GetComponent<Image>().mainTexture;
-            if (pointOffset.x < button.transform.position.x + buttonImage.width / 2.0f &&   //point of mouse pointer is inside button bounds
-                pointOffset.x > button.transform.position.x - buttonImage.width / 2.0f &&
-                pointOffset.y < button.transform.position.x + buttonImage.width / 2.0f &&
-                pointOffset.y > button.transform.position.x - buttonImage.width / 2.0)
+            //if (button.name != "Mode") continue;
+            
+            //Texture buttonImage = button.gameObject.GetComponent<Image>().mainTexture;
+            //Debug.Log(button.gameObject.GetComponent<RectTransform>().rect.width * button.gameObject.GetComponent<RectTransform>().localScale.x);
+            //Debug.Log(transform.position.x + " : " + button.transform.position.x + button.gameObject.GetComponent<RectTransform>().rect.width/2.0f);
+
+            RectTransform RT = button.gameObject.GetComponent<RectTransform>();
+            float correctedWidth = RT.rect.width * RT.localScale.x * 0.5f;
+            float correctedheight = RT.rect.height * RT.localScale.y * 0.5f;
+            if (transform.position.x < button.transform.position.x + correctedWidth &&   //point of mouse pointer is inside button bounds
+                transform.position.x > button.transform.position.x - correctedWidth &&
+                transform.position.y < button.transform.position.y + correctedheight &&
+                transform.position.y > button.transform.position.y - correctedheight)
             {
                 LobbyMenu.Instance.ActivateButton(button);
             }

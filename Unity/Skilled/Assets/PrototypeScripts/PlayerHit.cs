@@ -138,6 +138,7 @@ public class PlayerHit : MonoBehaviour {
         }
         else
         {
+            LevelBounds.instance.UnRegisterObject(this.gameObject);
             GameObject.Destroy(this.gameObject);
         }
     }

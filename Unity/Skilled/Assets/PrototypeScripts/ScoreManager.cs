@@ -187,6 +187,37 @@ public class ScoreManager : MonoBehaviour {
 
         score[playerID] += scoreChange;
         UpdateScore();
+        CheckGameOver();
+    }
+
+    void CheckGameOver()
+    {
+        int playersAlive = 0;
+        int lastPlayer = -1;
+        bool healthMode = scoreMode == ScoreMode.Health;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerSprites[i] == null) continue;
+            if (healthMode)
+            {
+                if (score[i] > 0)
+                {
+                    playersAlive++;
+                    lastPlayer = i;
+                }
+            }
+            else
+            {
+                if (score[i] >= MaxScore) OnGameOver(i);
+            }
+        }
+        if (healthMode && playersAlive == 1) OnGameOver(lastPlayer);
+    }
+
+    void OnGameOver(int winnerID)
+    {
+        Debug.Log("player " + winnerID + " is winnerer!!!");
     }
 
     public void UpdateScore()

@@ -34,6 +34,7 @@ public class LobbyMenu : MonoBehaviour {
             }
         }
         menuOptions = new MenuOptions();
+        SetButtonText();
     }
 
 
@@ -108,8 +109,23 @@ public class LobbyMenu : MonoBehaviour {
             case "StartGame":
                 StartGame();
                 break;
-            case "options?":
-                //... set menuOptions.maxscore etc
+            case "Mode":
+                int currentMode = (int)menuOptions.scoreMode;
+                currentMode++;
+                currentMode %= 2;
+                menuOptions.scoreMode = (ScoreManager.ScoreMode)currentMode;
+                SetButtonText();
+
+                break;
+            case "Count":
+                bool healthMode = menuOptions.scoreMode == ScoreManager.ScoreMode.Health ? true : false;
+                int currentCount = healthMode? menuOptions.StartingLives : menuOptions.MaxScore;
+                currentCount += healthMode ? 1 : 5;
+                currentCount %= healthMode ? 11 : 55;
+                if (currentCount < 1) currentCount = healthMode ? 1 : 5;
+                if (healthMode) menuOptions.StartingLives = currentCount;
+                else menuOptions.MaxScore = currentCount;
+                SetButtonText();
                 break;
         }
     }
@@ -122,7 +138,6 @@ public class LobbyMenu : MonoBehaviour {
             // New scene has been loaded
             if (sceneName != null)   //first scene switch is to the menu itself
             {
-                Debug.Log(sceneName + " : " + newScene);
                 FindObjectOfType<SpawnManager>().SetPlayers(playersConnected);
                 ScoreManager scoreM = FindObjectOfType<ScoreManager>();
                 scoreM.MaxScore = menuOptions.MaxScore;
@@ -130,10 +145,21 @@ public class LobbyMenu : MonoBehaviour {
                 scoreM.scoreMode = menuOptions.scoreMode;
                 scoreM.Initialize();
                 sceneName = newScene;
-                Debug.Log(sceneName + " :2 " + newScene);
             }
 
             sceneName = newScene;
+        }
+    }
+
+    void SetButtonText()
+    {
+        Button[] buttons = FindObjectsOfType<Button>();
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name == "Mode")
+                buttons[i].GetComponentInChildren<Text>().text = menuOptions.scoreMode.ToString();
+            if (buttons[i].name == "Count")
+                buttons[i].GetComponentInChildren<Text>().text = menuOptions.scoreMode == ScoreManager.ScoreMode.Health ? menuOptions.StartingLives.ToString() : menuOptions.MaxScore.ToString();
         }
     }
 

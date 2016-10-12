@@ -80,6 +80,7 @@ public class LevelBounds : MonoBehaviour {
             for (int i = 0; i < 3; i++)
             {
                 GameObject clone = clones[i];
+                if (clone == null) continue;
                 if(Mathf.Abs(clone.transform.position.x - levelBounds.center.x) - 0.16f > levelBounds.size.x / 2f  ||
                    Mathf.Abs(clone.transform.position.y - levelBounds.center.y) - 0.16f > levelBounds.size.y / 2f)
                 {
@@ -97,7 +98,9 @@ public class LevelBounds : MonoBehaviour {
             }*/
 
             //update sprite changes made by the original
+            if (original == null) return;
             SpriteRenderer origRen = original.GetComponent<SpriteRenderer>();
+            
             foreach (GameObject clone in clones)
             {
                 SpriteRenderer cloneRen = clone.GetComponent<SpriteRenderer>();
@@ -165,6 +168,7 @@ public class LevelBounds : MonoBehaviour {
     {
         objects.Remove(g);
         WrapClones clones = cloneList.Find(x => x.original == g);
+        if (clones == null) return;
         clones.DestroyClones();
         cloneList.Remove(clones);
         
@@ -172,7 +176,7 @@ public class LevelBounds : MonoBehaviour {
 
     bool CheckBounds(GameObject obj, bool checkonly = false)
     {
-
+        if (obj == null) return false;
         bool inbounds = false;
 
         if (obj.transform.position.y <= bounds.center.y - bounds.size.y / 2f)
