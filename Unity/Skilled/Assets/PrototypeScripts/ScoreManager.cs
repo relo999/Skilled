@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using TeamUtility.IO;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour {
 
@@ -121,6 +122,7 @@ public class ScoreManager : MonoBehaviour {
             if(_afkTimer >= afkTimeOut)
             {
                 //TODO back to lobby menu
+                SceneManager.LoadScene("ArcadiumPlayScreen2");
             }
         }
         else _afkTimer = 0;
@@ -218,6 +220,7 @@ public class ScoreManager : MonoBehaviour {
     void OnGameOver(int winnerID)
     {
         Debug.Log("player " + winnerID + " is winnerer!!!");
+        //TODO gameover screen and back to menu after
     }
 
     public void UpdateScore()

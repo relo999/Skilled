@@ -51,7 +51,7 @@ public class MouseController : MonoBehaviour {
                 transform.position.y < button.transform.position.y + correctedheight &&
                 transform.position.y > button.transform.position.y - correctedheight)
             {
-                LobbyMenu.Instance.ActivateButton(button);
+                LobbyMenu.Instance.ActivateButton(button, transform.position.x);
             }
         }
     }

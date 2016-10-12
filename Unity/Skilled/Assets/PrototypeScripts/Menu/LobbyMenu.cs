@@ -17,6 +17,8 @@ public class LobbyMenu : MonoBehaviour {
     int localPlayers = 0;
     bool[] playersConnected;
     bool inMenu = true;
+    Sprite[] levels;
+    int amountOfLevels = 3;
 
     MenuOptions menuOptions;
 
@@ -26,6 +28,8 @@ public class LobbyMenu : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
         playersConnected = new bool[4];
         Instance = this;
+
+        //if a controllers deadzone is not proper, use dpad instead
         for (int i = 0; i < 4; i++) //max 4 players
         {
             if(InputManager.GetAxis("Horizontal", (PlayerID)i) != 0 || InputManager.GetAxis("Vertical", (PlayerID)i) != 0)
@@ -34,7 +38,17 @@ public class LobbyMenu : MonoBehaviour {
             }
         }
         menuOptions = new MenuOptions();
-        SetButtonText();
+        
+        //load previews for level select
+        levels = new Sprite[amountOfLevels];
+        for (int i = 0; i < levels.Length; i++)
+        {
+            levels[i] = Resources.Load<Sprite>("Menu/Level" + (i+1) + "Icon");
+        }
+
+
+
+        SetButtonText();    //after full initialization
     }
 
 
@@ -101,7 +115,7 @@ public class LobbyMenu : MonoBehaviour {
             AddPlayer();
     }
 
-    public void ActivateButton(Button button)
+    public void ActivateButton(Button button, float xpos = 999)
     {
         if (!inMenu) return;
         switch(button.name)
@@ -109,6 +123,7 @@ public class LobbyMenu : MonoBehaviour {
             case "StartGame":
                 StartGame();
                 break;
+
             case "Mode":
                 int currentMode = (int)menuOptions.scoreMode;
                 currentMode++;
@@ -127,6 +142,18 @@ public class LobbyMenu : MonoBehaviour {
                 else menuOptions.MaxScore = currentCount;
                 SetButtonText();
                 break;
+
+            case "LevelSelect":
+                if (xpos == 999) break;
+                Debug.Log(true);
+                int change = xpos > button.transform.position.x ? 1 : -1;
+                int newLevel = menuOptions.Level + change;
+                newLevel %= amountOfLevels+1;
+                if (newLevel < 1) newLevel = change > 0 ? 1 : amountOfLevels;
+                menuOptions.Level = newLevel;
+                SetButtonText();
+                break;
+
         }
     }
 
@@ -160,13 +187,21 @@ public class LobbyMenu : MonoBehaviour {
                 buttons[i].GetComponentInChildren<Text>().text = menuOptions.scoreMode.ToString();
             if (buttons[i].name == "Count")
                 buttons[i].GetComponentInChildren<Text>().text = menuOptions.scoreMode == ScoreManager.ScoreMode.Health ? menuOptions.StartingLives.ToString() : menuOptions.MaxScore.ToString();
+            if (buttons[i].name == "LevelSelect")
+            {
+                Image[] images = buttons[i].gameObject.GetComponentsInChildren<Image>();
+                Image levelPreview = Array.Find(images, x => x.gameObject.name == "LevelPreview");
+                levelPreview.sprite = levels[menuOptions.Level - 1];
+
+            }
+
         }
     }
 
     void StartGame()
     {
         inMenu = false;
-        SceneManager.LoadScene("prototypeScene2");
+        SceneManager.LoadScene("Level" + menuOptions.Level);
     }
 
     int PlayerCount()
@@ -184,6 +219,7 @@ public class LobbyMenu : MonoBehaviour {
         public int MaxScore = 10;
         public int StartingLives = 3;
         public ScoreManager.ScoreMode scoreMode = ScoreManager.ScoreMode.Points;
+        public int Level = 1;
         public MenuOptions() { }
     }
 
