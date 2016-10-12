@@ -102,7 +102,8 @@ public class ScoreManager : MonoBehaviour {
 
     void Update()
     {
-        if (!initialized) return;
+        //if (!initialized) return;
+        if (!initialized) Initialize();
         UpdatePlayerSprites();
 
 
