@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnManager : MonoBehaviour {
 
@@ -7,7 +8,7 @@ public class SpawnManager : MonoBehaviour {
     GameObject[] players;
     public static SpawnManager instance;
     bool initialized = false;
-    const float minSpawnDistance = 3;
+    const float minSpawnDistance = 1.5f;
 
 	// Use this for initialization
 	void Awake () {
@@ -15,14 +16,35 @@ public class SpawnManager : MonoBehaviour {
         GameObject[] tempBlocks = GameObject.FindGameObjectsWithTag("Walkable");
         GameObject[] tempPass = GameObject.FindGameObjectsWithTag("PassThrough");
         blocks = new GameObject[tempBlocks.Length + tempPass.Length];
+        List<GameObject> listTempBlocks = new List<GameObject>();
+        List<GameObject> toBeRemoved = new List<GameObject>();
         for (int i = 0; i < tempBlocks.Length; i++)
         {
-            blocks[i] = tempBlocks[i];
+            listTempBlocks.Add(tempBlocks[i]);
+            if (tempBlocks[i].name.Contains("ItemBlock") || tempBlocks[i].transform.position.y > 2.0f)
+            {
+                toBeRemoved.Add(tempBlocks[i]);
+            } 
         }
+        
         for (int i = 0; i < tempPass.Length; i++)
         {
-            blocks[i + tempBlocks.Length] = tempPass[i];
+            listTempBlocks.Add(tempPass[i]);
         }
+        for (int i = listTempBlocks.Count-1; i >= 0; i--)
+        {
+            if (listTempBlocks.Find(x => Mathf.Abs(x.transform.position.x - listTempBlocks[i].transform.position.x) < 0.1f && x.transform.position.y > listTempBlocks[i].transform.position.y && x.transform.position.y - listTempBlocks[i].transform.position.y < 0.5f) != null)
+            {
+                toBeRemoved.Add(listTempBlocks[i]);
+            }
+        }
+        for (int i = toBeRemoved.Count-1; i >= 0; i--)
+        {
+            //if(toBeRemoved[i] != null)
+            //    toBeRemoved[i].transform.position = new Vector2(999, 999);    //to visually show which blocks cannot be spawned on
+            listTempBlocks.Remove(toBeRemoved[i]);
+        }
+        blocks = listTempBlocks.ToArray();
         NetworkBase b = new NetworkBase(new System.Net.Sockets.UdpClient());
 
 	}

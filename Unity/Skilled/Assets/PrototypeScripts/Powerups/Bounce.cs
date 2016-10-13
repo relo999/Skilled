@@ -14,6 +14,9 @@ public class Bounce : MonoBehaviour {
     [HideInInspector]
     public bool isClone = false;
 
+    [HideInInspector]
+    public bool goingRight = true;
+
     void Awake()
     {
         Max_Balls = MaxBalls;
@@ -48,7 +51,7 @@ public class Bounce : MonoBehaviour {
 
     void ConstantSpeed()
     {
-        _rigid.velocity = new Vector2(constXSpeed * (_rigid.velocity.x < 0? -1f : 1f), _rigid.velocity.y);
+        _rigid.velocity = new Vector2(constXSpeed * (goingRight? 1f : -1f), _rigid.velocity.y);
     }
 
     void Update()
@@ -70,24 +73,38 @@ public class Bounce : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D c)
     {
         if (c.gameObject == owner) return;
+        if (c.bounds.size.x > 1) return;
         //to make sure it doesn't hit multiple colliders on the players only 1 collisioncheck is allowed per frame
-        if (_colCount > 0) return;
+        bool toDestroy = false;
+        if (Mathf.Abs(c.transform.position.x - gameObject.transform.position.x) > Mathf.Abs(c.transform.position.y - gameObject.transform.position.y) + 0.1f)
+        {
+            toDestroy = true;
+        }
+    
+        
+        
+
+        if (_colCount > 0 && !toDestroy) return;
         _colCount++;
+        
         //bounce from atop of blocks
         if (c.transform.position.y < transform.position.y)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
             _rigid.AddForce(Vector2.up * BounceForce);
         }
-
+        else
         //bounce from underneath blocks
         if(c.transform.position.y > transform.position.y)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
             _rigid.AddForce(Vector2.up * -BounceForce);
         }
-
-        bool toDestroy = false;
+        else
+        {
+            toDestroy = true;
+        }
+        
 
 
         //player hit

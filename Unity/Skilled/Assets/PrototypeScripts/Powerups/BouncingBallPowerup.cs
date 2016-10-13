@@ -51,9 +51,9 @@ public class BouncingBallPowerup : PowerupBase {
         float spawnDistance = 0.33f;
         GameObject ball = GameObject.Instantiate(PowerupManager.instance.PowerupsPrefabs[1], owner.transform.position + Vector3.right * rightModifier * spawnDistance, Quaternion.identity) as GameObject;
         ball.GetComponent<Bounce>().owner = owner;
-
-        Rigidbody2D bRigid = ball.GetComponent<Rigidbody2D>();
-        bRigid.velocity = new Vector2(5 * rightModifier, 5) * _throwForce;
+        ball.GetComponent<Bounce>().goingRight = owner.GetComponent<PlayerMovement>().LastMovedRight;
+        Physics2D.IgnoreCollision(ball.GetComponent<CircleCollider2D>(), owner.GetComponent<BoxCollider2D>());
+        Physics2D.IgnoreCollision(ball.GetComponent<CircleCollider2D>(), owner.GetComponentInChildren<CircleCollider2D>());
 
         inGameBalls[availableID] = ball;
 

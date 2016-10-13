@@ -19,7 +19,10 @@ public class WalkColliders : MonoBehaviour {
 
         walkables = new List<GameObject>();
         walkables.AddRange(GameObject.FindGameObjectsWithTag("Walkable"));
-
+        GameObject[] temps = new GameObject[walkables.Count];
+        walkables.CopyTo(temps);
+        List<GameObject> walkablesCopy = new List<GameObject>();
+        walkablesCopy.AddRange(temps);
 
         while (walkables.Count > 0)
         {
@@ -27,19 +30,36 @@ public class WalkColliders : MonoBehaviour {
             GameObject current = walkables[0];
 
             //make an object to hold the new collider (so it doesn't interfere with potential scripts attached to the blocks)
-            GameObject colliderHolder = new GameObject("WalkingCollider");
+            GameObject colliderHolder = new GameObject("WalkingColliderHorizontal");
             colliderHolder.transform.position = current.transform.position;
 
             //make a new collider with size equal to the tile size of the blocks
             BoxCollider2D currentCol = colliderHolder.AddComponent<BoxCollider2D>();
             currentCol.size = new Vector2(BLOCK_SIZE, BLOCK_SIZE);
             walkables.Remove(current);
+            walkablesCopy.Remove(current);
 
             //search for amount of neighbouring blocks and change collider size accordingly
             int leftCount = FindLeftCount(walkables, current);
             int rightCount = FindRightCount(walkables, current);
+
             currentCol.size = new Vector2(currentCol.size.x + BLOCK_SIZE * leftCount + BLOCK_SIZE * rightCount, currentCol.size.y);
             currentCol.offset = new Vector2(currentCol.offset.x - HALF_BLOCK_SIZE * leftCount + HALF_BLOCK_SIZE * rightCount, currentCol.offset.y);
+
+
+            int upCount = FindUpCount(walkablesCopy, current);
+            int downCount = FindDownCount(walkablesCopy, current);
+            if(upCount > 0 || downCount > 0)
+            {
+                GameObject colliderHolderV = new GameObject("WalkingColliderVertical"); 
+                colliderHolderV.transform.position = current.transform.position;
+
+                BoxCollider2D currentColV = colliderHolderV.AddComponent<BoxCollider2D>();
+                currentColV.size = new Vector2(BLOCK_SIZE, BLOCK_SIZE);
+                currentColV.size = new Vector2(currentColV.size.x + 0.05f, (currentColV.size.y + BLOCK_SIZE * upCount + BLOCK_SIZE * downCount) -0.1f);
+                currentColV.offset = new Vector2(currentColV.offset.x, currentColV.offset.y + HALF_BLOCK_SIZE * upCount - HALF_BLOCK_SIZE * downCount);
+            }
+
         }
 
 
@@ -73,6 +93,7 @@ public class WalkColliders : MonoBehaviour {
             //search for amount of neighbouring blocks and change collider size accordingly
             int leftCount = FindLeftCount(passthroughs, current);
             int rightCount = FindRightCount(passthroughs, current);
+
             currentCol.size = new Vector2(currentCol.size.x + BLOCK_SIZE * leftCount + BLOCK_SIZE * rightCount, currentCol.size.y);
             currentCol.offset = new Vector2(currentCol.offset.x - HALF_BLOCK_SIZE * leftCount + HALF_BLOCK_SIZE * rightCount, 0.13f);
 
@@ -93,6 +114,38 @@ public class WalkColliders : MonoBehaviour {
         {
             GameObject.Destroy(colliders[i]);
         }
+    }
+
+    int FindUpCount(List<GameObject> list, GameObject current, int count = 0)
+    {
+        //current.GetComponent<SpriteRenderer>().sprite = null; //debug only
+
+        //if the next predicted position is outside the level, add an extra collider bit to ensure smooth transition when wrapping to other side of the level
+        float nextYPos = current.transform.position.y - 0.32f;
+        if (nextYPos < LevelBounds.instance.bounds.center.y - LevelBounds.instance.bounds.size.y / 2f) return count + 1;
+
+        //find a block that is directly next to the currently selected block
+        GameObject leftNext = list.Find(x => x.transform.position.y > current.transform.position.y && Vector2.Distance((Vector2)x.transform.position, (Vector2)current.transform.position) < 0.33f);
+        if (leftNext == null) return count;
+        if (list == passthroughs) DisableColliders(leftNext);
+        list.Remove(leftNext);
+        return FindUpCount(list, leftNext, count + 1);
+    }
+
+    int FindDownCount(List<GameObject> list, GameObject current, int count = 0)
+    {
+        //current.GetComponent<SpriteRenderer>().sprite = null; //debug only
+
+        //if the next predicted position is outside the level, add an extra collider bit to ensure smooth transition when wrapping to other side of the level
+        float nextYPos = current.transform.position.y - 0.32f;
+        if (nextYPos < LevelBounds.instance.bounds.center.y - LevelBounds.instance.bounds.size.y / 2f) return count + 1;
+
+        //find a block that is directly next to the currently selected block
+        GameObject leftNext = list.Find(x => x.transform.position.y < current.transform.position.y && Vector2.Distance((Vector2)x.transform.position, (Vector2)current.transform.position) < 0.33f);
+        if (leftNext == null) return count;
+        if (list == passthroughs) DisableColliders(leftNext);
+        list.Remove(leftNext);
+        return FindDownCount(list, leftNext, count + 1);
     }
 
     int FindLeftCount(List<GameObject> list, GameObject current, int count = 0)
