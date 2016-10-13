@@ -1,0 +1,15 @@
+per game info:
+Time played
+Power up used
+Power up picked up
+Power up spawned
+Level played
+players per game
+
+Total
+Time played total
+Power up used total
+Power up picked up total
+Power up spawned total
+Level played total
+players per game total
