@@ -9,7 +9,8 @@ public abstract class ActionBlock : MonoBehaviour {
 
     void Start()
     {
-        _bounds = GetComponent<SpriteRenderer>().bounds;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr) _bounds = sr.bounds;
         Initialize();
     }
 

@@ -40,6 +40,7 @@ public class BombPowerup : PowerupBase
             bRigid.interpolation = RigidbodyInterpolation2D.Interpolate;
             bRigid.AddForce(new Vector2(5 * (owner.GetComponent<PlayerMovement>().LastMovedRight ? 1 : -1), 5) * _throwForce);   
             bomb.GetComponent<BoxCollider2D>().isTrigger = false;
+            bomb.GetComponent<CircleCollider2D>().isTrigger = false;
             bomb.GetComponent<BombExplode>().StartCountdown(owner);
             bomb.AddComponent<LoopOutLevel>();
             _holdingBomb = false;
