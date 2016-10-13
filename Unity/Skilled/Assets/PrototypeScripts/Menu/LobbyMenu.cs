@@ -94,7 +94,6 @@ public class LobbyMenu : MonoBehaviour {
     {
         for (int i = 1; i <= 4; i++)  //4 max controllers plugged in, starts at 1
         {
-            Debug.Log(i);
             for (int j = 0; j < 20; j++)    //20 max joystick buttons, starts at 1
             {
                 KeyCode key = (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + i + "Button" + j);

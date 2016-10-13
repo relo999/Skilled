@@ -12,7 +12,17 @@ public class SpawnManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         instance = this;
-        blocks = GameObject.FindGameObjectsWithTag("Walkable");
+        GameObject[] tempBlocks = GameObject.FindGameObjectsWithTag("Walkable");
+        GameObject[] tempPass = GameObject.FindGameObjectsWithTag("PassThrough");
+        blocks = new GameObject[tempBlocks.Length + tempPass.Length];
+        for (int i = 0; i < tempBlocks.Length; i++)
+        {
+            blocks[i] = tempBlocks[i];
+        }
+        for (int i = 0; i < tempPass.Length; i++)
+        {
+            blocks[i + tempBlocks.Length] = tempPass[i];
+        }
         NetworkBase b = new NetworkBase(new System.Net.Sockets.UdpClient());
 
 	}
@@ -38,6 +48,7 @@ public class SpawnManager : MonoBehaviour {
             timeout--;
             GameObject block = blocks[Random.Range(0, blocks.Length)];
             bool spawnAble = true;
+            
             foreach (GameObject player in players)
             {
                 if (player == null) continue;
@@ -48,23 +59,9 @@ public class SpawnManager : MonoBehaviour {
                 }
             }
             canSpawn = spawnAble;
-            return (Vector2)block.transform.position + Vector2.up * 0.32f;
+
+            if(canSpawn) return (Vector2)block.transform.position + Vector2.up * 0.32f;
         }
-        /*
-        foreach(GameObject block in blocks)
-        {
-            bool canSpawn = true;
-            foreach(GameObject player in players)
-            {
-                if (player == null) continue;
-                if((block.transform.position - player.transform.position).magnitude < 2)
-                {
-                    canSpawn = false;
-                    break;
-                }
-            }
-            if (canSpawn) return block.transform.position;
-        }*/
         return GetRandomSpawnPoint(0.1f);   //fail safe, if no suitable spawn point is found, search for a block closer to players
     }
 
@@ -75,6 +72,7 @@ public class SpawnManager : MonoBehaviour {
         {
             if (!playersready[i]) continue;
             GameObject p = SpawnPlayer(i);
+            players[i] = p;
             float spawnTime = 0.5f;
             p.GetComponent<SheetAnimation>().PlayAnimation("Spawn", p.GetComponent<PlayerHit>().color, false, 8.0f / spawnTime);
             p.GetComponent<PlayerMovement>().StunnedTimer = spawnTime;
