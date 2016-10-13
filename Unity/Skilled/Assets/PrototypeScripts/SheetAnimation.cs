@@ -20,8 +20,8 @@ public class SheetAnimation : MonoBehaviour {
     {
         red,
         blue,
-        yellow,
         green,
+        yellow,
         purple
     }
     // Use this for initialization
