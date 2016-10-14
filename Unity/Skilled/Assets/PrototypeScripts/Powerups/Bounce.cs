@@ -28,6 +28,7 @@ public class Bounce : MonoBehaviour {
         _rigid = gameObject.GetComponent<Rigidbody2D>();
         if(!isClone)
             LevelBounds.Instance.RegisterObject(gameObject);
+        _rigid.velocity += Vector2.up * 10f;
     }
 
     /// <summary>
@@ -51,7 +52,7 @@ public class Bounce : MonoBehaviour {
 
     void ConstantSpeed()
     {
-        _rigid.velocity = new Vector2(constXSpeed * (goingRight? 1f : -1f), _rigid.velocity.y);
+        _rigid.velocity = new Vector2(constXSpeed * (goingRight? 1f : -1f), _rigid.velocity.y < -4? -4 : _rigid.velocity.y > 4? 4 : _rigid.velocity.y);
     }
 
     void Update()
@@ -74,9 +75,10 @@ public class Bounce : MonoBehaviour {
     {
         if (c.gameObject == owner) return;
         if (c.bounds.size.x > 1) return;
+        if (c.isTrigger) return;
         //to make sure it doesn't hit multiple colliders on the players only 1 collisioncheck is allowed per frame
         bool toDestroy = false;
-        if (Mathf.Abs(c.transform.position.x - gameObject.transform.position.x) > Mathf.Abs(c.transform.position.y - gameObject.transform.position.y) + 0.1f)
+        if (Mathf.Abs(c.transform.position.x - gameObject.transform.position.x) > Mathf.Abs(c.transform.position.y - gameObject.transform.position.y) + 0.1f && Vector2.Dot(_rigid.velocity, (c.transform.position- transform.position)) >0)
         {
             toDestroy = true;
         }

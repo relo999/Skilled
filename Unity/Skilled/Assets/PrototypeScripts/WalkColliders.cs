@@ -96,7 +96,7 @@ public class WalkColliders : MonoBehaviour {
             currentCol.size = new Vector2(currentCol.size.x + BLOCK_SIZE * leftCount + BLOCK_SIZE * rightCount, currentCol.size.y);
             currentCol.offset = new Vector2(currentCol.offset.x - HALF_BLOCK_SIZE * leftCount + HALF_BLOCK_SIZE * rightCount, 0.13f);
 
-            currentColTrigger.size = new Vector2(currentColTrigger.size.x + BLOCK_SIZE * leftCount + BLOCK_SIZE * rightCount, currentColTrigger.size.y);
+            currentColTrigger.size = new Vector2(currentColTrigger.size.x + BLOCK_SIZE * leftCount + BLOCK_SIZE * rightCount + BLOCK_SIZE*2, currentColTrigger.size.y);
             currentColTrigger.offset = new Vector2(currentColTrigger.offset.x - HALF_BLOCK_SIZE * leftCount + HALF_BLOCK_SIZE * rightCount, -0.02f);
 
         }

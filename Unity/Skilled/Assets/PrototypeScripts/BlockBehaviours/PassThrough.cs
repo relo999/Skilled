@@ -32,11 +32,13 @@ public class PassThrough : ActionBlock {
 
     void OnTriggerEnter2D(Collider2D c)
     {
-        Physics2D.IgnoreCollision(c, solidC, true);
+        if(!c.gameObject.name.Contains("Bounce"))
+            Physics2D.IgnoreCollision(c, solidC, true);
     }
     void OnTriggerExit2D(Collider2D c)
     {
-        Physics2D.IgnoreCollision(c, solidC, false);
+        if (!c.gameObject.name.Contains("Bounce"))
+            Physics2D.IgnoreCollision(c, solidC, false);
     }
 
 }
