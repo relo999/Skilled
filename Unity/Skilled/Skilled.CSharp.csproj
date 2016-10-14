@@ -130,6 +130,7 @@
     <Compile Include="Assets\PrototypeScripts\ControllerBind.cs" />
     <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />
     <Compile Include="Assets\PrototypeScripts\GameClient.cs" />
+    <Compile Include="Assets\PrototypeScripts\GameData\GameData.cs" />
     <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
     <Compile Include="Assets\PrototypeScripts\GhostBehaviour.cs" />
     <Compile Include="Assets\PrototypeScripts\LevelBounds.cs" />

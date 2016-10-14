@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour {
     public static SpawnManager instance;
     bool initialized = false;
     const float minSpawnDistance = 1.5f;
+    public bool AutoSpawn = true;
 
 	// Use this for initialization
 	void Awake () {
@@ -87,7 +88,7 @@ public class SpawnManager : MonoBehaviour {
         return GetRandomSpawnPoint(0.1f);   //fail safe, if no suitable spawn point is found, search for a block closer to players
     }
 
-    public void SetPlayers(bool[] playersready)
+    public GameObject[] SetPlayers(bool[] playersready)
     {
         players = new GameObject[playersready.Length];
         for (int i = 0; i < playersready.Length; i++)
@@ -99,10 +100,11 @@ public class SpawnManager : MonoBehaviour {
             p.GetComponent<SheetAnimation>().PlayAnimation("Spawn", p.GetComponent<PlayerHit>().color, false, 8.0f / spawnTime);
             p.GetComponent<PlayerMovement>().StunnedTimer = spawnTime;
         }
-        initialized = true;      
+        initialized = true;
+        return players;     
     }
 
-    GameObject SpawnPlayer(int playerID)
+    public GameObject SpawnPlayer(int playerID)
     {
         GameObject player = GameObject.Instantiate(Resources.Load("Prefabs/Player")) as GameObject;
         player.name += playerID+1;
@@ -124,6 +126,6 @@ public class SpawnManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!initialized) SetPlayers(new bool[4] {true,true,false,false });
+        if (!initialized && AutoSpawn) SetPlayers(new bool[4] {true,true,false,false });
     }
 }

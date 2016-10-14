@@ -86,6 +86,12 @@ public class LobbyMenu : MonoBehaviour {
             GameObject mouseObject = new GameObject("Mouse_obj_P:" + playerid);
             MouseController MC = mouseObject.AddComponent<MouseController>();
             MC.SetColor(playerid, (SheetAnimation.PlayerColor)playerid);
+            GameObject join = GameObject.Find("Join" + (playerid+1));
+            bool[] playerReady = new bool[4];
+            playerReady[playerid] = true;
+            GameObject player = SpawnManager.instance.SetPlayers(playerReady)[playerid];
+            player.transform.position = join.transform.position;
+            GameObject.Destroy(join);
         }
     }
 
@@ -162,7 +168,7 @@ public class LobbyMenu : MonoBehaviour {
         if (sceneName != newScene)
         {
             // New scene has been loaded
-            if (sceneName != null)   //first scene switch is to the menu itself
+            if (sceneName != null && newScene != "ArcadiumPlayScreen2")   //first scene switch is to the menu itself
             {
                 FindObjectOfType<SpawnManager>().SetPlayers(playersConnected);
                 ScoreManager scoreM = FindObjectOfType<ScoreManager>();

@@ -53,7 +53,7 @@ public class WalkColliders : MonoBehaviour {
             {
                 GameObject colliderHolderV = new GameObject("WalkingColliderVertical"); 
                 colliderHolderV.transform.position = current.transform.position;
-
+                Debug.Log(upCount + " : " + downCount);
                 BoxCollider2D currentColV = colliderHolderV.AddComponent<BoxCollider2D>();
                 currentColV.size = new Vector2(BLOCK_SIZE, BLOCK_SIZE);
                 currentColV.size = new Vector2(currentColV.size.x + 0.05f, (currentColV.size.y + BLOCK_SIZE * upCount + BLOCK_SIZE * downCount) -0.1f);
@@ -121,8 +121,8 @@ public class WalkColliders : MonoBehaviour {
         //current.GetComponent<SpriteRenderer>().sprite = null; //debug only
 
         //if the next predicted position is outside the level, add an extra collider bit to ensure smooth transition when wrapping to other side of the level
-        float nextYPos = current.transform.position.y - 0.32f;
-        if (nextYPos < LevelBounds.instance.bounds.center.y - LevelBounds.instance.bounds.size.y / 2f) return count + 1;
+        float nextYPos = current.transform.position.y + 0.32f;
+        if (nextYPos > LevelBounds.instance.bounds.center.y + LevelBounds.instance.bounds.size.y / 2f) return count + 1;
 
         //find a block that is directly next to the currently selected block
         GameObject leftNext = list.Find(x => x.transform.position.y > current.transform.position.y && Vector2.Distance((Vector2)x.transform.position, (Vector2)current.transform.position) < 0.33f);

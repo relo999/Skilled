@@ -28,6 +28,7 @@ public class ControllerBind : MonoBehaviour {
     }
     private void CreateJoystickConfiguration()
     {
+        if (InputManager.GetInputConfiguration("P1Controls") != null) return;
         int maxPlayers = 4;
         for (int i = 0; i < maxPlayers; i++)
         {

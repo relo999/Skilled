@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour {
     SheetAnimation SAnimation;
     SheetAnimation.PlayerColor Pcolor;
     int currentAxis = 0;
+    [HideInInspector]
+    public bool canMove = true;
 
     public enum Controls
     {
@@ -112,8 +114,8 @@ public class PlayerMovement : MonoBehaviour {
 
         //return;
 
-        
 
+        if (!canMove) return;
 
         if (StunnedTimer >0)
         {

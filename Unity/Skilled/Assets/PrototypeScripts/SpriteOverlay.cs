@@ -29,7 +29,8 @@ public class SpriteOverlay : MonoBehaviour {
         SAnimation = overlayObject.AddComponent<SheetAnimation>();
         SAnimation.doIdle = false;
         MainRenderer = GetComponent<SpriteRenderer>();
-        LevelBounds.instance.RegisterObject(overlayObject);
+        if(LevelBounds.instance != null)
+            LevelBounds.instance.RegisterObject(overlayObject);
         
     }
 

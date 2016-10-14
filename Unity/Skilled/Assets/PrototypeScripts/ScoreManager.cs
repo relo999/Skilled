@@ -8,7 +8,8 @@ using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviour {
 
     public static ScoreManager instance { private set; get; }
-
+    public static GameData gameData;
+    float _gameTimer = 0;
     public ScoreMode scoreMode = ScoreMode.Points;
     public enum ScoreMode
     {
@@ -97,6 +98,9 @@ public class ScoreManager : MonoBehaviour {
             }
         }
         UpdateScore();
+        gameData = new GameData();
+        gameData.Players = tempps.Length;
+
     }
 
 
@@ -106,7 +110,7 @@ public class ScoreManager : MonoBehaviour {
         //if (!initialized) return;
         if (!initialized) Initialize();
         UpdatePlayerSprites();
-
+        _gameTimer += Time.deltaTime;
 
         HandleAFK();
     }
@@ -122,6 +126,8 @@ public class ScoreManager : MonoBehaviour {
             if(_afkTimer >= afkTimeOut)
             {
                 //TODO back to lobby menu
+                gameData.AfkEnd = true;
+                gameData.Time = _gameTimer;
                 SceneManager.LoadScene("ArcadiumPlayScreen2");
             }
         }
@@ -219,8 +225,27 @@ public class ScoreManager : MonoBehaviour {
 
     void OnGameOver(int winnerID)
     {
-        Debug.Log("player " + winnerID + " is winnerer!!!");
-        //TODO gameover screen and back to menu after
+        float gameEndSeconds = 10;
+        PlayerMovement[] players = GameObject.FindObjectsOfType<PlayerMovement>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            if ((int)players[i].playerID == winnerID) continue;
+            players[i].canMove = false;
+
+        }
+        Sprite PlayerWins = Resources.Load<Sprite>("Menu/Wins2_" + ((SheetAnimation.PlayerColor)winnerID).ToString().ToUpper()[0]);
+        GameObject WinSprite = new GameObject("Win sprite");
+        WinSprite.transform.position += Vector3.up * 2;
+        WinSprite.AddComponent<SpriteRenderer>().sprite = PlayerWins;
+        gameData.Time = _gameTimer;
+        gameData.Level = SceneManager.GetActiveScene().name[5];
+        StartCoroutine(BackToMenu(gameEndSeconds));
+    }
+
+    IEnumerator BackToMenu(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("ArcadiumPlayScreen2");
     }
 
     public void UpdateScore()
