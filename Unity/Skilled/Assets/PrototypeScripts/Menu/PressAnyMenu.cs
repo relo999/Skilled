@@ -7,7 +7,7 @@ public class PressAnyMenu : MonoBehaviour {
 
     void Update()
     {
-        if(Input.anyKeyDown) SceneManager.LoadScene("TestMenu");
+        if(Input.anyKeyDown) SceneManager.LoadScene("ArcadiumPlayScreen2");
     }
 
 }
