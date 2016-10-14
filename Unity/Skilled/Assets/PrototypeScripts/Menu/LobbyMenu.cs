@@ -32,7 +32,7 @@ public class LobbyMenu : MonoBehaviour {
         //if a controllers deadzone is not proper, use dpad instead
         for (int i = 0; i < 4; i++) //max 4 players
         {
-            if(InputManager.GetAxis("Horizontal", (PlayerID)i) != 0 || InputManager.GetAxis("Vertical", (PlayerID)i) != 0)
+            if (InputManager.GetAxis("Horizontal", (PlayerID)i) != 0 || InputManager.GetAxis("Vertical", (PlayerID)i) != 0)
             {
                 ChangeAxis((PlayerID)i);
             }

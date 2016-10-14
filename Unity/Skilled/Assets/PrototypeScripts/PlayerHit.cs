@@ -23,6 +23,8 @@ public class PlayerHit : MonoBehaviour {
     public bool isClone = false;
     public SheetAnimation.PlayerColor color = SheetAnimation.PlayerColor.red;
 
+    bool sideBounce = false;
+
     void Update()
     {
         didCollisionCheck = false;
@@ -177,7 +179,9 @@ public class PlayerHit : MonoBehaviour {
         //Debug.Log("1: " + (other.transform.position.y /*- otherBounds.size.y / 4f*/ >= transform.position.y + thisBounds.size.y / 2f));
         //Debug.Log("2: " + (other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f));
         //Debug.Log("3: " + (other.transform.position.x - otherBounds.size.x / 2f <= transform.position.x + thisBounds.size.x / 2f));
-        if(other.GetComponent<PlayerHit>())
+
+        //side bounce
+        if(other.GetComponent<PlayerHit>() && sideBounce)
         {
             if(Mathf.Abs(other.transform.position.x - transform.position.x) > Mathf.Abs(other.transform.position.y - transform.position.y))
             {

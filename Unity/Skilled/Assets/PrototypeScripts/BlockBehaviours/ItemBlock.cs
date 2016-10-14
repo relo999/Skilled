@@ -9,7 +9,7 @@ public class ItemBlock : ActionBlock {
     void DropItem(Vector2 position) //TODO Which item to drop?
     {
         int itemToDrop = 0; //first item (bomb?)
-        itemToDrop = Random.Range(0, ScoreManager.instance.itemPickups.GetLength(0));
+        itemToDrop = Random.Range(0, ScoreManager.instance.itemPickups.GetLength(0) - (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health? 0 : 1));
         GameObject item = GameObject.Instantiate(ScoreManager.instance.itemPickups[itemToDrop],transform.position + Vector3.up * 0.32f, Quaternion.identity) as GameObject;
 
     }

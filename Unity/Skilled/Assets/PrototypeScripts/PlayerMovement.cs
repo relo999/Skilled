@@ -103,6 +103,10 @@ public class PlayerMovement : MonoBehaviour {
         AxisConfiguration button = InputManager.GetAxisConfiguration((PlayerID)playerID, "Horizontal");
         button.axis = 7;
 
+        AxisConfiguration button2 = InputManager.GetAxisConfiguration((PlayerID)playerID, "Vertical");
+        button2.sensitivity *= -1.0f;   //some controllers have inverted axis for some reason
+        button2.axis = 8;
+
         ControllerBind bindings = FindObjectOfType<ControllerBind>();
         bindings.ChangeButton(playerID, "Jump", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 0));
         bindings.ChangeButton(playerID, "Action", (KeyCode)Enum.Parse(typeof(KeyCode), "Joystick" + (int)(playerID + 1) + "Button" + 2));

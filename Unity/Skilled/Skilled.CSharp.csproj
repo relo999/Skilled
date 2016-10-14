@@ -151,6 +151,7 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\ClientBase.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\ItemPickup.cs" />
+    <Compile Include="Assets\PrototypeScripts\Powerups\LifePickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupBase.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupManager.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\PowerupUser.cs" />
