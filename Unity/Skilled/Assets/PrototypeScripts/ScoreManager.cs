@@ -35,7 +35,7 @@ public class ScoreManager : MonoBehaviour {
     public int StartingLives = 3;
 
     float _afkTimer = 0;    //keeps track of seconds that passed without any players input
-    float afkTimeOut = 30;  //seconds of afk until game goes back to menu
+    float afkTimeOut = 3;  //seconds of afk until game goes back to menu
 
     public void Initialize()
     {
@@ -128,7 +128,7 @@ public class ScoreManager : MonoBehaviour {
                 //TODO back to lobby menu
                 gameData.AfkEnd = true;
                 gameData.Time = _gameTimer;
-                SceneManager.LoadScene("ArcadiumPlayScreen2");
+                SceneManager.LoadScene("StartScene");
             }
         }
         else _afkTimer = 0;

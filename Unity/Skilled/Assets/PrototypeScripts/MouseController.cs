@@ -7,6 +7,7 @@ public class MouseController : MonoBehaviour {
 
     int playerid;
     Button[] buttons;
+    LevelBounds levelBounds;
 
     public void SetColor(int playerid, SheetAnimation.PlayerColor color)
     {
@@ -15,6 +16,7 @@ public class MouseController : MonoBehaviour {
         spriteR.sprite = Resources.Load<Sprite>("Menu/Cursor_" + color.ToString().ToUpper()[0]);
         buttons = FindObjectsOfType<Button>();
         spriteR.sortingOrder = 5;
+        levelBounds = FindObjectOfType<LevelBounds>();
     }
 
 	
@@ -22,6 +24,12 @@ public class MouseController : MonoBehaviour {
 	void Update () {
         float xChange = InputManager.GetAxis("Horizontal", (PlayerID)playerid);
         float yChange = InputManager.GetAxis("Vertical", (PlayerID)playerid);
+        if (transform.position.x >= levelBounds.transform.position.x + levelBounds.bounds.size.x / 2f - 0.20f && xChange > 0) xChange = 0;
+        if (transform.position.x <= levelBounds.transform.position.x - levelBounds.bounds.size.x / 2f + 0.32f && xChange < 0) xChange = 0;
+
+        if (transform.position.y >= levelBounds.transform.position.y + levelBounds.bounds.size.y / 2f - 0.20f && yChange < 0) yChange = 0;
+        if (transform.position.y <= levelBounds.transform.position.y - levelBounds.bounds.size.y / 2f + 0.40f && yChange > 0) yChange = 0;
+
         transform.position += new Vector3((xChange < 0 ? -1 : xChange > 0 ? 1 : 0) * Time.deltaTime * 5.0f, (yChange < 0 ? 1 : yChange > 0 ? -1 : 0) * Time.deltaTime * 5.0f, 0);
         if(InputManager.GetButtonDown("Jump", (PlayerID)playerid) || InputManager.GetButtonDown("Menu", (PlayerID)playerid))
         {
