@@ -80,32 +80,34 @@ public class Bounce : MonoBehaviour {
         {
             toDestroy = true;
         }
-    
-        
-        
 
-        if (_colCount > 0 && !toDestroy) return;
+
+
+
+        if (_colCount <= 0 && !toDestroy)
+        {
+
+
+            //bounce from atop of blocks
+            if (c.transform.position.y < transform.position.y)
+            {
+                _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
+                _rigid.AddForce(Vector2.up * BounceForce);
+            }
+            else
+            //bounce from underneath blocks
+            if (c.transform.position.y > transform.position.y)
+            {
+                _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
+                _rigid.AddForce(Vector2.up * -BounceForce);
+            }
+            else
+            {
+                toDestroy = true;
+            }
+        }
+
         _colCount++;
-        
-        //bounce from atop of blocks
-        if (c.transform.position.y < transform.position.y)
-        {
-            _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
-            _rigid.AddForce(Vector2.up * BounceForce);
-        }
-        else
-        //bounce from underneath blocks
-        if(c.transform.position.y > transform.position.y)
-        {
-            _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
-            _rigid.AddForce(Vector2.up * -BounceForce);
-        }
-        else
-        {
-            toDestroy = true;
-        }
-        
-
 
         //player hit
         PlayerHit hit = c.gameObject.GetComponent<PlayerHit>();

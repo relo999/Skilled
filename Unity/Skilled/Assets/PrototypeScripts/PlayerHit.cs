@@ -177,6 +177,29 @@ public class PlayerHit : MonoBehaviour {
         //Debug.Log("1: " + (other.transform.position.y /*- otherBounds.size.y / 4f*/ >= transform.position.y + thisBounds.size.y / 2f));
         //Debug.Log("2: " + (other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f));
         //Debug.Log("3: " + (other.transform.position.x - otherBounds.size.x / 2f <= transform.position.x + thisBounds.size.x / 2f));
+        if(other.GetComponent<PlayerHit>())
+        {
+            if(Mathf.Abs(other.transform.position.x - transform.position.x) > Mathf.Abs(other.transform.position.y - transform.position.y))
+            {
+                PlayerMovement playerMov = gameObject.GetComponent<PlayerMovement>();
+                if (playerMov == null)
+                    playerMov = gameObject.transform.parent.GetComponent<PlayerMovement>();
+                PlayerMovement playerMovO = other.GetComponent<PlayerMovement>();
+                if (playerMovO == null)
+                    playerMovO = other.transform.parent.GetComponent<PlayerMovement>();
+                Rigidbody2D rigid = gameObject.GetComponent<Rigidbody2D>();
+                if (rigid == null)
+                    rigid = gameObject.transform.parent.GetComponent<Rigidbody2D>();
+                Rigidbody2D rigidO = other.GetComponent<Rigidbody2D>();
+                if (rigidO == null)
+                    rigidO = other.transform.parent.GetComponent<Rigidbody2D>();
+                playerMov.StunnedTimer = 0.2f;
+                playerMovO.StunnedTimer = 0.2f;
+                rigid.AddForce((transform.position - other.transform.position) * 250);
+                rigidO.AddForce((other.transform.position - transform.position) * 250);
+                return;
+            }
+        }
         if ((other.GetComponent<PlayerHit>()) &&
             other.transform.position.y  /*- otherBounds.size.y / 4f */>= transform.position.y + thisBounds.size.y / 2f &&   //TODO NEEDS WORK, more precise
             other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f &&

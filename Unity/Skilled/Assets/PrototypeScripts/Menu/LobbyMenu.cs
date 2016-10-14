@@ -84,14 +84,19 @@ public class LobbyMenu : MonoBehaviour {
             playersConnected[playerid] = true;
             Debug.Log("player " + playerid + " is ready");
             GameObject mouseObject = new GameObject("Mouse_obj_P:" + playerid);
+            
+            //create controller mouse and place player in menu to indicate ready
             MouseController MC = mouseObject.AddComponent<MouseController>();
             MC.SetColor(playerid, (SheetAnimation.PlayerColor)playerid);
             GameObject join = GameObject.Find("Join" + (playerid+1));
+            mouseObject.transform.position = join.transform.position + Vector3.up;
             bool[] playerReady = new bool[4];
             playerReady[playerid] = true;
             GameObject player = SpawnManager.instance.SetPlayers(playerReady)[playerid];
+            GameObject.Destroy(player.GetComponent<PlayerHit>());
             player.transform.position = join.transform.position;
-            GameObject.Destroy(join);
+            join.GetComponent<Image>().sprite = Resources.Load<Sprite>("Menu/Ready_" + ((SheetAnimation.PlayerColor)playerid).ToString().ToUpper()[0]);
+            join.transform.position += Vector3.up * 0.42f;
         }
     }
 
@@ -165,10 +170,11 @@ public class LobbyMenu : MonoBehaviour {
     void CheckSceneSwitch()
     {
         string newScene = SceneManager.GetActiveScene().name;
+        bool switchedScene = false;
         if (sceneName != newScene)
         {
             // New scene has been loaded
-            if (sceneName != null && newScene != "ArcadiumPlayScreen2")   //first scene switch is to the menu itself
+            if (sceneName != null && newScene != "ArcadiumPlayScreen2" && newScene != "StartScene")   //first scene switch is to the menu itself
             {
                 FindObjectOfType<SpawnManager>().SetPlayers(playersConnected);
                 ScoreManager scoreM = FindObjectOfType<ScoreManager>();
@@ -177,10 +183,12 @@ public class LobbyMenu : MonoBehaviour {
                 scoreM.scoreMode = menuOptions.scoreMode;
                 scoreM.Initialize();
                 sceneName = newScene;
+                switchedScene = true;
             }
 
             sceneName = newScene;
         }
+        if (switchedScene) GameObject.Destroy(gameObject);
     }
 
     void SetButtonText()

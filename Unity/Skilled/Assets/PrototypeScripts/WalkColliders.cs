@@ -53,7 +53,6 @@ public class WalkColliders : MonoBehaviour {
             {
                 GameObject colliderHolderV = new GameObject("WalkingColliderVertical"); 
                 colliderHolderV.transform.position = current.transform.position;
-                Debug.Log(upCount + " : " + downCount);
                 BoxCollider2D currentColV = colliderHolderV.AddComponent<BoxCollider2D>();
                 currentColV.size = new Vector2(BLOCK_SIZE, BLOCK_SIZE);
                 currentColV.size = new Vector2(currentColV.size.x + 0.05f, (currentColV.size.y + BLOCK_SIZE * upCount + BLOCK_SIZE * downCount) -0.1f);
