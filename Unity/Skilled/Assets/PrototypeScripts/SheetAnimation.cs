@@ -85,6 +85,7 @@ public class SheetAnimation : MonoBehaviour {
         looping = loop;
         this.fps = fps;
         sprites = Resources.LoadAll<Sprite>(path);
+        if (!loop) stopAtFrame = sprites.Length-1;
     }
     //lastFrame -1 is default last frame, lastFrame requires 'loop' to be false
     public void PlayAnimation(string path, PlayerColor color, bool loop = true, float fps = 5, int startingFrame = 0, int lastFrame = -1)
@@ -96,7 +97,7 @@ public class SheetAnimation : MonoBehaviour {
         
         currentSprite = startingFrame;
         sprites = Resources.LoadAll<Sprite>(coloredPath);
-        if (!loop && stopAtFrame == -1) stopAtFrame = sprites.Length;
+        if (!loop && stopAtFrame == -1) stopAtFrame = sprites.Length-1;
          currentAnimation = path;
     }
 

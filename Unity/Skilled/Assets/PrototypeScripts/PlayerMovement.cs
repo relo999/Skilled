@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour {
         button.axis = 7;
 
         AxisConfiguration button2 = InputManager.GetAxisConfiguration((PlayerID)playerID, "Vertical");
-        button2.sensitivity *= -1.0f;   //some controllers have inverted axis for some reason
+        button2.sensitivity = -1.0f;   //some controllers have inverted axis for some reason
         button2.axis = 8;
 
         ControllerBind bindings = FindObjectOfType<ControllerBind>();

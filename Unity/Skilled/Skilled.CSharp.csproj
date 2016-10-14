@@ -118,6 +118,7 @@
     <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelPerfectCamera.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
+    <Compile Include="Assets\PrototypeScripts\AnimationCallbackDestroy.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\ActionBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\BounceBlock.cs" />
     <Compile Include="Assets\PrototypeScripts\BlockBehaviours\HitAbove.cs" />
