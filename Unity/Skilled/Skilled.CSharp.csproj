@@ -147,6 +147,8 @@
     <Compile Include="Assets\PrototypeScripts\Powerups\BombExplode.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BombPickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BombPowerup.cs" />
+    <Compile Include="Assets\PrototypeScripts\Powerups\BombSuitPickup.cs" />
+    <Compile Include="Assets\PrototypeScripts\Powerups\BombSuitPowerup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\Bounce.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPickup.cs" />
     <Compile Include="Assets\PrototypeScripts\Powerups\BouncingBallPowerup.cs" />
@@ -196,6 +198,7 @@
     <None Include="Assets\InputManager\Source\Resources\input_manager_project_settings.txt" />
     <None Include="Assets\PixelPerfectCamera\README.txt" />
     <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
+    <None Include="Assets\PlaytestData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

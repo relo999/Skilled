@@ -8,5 +8,6 @@ public class ShieldPickup : ItemPickup {
         PowerupUser PU = player.GetComponent<PowerupUser>();
         PU.EndPowerup();
         PU.SetPowerup(new ShieldPowerup(player));
+        ScoreManager.gameData.ShieldsPicked++;
     }
 }

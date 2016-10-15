@@ -128,6 +128,8 @@ public class ScoreManager : MonoBehaviour {
                 //TODO back to lobby menu
                 gameData.AfkEnd = true;
                 gameData.Time = _gameTimer;
+                gameData.Scores = score;
+                gameData.WriteToFile();
                 SceneManager.LoadScene("StartScene");
             }
         }
@@ -223,8 +225,11 @@ public class ScoreManager : MonoBehaviour {
         if (healthMode && playersAlive == 1) OnGameOver(lastPlayer);
     }
 
+    bool didGameOver = false;
     void OnGameOver(int winnerID)
     {
+        if (didGameOver) return;
+        didGameOver = true;
         float gameEndSeconds = 10;
         PlayerMovement[] players = GameObject.FindObjectsOfType<PlayerMovement>();
         for (int i = 0; i < players.Length; i++)
@@ -239,6 +244,8 @@ public class ScoreManager : MonoBehaviour {
         WinSprite.AddComponent<SpriteRenderer>().sprite = PlayerWins;
         gameData.Time = _gameTimer;
         gameData.Level = SceneManager.GetActiveScene().name[5];
+        gameData.Scores = score;
+        gameData.WriteToFile();
         StartCoroutine(BackToMenu(gameEndSeconds));
     }
 

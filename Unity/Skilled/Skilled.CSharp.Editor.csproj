@@ -131,6 +131,7 @@
     <None Include="Assets\InputManager\Source\Resources\input_manager_project_settings.txt" />
     <None Include="Assets\PixelPerfectCamera\README.txt" />
     <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
+    <None Include="Assets\PlaytestData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

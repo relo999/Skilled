@@ -209,6 +209,7 @@ public class PlayerMovement : MonoBehaviour {
                 SAnimation.SetFrame(2);
                 //_currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
                 _rigid.AddForce(Vector2.up * JumpForce);
+                ScoreManager.gameData.Jumped++;
             }
         }
         if ((controls == Controls.WASD && Input.GetKey(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.UpArrow)) || InputManager.GetButton("Jump", playerID) && _isJumping)

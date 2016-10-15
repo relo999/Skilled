@@ -15,6 +15,7 @@ public class LifePickup : ItemPickup {
         float time = 1.5f;
         SA.PlayAnimationUnC("Powerups/Powers/LifeUp/Life", false, 8f/time);
         temp.AddComponent<DestroyAfterSeconds>().Seconds = time;
+        ScoreManager.gameData.LivesPicked++;
     }
 
  

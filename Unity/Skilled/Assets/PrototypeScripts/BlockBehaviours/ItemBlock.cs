@@ -11,6 +11,22 @@ public class ItemBlock : ActionBlock {
         int itemToDrop = 0; //first item (bomb?)
         itemToDrop = Random.Range(0, (int)(ScoreManager.instance.itemPickups.GetLength(0)));
         GameObject item = GameObject.Instantiate(ScoreManager.instance.itemPickups[itemToDrop],transform.position + Vector3.up * 0.32f, Quaternion.identity) as GameObject;
+        switch (itemToDrop)
+        {
+            case 0:
+                ScoreManager.gameData.BombsSpawned++;
+                break;
+            case 1:
+                ScoreManager.gameData.ShieldsSpawned++;
+                break;
+            case 2:
+                ScoreManager.gameData.BouncesSpawned++;
+                break;
+            case 3:
+                ScoreManager.gameData.LivesSpawned++;
+                break;
+
+        }
 
     }
 

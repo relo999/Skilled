@@ -45,6 +45,7 @@ public class BombPowerup : PowerupBase
             bomb.AddComponent<LoopOutLevel>();
             _holdingBomb = false;
             _currentCooldown = _cooldown;
+            ScoreManager.gameData.BombsUsed++;
             return;
         }
     }

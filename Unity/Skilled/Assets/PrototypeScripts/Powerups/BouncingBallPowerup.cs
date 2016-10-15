@@ -54,7 +54,7 @@ public class BouncingBallPowerup : PowerupBase {
         ball.GetComponent<Bounce>().goingRight = owner.GetComponent<PlayerMovement>().LastMovedRight;
         Physics2D.IgnoreCollision(ball.GetComponent<CircleCollider2D>(), owner.GetComponent<BoxCollider2D>());
         Physics2D.IgnoreCollision(ball.GetComponent<CircleCollider2D>(), owner.GetComponentInChildren<CircleCollider2D>());
-
+        ScoreManager.gameData.BouncesUsed++;
         inGameBalls[availableID] = ball;
 
         

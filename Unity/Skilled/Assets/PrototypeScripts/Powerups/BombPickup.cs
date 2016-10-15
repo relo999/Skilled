@@ -9,5 +9,6 @@ public class BombPickup : ItemPickup
         PowerupUser PU = player.GetComponent<PowerupUser>();
         PU.EndPowerup();
         PU.SetPowerup(new BombPowerup(player));
+        ScoreManager.gameData.BombsPicked++;
     }
 }

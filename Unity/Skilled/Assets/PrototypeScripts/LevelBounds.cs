@@ -191,7 +191,7 @@ public class LevelBounds : MonoBehaviour {
         {
             if (!checkonly)
             {
-                obj.transform.position += new Vector3(0, -bounds.size.y, 0);        
+                obj.transform.position += new Vector3(0, -bounds.size.y, 0);
             }
         }
 
