@@ -1,0 +1,15 @@
+54 times played
+
+31 2 player matches (29 finished)
+11 3 player matches (11 finished)
+15 4 player matches (14 finished)
+
+Average playtime 2 player 234.4827586206897 (3.908045977011495 minuten)
+Average playtime 3 player 63.4 (1.056666666666667 minuten)
+Average playtime 4 player 69.64285714285714 (1.160714285714286 minuten)
+
+113.3333333333334 	Total 2 player matches (in minutes)
+11.62333333333333 	Total 3 player matches (in minutes)
+16.25			Total 3 player matches (in minutes)
+
+2.21.12 hours.minutes.seconds played (total 5 hours standing)
