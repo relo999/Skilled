@@ -1,2 +1,23 @@
 
 
+Game 1
+Level 51
+Players 2
+Time 51
+Scores 10-0-0-0
+BombsSpawned 1
+BombsPicked 0
+BombsUsed 0
+BouncesSpawned 0
+BouncesPicked 0
+BouncesUsed 0
+ShieldsSpawned 1
+ShieldsPicked 0
+LivesSpawned 0
+LivesPicked 0
+BombSuitSpawned 0
+BombSuitPicked 1
+BombSuitUsed 0
+Jumps 20
+Afkend False
+

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 3d4b6e98b1751d6439eff3293de6830c
-timeCreated: 1475677822
+timeCreated: 1476538796
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -59,8 +59,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: BombSuit_Y_1
@@ -70,8 +70,8 @@ TextureImporter:
         y: 0
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

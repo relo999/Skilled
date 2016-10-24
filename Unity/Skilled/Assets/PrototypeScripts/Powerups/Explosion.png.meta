@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 57fc4f3bdcd8ff444a77600f0e230f02
-timeCreated: 1476539492
+guid: c79a4afbd5dd9ea43a9684f36b2427f3
+timeCreated: 1473166368
 licenseType: Pro
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Explosion_0
-    21300002: Explosion_1
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -40,7 +38,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,37 +49,7 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites:
-    - name: Explosion_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 80
-        width: 96
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -48, y: 24}
-        - {x: -48, y: -24}
-        - {x: 48, y: -24}
-        - {x: 48, y: 24}
-    - name: Explosion_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 96
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -48, y: 24}
-        - {x: -48, y: -24}
-        - {x: 48, y: -24}
-        - {x: 48, y: 24}
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

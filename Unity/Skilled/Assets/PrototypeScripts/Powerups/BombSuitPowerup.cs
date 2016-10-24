@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BombSuitPowerup : PowerupBase
 {
-    public float explosionRadius = 3f;    //slightly bigger than regular bomb
+    public float explosionRadius = 1f;    //slightly bigger than regular bomb
 
     public BombSuitPowerup(GameObject owner) : base(owner)
     {
