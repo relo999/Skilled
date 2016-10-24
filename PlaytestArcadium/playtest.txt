@@ -2,7 +2,8 @@
 -actie knop werd niet gebruikt
 -bouncing balls te sterk?
 -1 speler spelen
--ready weg als je afk bent
+-ready weg als je afk bent en unready button
 -passthtough naar beneden er doorheen
 -Itemboxes (leeg)was niet duidelijk gebruikt	X
 -Hold Action to hold bomb, release to throw
+-Better aircontrol system
