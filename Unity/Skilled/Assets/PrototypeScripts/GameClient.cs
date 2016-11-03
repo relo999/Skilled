@@ -8,13 +8,74 @@ using System.Text;
 public class GameClient : NetworkBase {
 
     PlayerMovement ownMovement;
-    protected override void receiveCallback(IAsyncResult res)
-    {
+    const int EXPECTED_PACKETS = 64;    //what is set in GameServer, TODO detect automatically how many packets are supposed to be sent
+    int receivedPackets = 0;
+    float timer = 0;
+    DateTime pingStart;
+    public int Ping = 0;
+    bool isPinging = false;
+    public int PacketLoss = 0;
+    static PlayerMovement[] players;
+    static PlayerUpdates newUpdates;
 
+    public override void receiveCallback(IAsyncResult res)
+    {
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
+        byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
+
+        string stringData = Encoding.UTF8.GetString(received);
+        Debug.Log("received client: " + stringData);
+
+        //ping, in progress
+        if(stringData.Contains("PingResult"))
+        {
+            if (pingStart == default(DateTime)) Debug.LogWarning("got ping result without ping call");
+            else
+            {
+                Ping = (System.DateTime.Now - pingStart).Milliseconds;
+                isPinging = false;
+            }
+        }
+        HandleSerializedData(DeserializeClass(received));
+        //receiveCallback(res);
+       
+        receivedPackets++;
+        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
+
+    public void StartPing()
+    {
+        pingStart = System.DateTime.Now;
+        isPinging = true;
+    }
+
+    void TimerHandler()
+    {
+        if (timer >= 1)
+        {
+            timer = 0;
+            int packetLoss = EXPECTED_PACKETS - receivedPackets;
+            packetLoss = packetLoss < 0 ? 0 : packetLoss;
+            Debug.Log("Packet loss: " + packetLoss);
+            PacketLoss = packetLoss;
+            receivedPackets = 0;
+
+            if(!isPinging) StartPing();
+
+        }
+    }
+
+
     public override void Update()
     {
-        Debug.Log("UPDATE");
+        base.Update();
+        timer += Time.deltaTime;
+        TimerHandler();
+        if(players == null)
+        {
+            players = GameObject.FindObjectsOfType<PlayerMovement>();
+        }
+        if (newUpdates != null) DoPlayerUpdates(newUpdates);
         //SendToClient(connectedClient, Encoding.ASCII.GetBytes("send test...."));
         //Debug.Log("Sent player input");
        // if (ownMovement == null) SetPlayerID();
@@ -27,35 +88,60 @@ public class GameClient : NetworkBase {
     }
     public GameClient(UdpClient client) : base(client)
     {
-        //serverClient.BeginReceive(new AsyncCallback(receive), null);
+
+        //SendToClient(connectedClient, UDPClient.StringToBytes("testClientSend"));
+        
+    }
+
+    public void StartClient()
+    {
+        //Debug.Log(GetLocalIPAddress() + " : " + GetLocalEndPoint().Port);
+
+        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
     public void SetPlayerID()
     { 
-        ownMovement = Array.Find(GameObject.FindObjectsOfType<PlayerMovement>(), x => (int)x.playerID == this.playerID);
+        ownMovement = Array.Find(players, x => (int)x.playerID == this.playerID);
     }
     public void SendPlayerInput(PlayerInput input)
     {
         SendToClient(connectedClient, SerializeClass(input));
     }
 
+    protected void DoPlayerUpdates(PlayerUpdates Pupdates)
+    {
+
+        PlayerUpdates updates = Pupdates;
+        for (int i = 0; i < updates.PlayerInfos.Length; i++)
+        {
+            PlayerInfo info = updates.PlayerInfos[i];
+            GameObject player = Array.Find(players, x => (int)x.playerID == info.playerID).gameObject;
+            player.transform.position = new Vector3(info.xPos, info.yPos, player.transform.position.z);
+        }
+    }
+
     protected override void HandleSerializedData(SerializeBase data)
     {
-        return;
+        //return;
         Type t = data.GetType();
-
 
         if (t.Equals(typeof(PlayerUpdates)))
         {
+            newUpdates = (PlayerUpdates)data;
             //pseudo code:
+      /*
             PlayerUpdates updates = (PlayerUpdates)data;
             for (int i = 0; i < updates.PlayerInfos.Length; i++)
             {
             PlayerInfo info = updates.PlayerInfos[i];
-            GameObject player = Array.Find(GameObject.FindObjectsOfType<PlayerMovement>(), x => (int)x.playerID == info.playerID).gameObject;
-                player.transform.position = new Vector3(info.xPos, info.yPos, player.transform.position.z);
+            GameObject player = Array.Find(players, x => (int)x.playerID == info.playerID).gameObject;
+            player.transform.position = new Vector3(info.xPos, info.yPos, player.transform.position.z);
+
+    
             //find player object and execute set position method... players[info.playerID].SetPosition(info.xPos, info.yPos);
             //no need to update server after this
             }
+    */
         }
         //CLIENT
         //if(t.Equals(typeof(MatchInfo)))

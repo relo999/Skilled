@@ -166,6 +166,7 @@
     <Compile Include="Assets\PrototypeScripts\SheetAnimation.cs" />
     <Compile Include="Assets\PrototypeScripts\SpawnManager.cs" />
     <Compile Include="Assets\PrototypeScripts\SpriteAlphaTest.cs" />
+    <Compile Include="Assets\PrototypeScripts\SpriteLayer.cs" />
     <Compile Include="Assets\PrototypeScripts\SpriteOverlay.cs" />
     <Compile Include="Assets\PrototypeScripts\TextLayer.cs" />
     <Compile Include="Assets\PrototypeScripts\WalkColliders.cs" />

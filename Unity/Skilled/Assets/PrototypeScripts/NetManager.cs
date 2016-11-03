@@ -11,25 +11,51 @@ public class NetManager : MonoBehaviour {
     UdpClient client;
     NetworkBase.UDPClient Mainserver;
     NetworkBase.UDPClient Connectedclient = null;
-
+    bool startedServer = false;
+    
+    
     const int SERVER_PORT = 17000;
     const string SERVER_IP = "86.80.201.15";
     // Use this for initialization
     void Start () {
         client = new UdpClient();
         Mainserver = new NetworkBase.UDPClient(IPAddress.Parse(SERVER_IP), SERVER_PORT);
+        instance = this;
     }
-	
+
+    public static NetManager instance = null;
+    public static bool isServer = false;
+    public static bool hasStarted = false;
+
+    public void SendInput(NetworkBase.PlayerInput input)
+    {
+        if(!isServer)
+        {
+            GameClient gameclient = networkBase as GameClient;
+            gameclient.SendPlayerInput(input);
+
+        }
+    }
 	// Update is called once per frame
 	void Update () {
 	    if(networkBase == null)
         {
-            if (Input.GetKeyDown(KeyCode.N)) RequestMatch();
-            
+            if (Input.GetKeyDown(KeyCode.N))RequestMatch();
+
+            //testing
+            //if (Input.GetKeyDown(KeyCode.N)) StartServer();
+            //if (Input.GetKeyDown(KeyCode.N)) StartClient();
         }
         else
         {
             networkBase.Update();
+            if (!startedServer && isServer)
+            {
+                startedServer = true;
+                GameServer server = networkBase as GameServer;
+                StartCoroutine(server.UpdateServer());
+
+            }
         }
 	}
 
@@ -53,27 +79,40 @@ public class NetManager : MonoBehaviour {
             string[] splitData = stringData.Split(':');
             Connectedclient = new NetworkBase.UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
             
-            if (splitData[2] == "server") StartServer();
+            //if (splitData[2] == "server") StartServer();
             if (splitData[2] == "client")
             {
+                StopListening();
                 StartClient();
                 networkBase.playerID = int.Parse(splitData[3]);
             }
-            networkBase.connectedClient = Connectedclient;
+            
             if(splitData[2] == "server")
             {
-                GameServer server = networkBase as GameServer;
-                server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
+                //GameServer server = networkBase as GameServer;
+                //server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
+                StopListening();
+                StartServer();
             }
+            networkBase.connectedClient = Connectedclient;
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //return;
             SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //this.Start();
         }
-
-        client.BeginReceive(new AsyncCallback(receive), null);
+        
+        client.BeginReceive(networkBase == null? new AsyncCallback(receive) : new AsyncCallback(networkBase.receiveCallback), null);
     }
+
+    //not in use
+    void StopListening()
+    {
+        //client.Close();
+        //IPEndPoint p = new IPEndPoint(IPAddress.Any, 999);
+        //client.EndReceive(null, ref p);
+    }
+
     public IPEndPoint GetLocalEndPoint()    //to get own port
     {
         return (IPEndPoint)client.Client.LocalEndPoint;
@@ -85,15 +124,21 @@ public class NetManager : MonoBehaviour {
     }
     void StartClient()
     {
+        hasStarted = true;
         Debug.Log("Started client");
         networkBase = new GameClient(client);
+        GameClient gclient = networkBase as GameClient;
+        gclient.StartClient();
     }
     void StartServer()
     {
+        hasStarted = true;
+        isServer = true;
         Debug.Log("Started server");
         networkBase = new GameServer(client);
         GameServer server = networkBase as GameServer;
-        server.StartGame(new NetworkBase.UDPClient[1] { Connectedclient });
+        server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
+        
     }
 
 

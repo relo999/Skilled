@@ -206,8 +206,8 @@ public class MenuController : MonoBehaviour {
             _currentButtonCooldown -= Time.deltaTime;
         else
         {
-            if(SpawnManager.ConnectedControllers() > 0)
-                InputManager.StartJoystickAxisScan(AxisHandler, null, 1, null, null);
+            //if(SpawnManager.ConnectedControllers() > 0)
+                //InputManager.StartJoystickAxisScan(AxisHandler, null, 1, null, null);
         }
         
 

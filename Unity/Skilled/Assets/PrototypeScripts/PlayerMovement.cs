@@ -114,7 +114,27 @@ public class PlayerMovement : MonoBehaviour {
 
 
 	void Update () {
-        //input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),InputManager.GetButtonDown("Jump", playerID));
+        /*
+        if(NetManager.hasStarted && !NetManager.isServer)
+        {
+            if(controls == Controls.CONTROLLER)
+                input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),
+                                                                   InputManager.GetButtonDown("Jump", playerID),
+                                                                   InputManager.GetButtonDown("Action", playerID));
+            if (controls == Controls.WASD)
+                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKeyDown(KeyCode.A) ? -1 : (Input.GetKeyDown(KeyCode.D)? 1 : 0),
+                                                                   Input.GetKeyDown(KeyCode.W),
+                                                                   Input.GetKeyDown(KeyCode.Space));
+            if (controls == Controls.ARROWS)
+                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKeyDown(KeyCode.LeftArrow) ? -1 : (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0),
+                                                                   Input.GetKeyDown(KeyCode.UpArrow),
+                                                                   Input.GetKeyDown(KeyCode.L));
+            if (input.xAxis != 0 || input.Jump || input.Action)
+                NetManager.instance.SendInput(input);
+
+
+        }*/
+       
 
         //return;
 

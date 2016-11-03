@@ -6,6 +6,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Xml.Serialization;
+using System.IO.Compression;
+using UnityEngine.UI;
 
 public class NetworkBase{
 
@@ -32,27 +34,33 @@ public class NetworkBase{
             PlayerInput testI = (PlayerInput)test;
             Debug.Log(testI.xAxis);
         }
-
+        
         SerializeBase test2 = DeserializeClass(SerializeClass(new PlayerUpdates(new PlayerInfo[] { new PlayerInfo(1, 2, 3) })));
-        if (test.GetType().Equals(typeof(PlayerUpdates)))
+        if (test2.GetType().Equals(typeof(PlayerUpdates)))
         {
-            PlayerUpdates testI = (PlayerUpdates)test;
+            PlayerUpdates testI = (PlayerUpdates)test2;
             Debug.Log(testI.PlayerInfos[0].xPos);
-        }*/
-
-
+        }
+        */
+        //Debug.Log(SerializeClass(new PlayerUpdates(new PlayerInfo[] { new PlayerInfo(1, 5.135f, 1.9943f) })).Length);
         serverClient.BeginReceive(receive, null);
     }
 
     public virtual void Update()
     {
 
+        if (serverClient == null) return;
+        Text debugText = GameObject.Find("NetworkDebug").GetComponent<Text>();
+        debugText.text = (this.GetType() == typeof(GameClient) ? "client" : "server")   + "\n" +
+                         "own:   " + GetLocalIPAddress() + " : " + GetLocalEndPoint().Port + "\n" +
+                         "other: " + connectedClient.endPoint.Address + " : " + connectedClient.endPoint.Port;
     }
-
+    
     public void SendToClient(UDPClient client, byte[] data)
     {
         Debug.Log("Sent: " + Encoding.UTF8.GetString(data));
-        serverClient.Send(data, data.GetLength(0), client.endPoint);
+        //serverClient.Send(data, data.GetLength(0), client.endPoint);
+        serverClient.BeginSend(data, data.Length, client.endPoint, null, null);
     }
 
    protected void receive(IAsyncResult res)
@@ -61,19 +69,18 @@ public class NetworkBase{
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
 
         string stringData = Encoding.UTF8.GetString(received);
-        Debug.Log("received: " + stringData);
+        Debug.Log("received base: " + stringData);
         HandleSerializedData(DeserializeClass(received));
-        //receiveCallback(res);
+
         serverClient.BeginReceive(new AsyncCallback(receive), null);
     }
 
-    protected virtual void receiveCallback(IAsyncResult res)
+    public virtual void receiveCallback(IAsyncResult res)
     {
         //not in use
     }
 
     //client + server
-    [Serializable]
     public class PlayerInput : SerializeBase
     {
         public PlayerInput(int playerID = 0, float xAxis = 0, bool Jump = false, bool Action = false)
@@ -84,6 +91,7 @@ public class NetworkBase{
             this.Action = Action;
         }
         public PlayerInput() { }
+
         public int playerID;
         public float xAxis;
         public bool Jump;
@@ -99,7 +107,6 @@ public class NetworkBase{
         //public SerializeBase() { }
     }
     //client + server
-    //[Serializable]
     public class PlayerInfo : SerializeBase
     {
         public int playerID;
@@ -115,7 +122,6 @@ public class NetworkBase{
     }
 
     //client + server
-    //[Serializable]
     public class PlayerUpdates : SerializeBase
     {
         public PlayerInfo[] PlayerInfos;
@@ -156,6 +162,7 @@ public class NetworkBase{
     protected virtual void HandleSerializedData(SerializeBase data)
     {
         //BOTH
+        Debug.Log("dont do this pls");
         Type t = data.GetType();
 
 
@@ -215,10 +222,10 @@ public class NetworkBase{
     //server + client
     public byte[] SerializeClass(SerializeBase input)
     {
-        using (var memStream = new MemoryStream())
-        {
+        using (var memStream = new MemoryStream())        {
             xmlSerializer.Serialize(memStream, input);
-            Debug.Log(memStream.ToArray().Length);
+            //Debug.Log(memStream.ToArray().ToString());
+            //Debug.Log(memStream.ToArray().Length);    //check bytesize
             return memStream.ToArray();
         }
        
