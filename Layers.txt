@@ -1,0 +1,27 @@
+1 background color
+
+4 background layers
+
+background ink layers
+
+Block Layer
+
+Play layer ink layers
+
+Player layer
+
+overlay layers
+
+pickup layer
+
+2 foreground layers
+
+powerup layer
+
+PlayInkAlpha Layer
+
+Camera Effects layers
+
+HUD Layers
+
+Camera Effects2 layers
