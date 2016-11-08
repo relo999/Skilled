@@ -31,8 +31,8 @@ public class NetManager : MonoBehaviour {
     {
         if(!isServer)
         {
-            GameClient gameclient = networkBase as GameClient;
-            gameclient.SendPlayerInput(input);
+
+            GameClient.lastInput = input;
 
         }
     }
@@ -49,19 +49,26 @@ public class NetManager : MonoBehaviour {
         else
         {
             networkBase.Update();
-            if (!startedServer && isServer)
+            if (!startedServer && isServer && networkBase.isReady)
             {
                 startedServer = true;
                 GameServer server = networkBase as GameServer;
                 StartCoroutine(server.UpdateServer());
 
             }
+            if (!startedServer && !isServer && networkBase.isReady)
+            {
+                startedServer = true;
+                GameClient gameclient = networkBase as GameClient;
+                StartCoroutine(gameclient.UpdateClient());
+
+            }
         }
 	}
 
-    void RequestMatch()
+    void RequestMatch(int players = 1)
     {
-        byte[] data = NetworkBase.UDPClient.StringToBytes("connect");
+        byte[] data = NetworkBase.UDPClient.StringToBytes("connect" + players);
 
         SendToClient(Mainserver, data);
         client.BeginReceive(new AsyncCallback(receive), null);
@@ -82,16 +89,28 @@ public class NetManager : MonoBehaviour {
             //if (splitData[2] == "server") StartServer();
             if (splitData[2] == "client")
             {
-                StopListening();
+                string[] splitIDs = splitData[3].Split(',');
+                NetworkBase.playerIDs = new int[splitIDs.Length];
+                for (int i = 0; i < splitIDs.Length; i++)
+                {
+                    NetworkBase.playerIDs[i] = int.Parse(splitIDs[i]);
+                }
+           
                 StartClient();
-                networkBase.playerID = int.Parse(splitData[3]);
+            
             }
             
             if(splitData[2] == "server")
             {
                 //GameServer server = networkBase as GameServer;
                 //server.StartGame(new NetworkBase.UDPClient[] { Connectedclient });
-                StopListening();
+                string[] splitIDs = splitData[3].Split(',');
+                NetworkBase.playerIDs = new int[splitIDs.Length];
+                for (int i = 0; i < splitIDs.Length; i++)
+                {
+                    NetworkBase.playerIDs[i] = int.Parse(splitIDs[i]);
+                }
+
                 StartServer();
             }
             networkBase.connectedClient = Connectedclient;

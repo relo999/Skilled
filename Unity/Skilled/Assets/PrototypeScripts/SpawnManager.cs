@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+        
         instance = this;
         GameObject[] tempBlocks = GameObject.FindGameObjectsWithTag("Walkable");
         GameObject[] tempPass = GameObject.FindGameObjectsWithTag("PassThrough");

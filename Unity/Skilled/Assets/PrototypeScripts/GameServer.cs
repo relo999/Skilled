@@ -13,23 +13,41 @@ public class GameServer : NetworkBase {
     Timer updateTimer;
     const float TickRate = 64;
     int intervalMS;
+    int intervalS;
     PlayerMovement[] players;
-    static List<PlayerInput> inputs = new List<PlayerInput>();
+    static PlayerInput[] inputs = new PlayerInput[4];
+    List<UdpClient> subConnectors = new List<UdpClient>();
+    List<UDPClient> Clients = new List<UDPClient>();
+    static bool[] pingCallback = new bool[4];
+    
+
     public override void Update()
     {
         base.Update();
         if (players == null)
         {
             players = GameObject.FindObjectsOfType<PlayerMovement>();
+            for (int i = 0; i < NetworkBase.playerIDs.Length; i++)
+            {
+                for (int j = 0; j < players.Length; j++)
+                {
+                    players[j].OnlineGame = true;
+                    if (NetworkBase.playerIDs[i] == (int)players[j].playerID) players[j].NetworkControl = true;
+                }
+
+            }
         }
 
-        for (int i = inputs.Count-1; i >= 0; i--)
+        for (int i = 0; i < inputs.Length; i++)
         {
+            if (inputs[i] == null) continue;
             DoPlayerInput(inputs[i]);
-            inputs.RemoveAt(i);
+            inputs[i] = null;
         }
 
 
+
+        
     }
 
     public override void receiveCallback(IAsyncResult res)
@@ -37,14 +55,37 @@ public class GameServer : NetworkBase {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
 
-        string stringData = Encoding.UTF8.GetString(received);
-        Debug.Log("received server: " + stringData);
-        serverClient.BeginReceive(new AsyncCallback(receive), null);
+        string stringData = Encoding.ASCII.GetString(received);
+        // string stringData = Encoding.UTF8.GetString(received);
+        if (!stringData.StartsWith("<")) //testing only
+            Debug.Log("received server: " + stringData);
+        if (stringData.Contains("Ping")) 
+        {
+            for (int i = 0; i < connectedClients.Length; i++)
+            {
+                Debug.Log(connectedClients[i].endPoint + " : " + RemoteIpEndPoint);
+                if(connectedClients[i].endPoint.Port == RemoteIpEndPoint.Port)
+                {
+                    pingCallback[i] = true;
+                }
+            }
+            
+            
+            //serverClient.BeginSend(pingcallback, pingcallback.Length, RemoteIpEndPoint, null, null);
+            //serverClient.Send(pingcallback, pingcallback.Length, RemoteIpEndPoint);
+        }else
+        HandleSerializedData(DeserializeClass(received));
+        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
 
     }
     public GameServer(UdpClient client) : base(client)
     {
-        intervalMS = (int)(1.0f / TickRate * 1000.0f);
+        intervalS = (int)(1.0f / TickRate);
+        intervalMS = (int)(intervalS * 1000.0f);
+
+        
+
+
     }
     public void StartGame(UDPClient[] clients)
     {
@@ -52,7 +93,7 @@ public class GameServer : NetworkBase {
         connectedClients = clients;
         connectedClient = clients[0];   //TODO testing only
         //updateTimer = new Timer(UpdateServer, null, intervalMS, Timeout.Infinite);
-        
+        isReady = true;
         //players = GameObject.FindObjectsOfType<PlayerMovement>();
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
@@ -65,15 +106,28 @@ public class GameServer : NetworkBase {
     {
         while (true)
         {
-            yield return new WaitForSeconds(intervalMS / 1000.0f);
+            yield return new WaitForSeconds(intervalS);
 
             PlayerInfo[] playerInfos = new PlayerInfo[players.Length];
             for (int i = 0; i < players.Length; i++)
             {
-                playerInfos[i] = new PlayerInfo((int)players[i].playerID, players[i].transform.position.x, players[i].transform.position.y);
+                Vector2 vel = players[i].gameObject.GetComponent<Rigidbody2D>().velocity;
+                playerInfos[i] = new PlayerInfo((int)players[i].playerID, players[i].transform.position.x, players[i].transform.position.y, vel.x, vel.y);
             }
             PlayerUpdates updates = new PlayerUpdates(playerInfos);
             SendPlayerUpdates(updates);
+
+            for (int i = 0; i < pingCallback.Length; i++)
+            {
+                if (pingCallback[i])
+                {
+                    pingCallback[i] = false;
+                    byte[] pingcallback = UDPClient.StringToBytes("PingResult");
+                    SendToClient(connectedClients[i], pingcallback);
+                    Debug.Log("sent pingresult");
+                }
+            }
+            //Debug.Log("updating server");
             UpdateServer();
         }
     }
@@ -81,7 +135,7 @@ public class GameServer : NetworkBase {
     //part of the gamestate, player information(position, velocity, powerups)
     public void SendPlayerUpdates(PlayerUpdates updates)
     {
-        Debug.Log("sending player updates...");
+        //Debug.Log("sending player updates...");
         foreach(UDPClient client in connectedClients)
         {
             SendToClient(client, SerializeClass(updates));
@@ -91,20 +145,18 @@ public class GameServer : NetworkBase {
     protected void DoPlayerInput(PlayerInput input)
     {
         //update corresponding player object based on input
-        Debug.Log("handling player input..");
-        //pseudo code:
         PlayerMovement player = Array.Find(players, x => (int)x.playerID == input.playerID);
         player.DoMovement(input);
     }
 
     protected override void HandleSerializedData(SerializeBase data)
     {
-        Debug.Log("handling input");
         Type t = data.GetType();
 
         if (t.Equals(typeof(PlayerInput)))
         {
-            inputs.Add((PlayerInput)data);
+            PlayerInput input = (PlayerInput)data;
+            inputs[input.playerID] = input;
             //find player object and execute movement method... players[input.playerid].doMovement(input.xAxis, input.Jump, input.Action);
             //create new PlayerUpdates(input.playerid, new playerInfo(players[input.playerid].tranform.position.x, players[input.playerid].tranform.position.y);
             //serialize PlayerUpdates....
