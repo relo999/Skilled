@@ -45,6 +45,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\ImageEffects\AntialiasingEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\BloomAndFlaresEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\BloomEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\CameraMotionBlurEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\ColorCorrectionCurvesEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\ColorCorrectionLookupEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\CreaseShadingEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\DepthOfFieldDeprecatedEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\DepthOfFieldEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\EdgeDetectionEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\NoiseAndGrainEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\SunShaftsEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\TonemappingEditor.cs" />
+     <Compile Include="Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
      <Compile Include="Assets\InputManager\Addons\InputEvents\Editor\InputEventManagerEditor.cs" />
      <Compile Include="Assets\InputManager\Addons\JoystickMapping\Editor\MappingExplorer.cs" />
      <Compile Include="Assets\InputManager\Addons\JoystickMapping\Editor\MappingImportWindow.cs" />
@@ -53,29 +67,111 @@
      <Compile Include="Assets\InputManager\Source\Editor\InputManagerEditor.cs" />
      <Compile Include="Assets\InputManager\Source\Editor\_Support\EditorToolbox.cs" />
      <Compile Include="Assets\InputManager\Source\Editor\_Support\MenuCommands.cs" />
+     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
+     <None Include="Assets\Aubergine\Shaders\LinearDodge.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_linux.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\InputManager\Examples\01 - Controls Menu\Data\default_input.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceRaytrace.cginc" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
+     <None Include="Assets\PlaytestData.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlur.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
      <None Include="Assets\InputManager\Addons\InputAdapter\Resources\input_adapter_default_config.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_modules\unity_5_3.txt" />
+     <None Include="Assets\Aubergine\Shaders\ColorDodge.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
+     <None Include="Assets\Aubergine\Shaders\ColorBurn.shader" />
      <None Include="Assets\InputManager\Source\Resources\input_manager_project_settings.txt" />
      <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
+     <None Include="Assets\Aubergine\Shaders\Screen.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\InputManager\Examples\Common\Packages\KennyFonts\license.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
+     <None Include="Assets\Aubergine\Shaders\Multiply.shader" />
+     <None Include="Assets\Aubergine\Shaders\Difference.shader" />
+     <None Include="Assets\Aubergine\Shaders\Darken.shader" />
+     <None Include="Assets\CRTEffect\Shaders\GrabDodgeColor.shader" />
+     <None Include="Assets\Aubergine\Shaders\LinearBurn.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_module_index.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_modules\unity_5_2.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mapping_index.xml" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_linux_wireless.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
+     <None Include="Assets\Aubergine\Shaders\Exclusion.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_osx.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Wizards\XBox Controller Clone\xbox_wizard_definition.xml" />
+     <None Include="Assets\Aubergine\Shaders\_Includes\Aub_Blends.cginc" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\playstation_3.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Wizards\PS3 Controller Clone\ps3_wizard_definition.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\TwirlEffect.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
      <None Include="Assets\InputManager\Source\Resources\input_manager_default_config.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\InputManager\Examples\Common\Packages\KennyUI\on_screen_controls_license.txt" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_modules\unity_4_6.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_windows.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_modules\unity_5_0.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
      <None Include="Assets\PixelPerfectCamera\README.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_modules\unity_5_1.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
+     <None Include="Assets\CRTEffect\Shaders\GrabLinearBurn.shader" />
+     <None Include="Assets\Aubergine\Shaders\Lighten.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\InputManager\Examples\Common\Packages\KennyUI\ui_pack_license.txt" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -114,6 +210,8 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{60E9C1CA-FFB7-3B27-8A68-AF9999F69CFA}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{F59A07B6-FB32-2247-2536-E9CA11FC84CF}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
