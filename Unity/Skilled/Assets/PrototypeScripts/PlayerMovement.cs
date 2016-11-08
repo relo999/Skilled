@@ -40,6 +40,17 @@ public class PlayerMovement : MonoBehaviour {
     int currentAxis = 0;
     [HideInInspector]
     public bool canMove = true;
+ 
+    public bool NetworkControl = false;
+
+    public Vector2[] oldPositions = new Vector2[10];
+    public int oldPositionPointer = 0;
+    float oldPositionTimer = 0;
+
+
+    bool holdingJump = false;
+
+    public bool OnlineGame = false;
 
     public enum Controls
     {
@@ -50,6 +61,9 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody2D _rigid;
 	// Use this for initialization
 	void Start () {
+
+       
+
         _rigid = GetComponent<Rigidbody2D>();
         SpriteR = GetComponent<SpriteRenderer>();
 
@@ -60,6 +74,20 @@ public class PlayerMovement : MonoBehaviour {
         {
             ChangeAxis();
             
+        }
+    }
+
+    
+    void SaveOldPosition()
+    {
+        oldPositionTimer += Time.deltaTime;
+        if (oldPositionTimer >= 0.05f)
+        {
+            oldPositionTimer = 0;
+            oldPositions[oldPositionPointer] = transform.position;
+            oldPositionPointer++;
+            oldPositionPointer %= 10;
+
         }
     }
 	
@@ -80,21 +108,88 @@ public class PlayerMovement : MonoBehaviour {
 
     public void DoMovement(NetworkBase.PlayerInput input)
     {
-        Debug.Log("Axis received: " + input.xAxis);
-        Vector2 movement = new Vector2(0,_rigid.velocity.y);
+        if (!canMove) return;
+        //if (NetworkControl) return;
 
-        if (input.xAxis < 0)
+
+        bool grounded = false;
+
+        float spriteXSizeHalf = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f;
+        //racasts checking if player is standing on a block, casts from both edges of hitbox
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f + new Vector2(spriteXSizeHalf - 0.05f, 0), -Vector2.up, 0.10f);
+        //RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f, 0), -Vector2.up, 0.10f);
+        //if ((hit.transform != null && hit.transform != transform) || (hit2.transform != null && hit2.transform != transform))
+        //    grounded = true;
+        if (hit.transform != null && hit.transform != transform) grounded = true;
+        else
         {
-            movement.x += Vector2.left.x * MoveSpeed;
-            LastMovedRight = false;
+            RaycastHit2D hit2 = Physics2D.Raycast((Vector2)transform.position - Vector2.up * 0.20f - new Vector2(spriteXSizeHalf - 0.05f, 0), -Vector2.up, 0.10f);
+            if (hit2.transform != null && hit2.transform != transform) grounded = true;
         }
-        if (input.xAxis > 0)
+
+        //if (!Grounded && grounded) SAnimation.PlayAnimation("Idle", Pcolor);
+        Grounded = grounded;
+
+        /*
+        //Quickstop before input check
+        if ((QuickStop && grounded) || (!grounded && QuickStopAIR))
         {
-            movement.x += Vector2.right.x * MoveSpeed;
-            LastMovedRight = true;
+            _rigid.velocity = new Vector2(0, _rigid.velocity.y);
+        }*/
+
+        if (grounded || AirControl)
+        {
+            Vector2 movement = new Vector2(0, _rigid.velocity.y);
+            //if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow)  || InputManager.GetAxis("Horizontal", playerID) < 0)
+            if (input.xAxis < 0)
+            {
+                movement.x += Vector2.left.x * MoveSpeed;
+                LastMovedRight = false;
+            }
+            if (input.xAxis > 0)
+            {
+                movement.x += Vector2.right.x * MoveSpeed;
+                LastMovedRight = true;
+            }
+      
+            _rigid.velocity = movement;
         }
-        _rigid.velocity = movement;
-        SpriteR.flipX = !LastMovedRight;
+
+
+        if (input.JumpUp|| (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f))
+        {
+            _isJumping = false;
+            holdingJump = false;
+            // _rigid.AddForce(Vector2.down * JumpENDForceDown);
+            //_rigid.gravityScale = 1.0f;
+        }
+
+
+        if (input.JumpDown)
+        {
+            if (!_isJumping && (grounded || MultipleJumps))
+            {
+                jumpTimer = HoldJumpMaxSec;
+                _isJumping = true;
+                holdingJump = true;
+                SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 2, 0);
+                SAnimation.SetFrame(2);
+                //_currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
+                _rigid.AddForce(Vector2.up * JumpForce);
+                ScoreManager.gameData.Jumped++;
+            }
+        }
+
+        /*
+        if (input.Jump && _isJumping) holdingJump = true;
+        else holdingJump = false;
+        */
+
+            
+     
+
+
+
     }
 
     void ChangeAxis()
@@ -114,38 +209,45 @@ public class PlayerMovement : MonoBehaviour {
 
 
 	void Update () {
-        /*
-        if(NetManager.hasStarted && !NetManager.isServer)
+        bool doInput = NetworkControl || !OnlineGame;
+        //if (!NetworkControl) return;
+        if(NetManager.hasStarted && !NetManager.isServer && doInput)
         {
-            if(controls == Controls.CONTROLLER)
+            if (controls == Controls.CONTROLLER)
                 input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),
+                                                                   InputManager.GetButton("Jump", playerID),
                                                                    InputManager.GetButtonDown("Jump", playerID),
+                                                                   InputManager.GetButtonUp("Jump", playerID),
                                                                    InputManager.GetButtonDown("Action", playerID));
             if (controls == Controls.WASD)
-                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKeyDown(KeyCode.A) ? -1 : (Input.GetKeyDown(KeyCode.D)? 1 : 0),
+                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKey(KeyCode.A) ? -1 : (Input.GetKey(KeyCode.D)? 1 : 0),
+                                                                   Input.GetKey(KeyCode.W),
                                                                    Input.GetKeyDown(KeyCode.W),
+                                                                   Input.GetKeyUp(KeyCode.W),
                                                                    Input.GetKeyDown(KeyCode.Space));
             if (controls == Controls.ARROWS)
-                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKeyDown(KeyCode.LeftArrow) ? -1 : (Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0),
+                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKey(KeyCode.LeftArrow) ? -1 : (Input.GetKey(KeyCode.RightArrow) ? 1 : 0),
+                                                                   Input.GetKey(KeyCode.UpArrow),
                                                                    Input.GetKeyDown(KeyCode.UpArrow),
+                                                                   Input.GetKeyUp(KeyCode.UpArrow),
                                                                    Input.GetKeyDown(KeyCode.L));
-            if (input.xAxis != 0 || input.Jump || input.Action)
+            if (input.xAxis != 0 || input.Jump || input.JumpDown || input.JumpUp || input.Action)
                 NetManager.instance.SendInput(input);
 
 
-        }*/
-       
+        }
 
-        //return;
+      
+        //return; //TESTING
 
 
         if (!canMove) return;
-
-        if (StunnedTimer >0)
+        if (StunnedTimer > 0)
         {
-            StunnedTimer -= Time.deltaTime/1.5f;
+            StunnedTimer -= Time.deltaTime / 1.5f;
             return;
         }
+        if (doInput) SaveOldPosition();
 
         bool grounded = false;            
 
@@ -172,25 +274,33 @@ public class PlayerMovement : MonoBehaviour {
         //if (!Grounded && grounded) SAnimation.PlayAnimation("Idle", Pcolor);
         Grounded = grounded;
 
+        /*
             //Quickstop before input check
         if ((QuickStop && grounded) || (!grounded && QuickStopAIR))
         {
             _rigid.velocity = new Vector2(0, _rigid.velocity.y);
-        }
+        }*/
 
         if (grounded || AirControl)
         {
-            Vector2 movement = new Vector2(0, _rigid.velocity.y);
+
+            Vector2 movement = new Vector2(_rigid.velocity.x * 0.9f, _rigid.velocity.y);   //TODO change x back to 0
             //if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow)  || InputManager.GetAxis("Horizontal", playerID) < 0)
             if ((controls == Controls.WASD && Input.GetKey(KeyCode.A)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.LeftArrow))  || InputManager.GetAxis("Horizontal", playerID) < 0)
             {
-                movement.x += Vector2.left.x * MoveSpeed;
-                LastMovedRight = false;
+                if (doInput)
+                {
+                    movement.x = Vector2.left.x * MoveSpeed;
+                    LastMovedRight = false;
+                }
             }
             if ((controls == Controls.WASD && Input.GetKey(KeyCode.D)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.RightArrow)) || InputManager.GetAxis("Horizontal", playerID) > 0)
             {
-                movement.x += Vector2.right.x * MoveSpeed;
-                LastMovedRight = true;
+                if (doInput)
+                {
+                    movement.x = Vector2.right.x * MoveSpeed;
+                    LastMovedRight = true;
+                }
             }
             if (Grounded && !_isJumping)
             {
@@ -210,29 +320,34 @@ public class PlayerMovement : MonoBehaviour {
             _rigid.velocity = movement;
         }
 
-        
 
-        //Debug.Log(InputManager.GetButtonDown("Jump", playerID));
-        if ((controls == Controls.WASD && Input.GetKeyUp(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyUp(KeyCode.UpArrow)) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f) )
+        if (doInput)
         {
-            _isJumping = false;
-           // _rigid.AddForce(Vector2.down * JumpENDForceDown);
-            //_rigid.gravityScale = 1.0f;
-        }
-        if ((controls == Controls.WASD && Input.GetKeyDown(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyDown(KeyCode.UpArrow)) || InputManager.GetButtonDown("Jump", playerID))
-        {
-            if (!_isJumping && (grounded || MultipleJumps))
+            //Debug.Log(InputManager.GetButtonDown("Jump", playerID));
+            if ((controls == Controls.WASD && Input.GetKeyUp(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyUp(KeyCode.UpArrow)) || InputManager.GetButtonUp("Jump", playerID) || (!grounded && _rigid.velocity.y < 0.1f && _rigid.velocity.y > -0.1f))
             {
-                jumpTimer = HoldJumpMaxSec;
-                _isJumping = true;
-                SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 2, 0);
-                SAnimation.SetFrame(2);
-                //_currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
-                _rigid.AddForce(Vector2.up * JumpForce);
-                ScoreManager.gameData.Jumped++;
+                _isJumping = false;
+                holdingJump = false;
+                // _rigid.AddForce(Vector2.down * JumpENDForceDown);
+                //_rigid.gravityScale = 1.0f;
+            }
+            if ((controls == Controls.WASD && Input.GetKeyDown(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKeyDown(KeyCode.UpArrow)) || InputManager.GetButtonDown("Jump", playerID))
+            {
+                if (!_isJumping && (grounded || MultipleJumps))
+                {
+                    jumpTimer = HoldJumpMaxSec;
+                    _isJumping = true;
+                    holdingJump = true;
+                    SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 2, 0);
+                    SAnimation.SetFrame(2);
+                    //_currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
+                    _rigid.AddForce(Vector2.up * JumpForce);
+                    ScoreManager.gameData.Jumped++;
+                }
             }
         }
-        if ((controls == Controls.WASD && Input.GetKey(KeyCode.W)) || (controls == Controls.ARROWS && Input.GetKey(KeyCode.UpArrow)) || InputManager.GetButton("Jump", playerID) && _isJumping)
+
+        if (_isJumping || holdingJump)
         {
             
              
@@ -243,7 +358,7 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                //if (_rigid.velocity.y > -1) SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 3);
+                if (_rigid.velocity.y > -1) SAnimation.PlayAnimation("Jump", Pcolor, false, 5, 3);
             }
 
             //_currentJumpForce *= HoldJumpDecay;

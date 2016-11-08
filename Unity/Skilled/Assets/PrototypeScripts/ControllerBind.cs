@@ -33,6 +33,12 @@ public class ControllerBind : MonoBehaviour {
         for (int i = 0; i < maxPlayers; i++)
         {
             CreateConfig(i);
+            /*
+            for (int j = 0; j < NetworkBase.playerIDs.Length; j++)
+            {
+                if(i == NetworkBase.playerIDs[j]) CreateConfig(i);
+            }*/
+            
         }
     }
 

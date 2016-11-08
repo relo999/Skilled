@@ -17,9 +17,10 @@ public class NetworkBase{
     protected const string SERVER_IP = "86.80.201.15";
     protected UdpClient serverClient;
     protected UDPClient Mainserver;
-    public int playerID;
+    public static int[] playerIDs;
     public UDPClient connectedClient = null;
     XmlSerializer xmlSerializer;
+    public bool isReady = false;
     
     public NetworkBase(UdpClient client)
     {
@@ -51,14 +52,21 @@ public class NetworkBase{
 
         if (serverClient == null) return;
         Text debugText = GameObject.Find("NetworkDebug").GetComponent<Text>();
-        debugText.text = (this.GetType() == typeof(GameClient) ? "client" : "server")   + "\n" +
-                         "own:   " + GetLocalIPAddress() + " : " + GetLocalEndPoint().Port + "\n" +
-                         "other: " + connectedClient.endPoint.Address + " : " + connectedClient.endPoint.Port;
+        bool isClient = (this.GetType() == typeof(GameClient));
+        debugText.text =  isClient? "client" : "server";
+        if(isClient)
+        {
+            GameClient c = this as GameClient;
+            debugText.text += "\nPing: " + c.Ping + "\n";
+            debugText.text += "Packet loss: " + c.PacketLoss;
+        }
+        
     }
     
     public void SendToClient(UDPClient client, byte[] data)
     {
-        Debug.Log("Sent: " + Encoding.UTF8.GetString(data));
+        if (!Encoding.ASCII.GetString(data).StartsWith("<")) //testing only
+            Debug.Log("Sent: " + Encoding.UTF8.GetString(data));
         //serverClient.Send(data, data.GetLength(0), client.endPoint);
         serverClient.BeginSend(data, data.Length, client.endPoint, null, null);
     }
@@ -83,11 +91,13 @@ public class NetworkBase{
     //client + server
     public class PlayerInput : SerializeBase
     {
-        public PlayerInput(int playerID = 0, float xAxis = 0, bool Jump = false, bool Action = false)
+        public PlayerInput(int playerID = 0, float xAxis = 0, bool Jump = false, bool JumpDown = false, bool JumpUp = false, bool Action = false)
         {
             this.playerID = playerID;
             this.xAxis = xAxis;
             this.Jump = Jump;
+            this.JumpDown = JumpDown;
+            this.JumpUp = JumpUp;
             this.Action = Action;
         }
         public PlayerInput() { }
@@ -95,6 +105,8 @@ public class NetworkBase{
         public int playerID;
         public float xAxis;
         public bool Jump;
+        public bool JumpDown;
+        public bool JumpUp;
         public bool Action;
     }
 
@@ -112,11 +124,15 @@ public class NetworkBase{
         public int playerID;
         public float xPos;
         public float yPos;
-        public PlayerInfo(int playerID, float xPos, float yPos)
+        public float xVel;
+        public float yVel;
+        public PlayerInfo(int playerID, float xPos, float yPos, float xVel, float yVel)
         {
             this.playerID = playerID;
             this.xPos = xPos;
             this.yPos = yPos;
+            this.xVel = xVel;
+            this.yVel = yVel;
         }
         public PlayerInfo() { }
     }

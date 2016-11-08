@@ -173,6 +173,7 @@
     <Compile Include="Assets\PrototypeScripts\physics\Bounds2D.cs" />
     <Compile Include="Assets\PrototypeScripts\physics\Collision2D.cs" />
     <Compile Include="Assets\PrototypeScripts\physics\SpriteCollider.cs" />
+    <Compile Include="Assets\SpriteColor.cs" />
     <Compile Include="Assets\UDPManager.cs" />
     <Compile Include="Assets\UDPTest.cs" />
   </ItemGroup>
