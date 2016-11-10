@@ -59,6 +59,7 @@ public class NetworkBase{
             GameClient c = this as GameClient;
             debugText.text += "\nPing: " + c.Ping + "\n";
             debugText.text += "Packet loss: " + c.PacketLoss;
+            //debugText.text += "\nDetails: " + GetLocalIPAddress() + GetLocalEndPoint().Port;
         }
         
     }

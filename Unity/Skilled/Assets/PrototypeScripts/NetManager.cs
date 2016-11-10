@@ -19,6 +19,7 @@ public class NetManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         client = new UdpClient();
+        
         Mainserver = new NetworkBase.UDPClient(IPAddress.Parse(SERVER_IP), SERVER_PORT);
         instance = this;
     }
@@ -69,8 +70,11 @@ public class NetManager : MonoBehaviour {
     void RequestMatch(int players = 1)
     {
         byte[] data = NetworkBase.UDPClient.StringToBytes("connect" + players);
-
+        SendToClient(new NetworkBase.UDPClient("0.0.0.9", 999), data);
+        //SendToClient(Mainserver, data);
+        Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint().Port);
         SendToClient(Mainserver, data);
+        Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint().Port);
         client.BeginReceive(new AsyncCallback(receive), null);
     }
 

@@ -57,8 +57,10 @@ public class GameServer : NetworkBase {
 
         string stringData = Encoding.ASCII.GetString(received);
         // string stringData = Encoding.UTF8.GetString(received);
+
         if (!stringData.StartsWith("<")) //testing only
             Debug.Log("received server: " + stringData);
+
         if (stringData.Contains("Ping")) 
         {
             for (int i = 0; i < connectedClients.Length; i++)
@@ -68,11 +70,7 @@ public class GameServer : NetworkBase {
                 {
                     pingCallback[i] = true;
                 }
-            }
-            
-            
-            //serverClient.BeginSend(pingcallback, pingcallback.Length, RemoteIpEndPoint, null, null);
-            //serverClient.Send(pingcallback, pingcallback.Length, RemoteIpEndPoint);
+            }     
         }else
         HandleSerializedData(DeserializeClass(received));
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
@@ -123,6 +121,7 @@ public class GameServer : NetworkBase {
                 {
                     pingCallback[i] = false;
                     byte[] pingcallback = UDPClient.StringToBytes("PingResult");
+                    SendToClient(connectedClients[i], pingcallback);
                     SendToClient(connectedClients[i], pingcallback);
                     Debug.Log("sent pingresult");
                 }
