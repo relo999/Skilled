@@ -73,6 +73,7 @@ public class GameClient : NetworkBase {
                 startedPing = false;
                 SendToClient(connectedClient, UDPClient.StringToBytes("Ping"));
                 SendToClient(connectedClient, UDPClient.StringToBytes("Ping"));
+                Debug.Log("pinging to: " + connectedClient.endPoint);
             }
 
 
