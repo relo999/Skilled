@@ -61,7 +61,7 @@ Shader "Custom/GrabLinearBurn"
 			fixed4 LinearBurn (fixed4 a, fixed4 b)
 			{ 
 				fixed4 r = (a+b)-1;
-				r.a = b.a;
+				r.a = b.a/1.15;
 				return r;
 			} 
 			

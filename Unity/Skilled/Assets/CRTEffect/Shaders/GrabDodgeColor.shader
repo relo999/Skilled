@@ -27,6 +27,7 @@ Shader "Custom/GrabDodgeColor"
 			#pragma vertex ComputeVertex
 			#pragma fragment ComputeFragment
 			
+			
 			sampler2D _MainTex;
 			sampler2D _GrabTexture;
 			fixed4 _Color;
@@ -60,8 +61,8 @@ Shader "Custom/GrabDodgeColor"
 			
 			fixed4 DodgeColor (fixed4 a, fixed4 b)
 			{ 
-				fixed4 r = a/(1-b);
-				r.a = b.a;
+				fixed4 r = (a)/(1-(b));
+				r.a = b.a/20;
 				return r;
 			} 
 			
