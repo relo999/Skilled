@@ -86,7 +86,6 @@
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
-     <None Include="Assets\Aubergine\Shaders\LinearDodge.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_linux.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
@@ -108,22 +107,15 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_modules\unity_5_3.txt" />
-     <None Include="Assets\Aubergine\Shaders\ColorDodge.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
-     <None Include="Assets\Aubergine\Shaders\ColorBurn.shader" />
      <None Include="Assets\InputManager\Source\Resources\input_manager_project_settings.txt" />
      <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
-     <None Include="Assets\Aubergine\Shaders\Screen.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\InputManager\Examples\Common\Packages\KennyFonts\license.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
-     <None Include="Assets\Aubergine\Shaders\Multiply.shader" />
-     <None Include="Assets\Aubergine\Shaders\Difference.shader" />
-     <None Include="Assets\Aubergine\Shaders\Darken.shader" />
      <None Include="Assets\CRTEffect\Shaders\GrabDodgeColor.shader" />
-     <None Include="Assets\Aubergine\Shaders\LinearBurn.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\InputManager\Addons\UIInputModules\Resources\ui_input_module_index.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
@@ -135,7 +127,6 @@
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mapping_index.xml" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_linux_wireless.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
-     <None Include="Assets\Aubergine\Shaders\Exclusion.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Resources\joystick_mappings\xbox_360_osx.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
@@ -143,7 +134,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
      <None Include="Assets\InputManager\Addons\JoystickMapping\Wizards\XBox Controller Clone\xbox_wizard_definition.xml" />
-     <None Include="Assets\Aubergine\Shaders\_Includes\Aub_Blends.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
@@ -183,7 +173,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
      <None Include="Assets\CRTEffect\Shaders\GrabLinearBurn.shader" />
-     <None Include="Assets\Aubergine\Shaders\Lighten.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\InputManager\Examples\Common\Packages\KennyUI\ui_pack_license.txt" />
