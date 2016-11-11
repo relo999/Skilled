@@ -25,6 +25,8 @@ public class GameClient : NetworkBase {
     static bool startedPing = false;
     static bool receivedPing = false;
 
+    
+
 
     public static PlayerInput lastInput;
 
@@ -34,12 +36,12 @@ public class GameClient : NetworkBase {
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
 
         string stringData = Encoding.UTF8.GetString(received);
-        if(!stringData.StartsWith("<")) //testing only
+        //if(!stringData.StartsWith("<")) //testing only
         Debug.Log("received client: " + (stringData.StartsWith("<")? "data" : stringData));
 
         
         //ping, in progress
-        if(stringData.Contains("PingResult"))
+        if(stringData == ("PingResult"))
         {
             
             receivedPackets--;
@@ -102,7 +104,17 @@ public class GameClient : NetworkBase {
             PacketLoss = packetLoss;
             receivedPackets = 0;
 
-            if(!isPinging) StartPing();
+            if (!isPinging) StartPing();
+            else
+            {
+                if ((DateTime.Now - pingStart).Seconds > 2)
+                {
+                    receivedPing = true;
+
+                    isPinging = false;
+                    startedPing = false;
+                }
+            }
 
         }
     }
@@ -113,6 +125,7 @@ public class GameClient : NetworkBase {
         base.Update();
         timer += Time.deltaTime;
         TimerHandler();
+        
         if(receivedPing)
         {
             receivedPing = false;
@@ -181,7 +194,7 @@ public class GameClient : NetworkBase {
             PlayerMovement playerMov = Array.Find(players, x => (int)x.playerID == info.playerID);
             GameObject player = playerMov.gameObject;
 
-            int oldPositionIndex = playerMov.oldPositionPointer - (int)((Ping / 1000f) / 0.05f);
+            int oldPositionIndex = playerMov.oldPositionPointer - (int)((GameTimer - Pupdates.gameTime) / 0.05f);
             while(oldPositionIndex < 0)
             {
                 oldPositionIndex += 10;
@@ -199,6 +212,7 @@ public class GameClient : NetworkBase {
     protected override void HandleSerializedData(SerializeBase data)
     {
         //return;
+        if (GameTimer - data.gameTime > Ping/1000f + 0.3f || GameTimer - data.gameTime < Ping/1000f - 0.3f) GameTimer = data.gameTime;
         Type t = data.GetType();
 
         if (t.Equals(typeof(PlayerUpdates)))

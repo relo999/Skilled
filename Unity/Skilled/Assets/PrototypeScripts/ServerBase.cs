@@ -21,7 +21,9 @@ public class NetworkBase{
     public UDPClient connectedClient = null;
     XmlSerializer xmlSerializer;
     public bool isReady = false;
-    
+
+    public static float GameTimer = 0;
+
     public NetworkBase(UdpClient client)
     {
         xmlSerializer = new XmlSerializer(typeof(SerializeBase));
@@ -51,9 +53,13 @@ public class NetworkBase{
     {
 
         if (serverClient == null) return;
+
+        GameTimer += Time.deltaTime;
+
         Text debugText = GameObject.Find("NetworkDebug").GetComponent<Text>();
         bool isClient = (this.GetType() == typeof(GameClient));
         debugText.text =  isClient? "client" : "server";
+        debugText.text += "\nTime: " + (int)GameTimer;
         if(isClient)
         {
             GameClient c = this as GameClient;
@@ -117,6 +123,7 @@ public class NetworkBase{
     [XmlInclude(typeof(PlayerUpdates))]
     public abstract class SerializeBase  //abstract?
     {
+        public float gameTime;
         //public SerializeBase() { }
     }
     //client + server
@@ -239,6 +246,7 @@ public class NetworkBase{
     //server + client
     public byte[] SerializeClass(SerializeBase input)
     {
+        input.gameTime = GameTimer;
         using (var memStream = new MemoryStream())        {
             xmlSerializer.Serialize(memStream, input);
             //Debug.Log(memStream.ToArray().ToString());
