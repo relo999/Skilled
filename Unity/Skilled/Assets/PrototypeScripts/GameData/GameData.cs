@@ -74,7 +74,7 @@ public class GameData{
 
              Environment.NewLine;
             
-        File.AppendAllText(Application.dataPath + "/PlaytestData.txt", data);
+        //File.AppendAllText(Application.dataPath + "/PlaytestData.txt", data);
         //File.AppendAllText(Application.dataPath + "/PlaytestData.txt", data);
     }
 }
