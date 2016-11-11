@@ -11,7 +11,7 @@ public class GameServer : NetworkBase {
 
     UDPClient[] connectedClients;
     Timer updateTimer;
-    const float TickRate = 64;
+    const float TickRate = 16;
     int intervalMS;
     int intervalS;
     PlayerMovement[] players;
@@ -61,7 +61,7 @@ public class GameServer : NetworkBase {
         if (!stringData.StartsWith("<")) //testing only
             Debug.Log("received server: " + stringData);
 
-        if (stringData.Contains("Ping")) 
+        if (stringData == "Ping") 
         {
             for (int i = 0; i < connectedClients.Length; i++)
             {

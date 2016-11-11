@@ -65,14 +65,16 @@ public class NetworkBase{
             GameClient c = this as GameClient;
             debugText.text += "\nPing: " + c.Ping + "\n";
             debugText.text += "Packet loss: " + c.PacketLoss;
-            //debugText.text += "\nDetails: " + GetLocalIPAddress() + GetLocalEndPoint().Port;
+            
         }
-        
+        debugText.text += "\nown: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
+        debugText.text += "\ncon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
+
     }
     
     public void SendToClient(UDPClient client, byte[] data)
     {
-        if (!Encoding.ASCII.GetString(data).StartsWith("<")) //testing only
+       // if (!Encoding.ASCII.GetString(data).StartsWith("<")) //testing only
             Debug.Log("Sent: " + Encoding.UTF8.GetString(data));
         //serverClient.Send(data, data.GetLength(0), client.endPoint);
         serverClient.BeginSend(data, data.Length, client.endPoint, null, null);
