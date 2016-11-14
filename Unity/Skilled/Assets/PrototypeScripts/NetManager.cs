@@ -121,10 +121,11 @@ public class NetManager : MonoBehaviour {
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //return;
             SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
+            //SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //this.Start();
         }
-        
+        Debug.Log("Started receiving " + (networkBase == null? "netman" : "base") + "..");
         client.BeginReceive(networkBase == null? new AsyncCallback(receive) : new AsyncCallback(networkBase.receiveCallback), null);
     }
 
@@ -142,7 +143,8 @@ public class NetManager : MonoBehaviour {
     }
     public void SendToClient(NetworkBase.UDPClient Client, byte[] data)
     {
-        Debug.Log("Sent: " + Encoding.UTF8.GetString(data));
+        string stringdata = Encoding.UTF8.GetString(data);
+        Debug.Log("Sent: " + (stringdata.StartsWith("<")? "data" : stringdata));
         this.client.Send(data, data.GetLength(0), Client.endPoint);
     }
     void StartClient()

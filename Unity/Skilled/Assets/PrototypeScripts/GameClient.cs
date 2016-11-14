@@ -34,27 +34,28 @@ public class GameClient : NetworkBase {
     {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
-
-        string stringData = Encoding.UTF8.GetString(received);
+        string stringData = Encoding.ASCII.GetString(received);
         //if(!stringData.StartsWith("<")) //testing only
-        Debug.Log("received client: " + (stringData.StartsWith("<")? "data" : stringData));
+        //Debug.Log("received client: " + (stringData.StartsWith("<")? "data" : stringData));
 
-        
         //ping, in progress
-        if(stringData == ("PingResult"))
+        if (stringData == "PingResult")
         {
-            
             receivedPackets--;
 
-                receivedPing = true;
-                
-                isPinging = false;
-                startedPing = false;
-            
-        }else
-        HandleSerializedData(DeserializeClass(received));
+            receivedPing = true;
+
+            isPinging = false;
+            startedPing = false;
+
+        }
+        else
+        {
+            if(stringData.StartsWith("<"))
+                HandleSerializedData(DeserializeClass(received));
+        }
         //receiveCallback(res);
-        //Debug.Log("started receiving");
+        //Debug.Log("started receiving..");
         receivedPackets++;
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
@@ -74,7 +75,7 @@ public class GameClient : NetworkBase {
             {
                 startedPing = false;
                 SendToClient(connectedClient, UDPClient.StringToBytes("Ping"));
-                SendToClient(connectedClient, UDPClient.StringToBytes("Ping"));
+                //SendToClient(connectedClient, UDPClient.StringToBytes("Ping"));
                 Debug.Log("pinging to: " + connectedClient.endPoint);
             }
 
@@ -99,9 +100,12 @@ public class GameClient : NetworkBase {
         {
             timer = 0;
             int packetLoss = EXPECTED_PACKETS - receivedPackets;
-            packetLoss = packetLoss < 0 ? 0 : packetLoss;
-            Debug.Log("Packet loss: " + packetLoss);
+            packetLoss = packetLoss < 0 ? 0 : packetLoss;   
             PacketLoss = packetLoss;
+            if(PacketLoss >= EXPECTED_PACKETS/2)
+            {
+                SendToClient(connectedClient, Encoding.ASCII.GetBytes("Work?"));
+            }
             receivedPackets = 0;
 
             if (!isPinging) StartPing();
@@ -169,7 +173,7 @@ public class GameClient : NetworkBase {
     {
         //Debug.Log(GetLocalIPAddress() + " : " + GetLocalEndPoint().Port);
         isReady = true;
-        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
+        //serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
     public void SetPlayerID()
     {
@@ -186,7 +190,7 @@ public class GameClient : NetworkBase {
 
     protected void DoPlayerUpdates(PlayerUpdates Pupdates)
     {
-
+        string test123 = "";
         PlayerUpdates updates = Pupdates;
         for (int i = 0; i < updates.PlayerInfos.Length; i++)
         {
@@ -194,24 +198,30 @@ public class GameClient : NetworkBase {
             PlayerMovement playerMov = Array.Find(players, x => (int)x.playerID == info.playerID);
             GameObject player = playerMov.gameObject;
 
-            int oldPositionIndex = playerMov.oldPositionPointer - (int)((GameTimer - Pupdates.gameTime) / 0.05f);
+            int oldPositionIndex = playerMov.oldPositionPointer - (int)Mathf.Round((GameTimer - Pupdates.gameTime) / 0.05f);
             while(oldPositionIndex < 0)
             {
                 oldPositionIndex += 10;
                 oldPositionIndex %= 10;
             }
-            if ((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude < 0.5f) continue;
+            test123+= (playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude + "\n";
+            //Debug.Log((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude);
+            if ((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude < 0.7f && playerMov.NetworkControl) continue;
             //if (playerMov.NetworkControl) continue;
             
 
             player.transform.position = new Vector3(info.xPos, info.yPos, player.transform.position.z);
             player.GetComponent<Rigidbody2D>().velocity = new Vector2(info.xVel, info.yVel);
         }
+        testString = test123;
     }
 
     protected override void HandleSerializedData(SerializeBase data)
     {
+
         //return;
+        //Debug.Log("handling data...");
+        //Debug.Log("gametimer: " + data.gameTime);
         if (GameTimer - data.gameTime > Ping/1000f + 0.3f || GameTimer - data.gameTime < Ping/1000f - 0.3f) GameTimer = data.gameTime;
         Type t = data.GetType();
 

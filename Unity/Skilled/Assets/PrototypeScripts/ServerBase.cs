@@ -22,6 +22,9 @@ public class NetworkBase{
     XmlSerializer xmlSerializer;
     public bool isReady = false;
 
+    public string testString = "-1";
+
+
     public static float GameTimer = 0;
 
     public NetworkBase(UdpClient client)
@@ -59,7 +62,7 @@ public class NetworkBase{
         Text debugText = GameObject.Find("NetworkDebug").GetComponent<Text>();
         bool isClient = (this.GetType() == typeof(GameClient));
         debugText.text =  isClient? "client" : "server";
-        debugText.text += "\nTime: " + (int)GameTimer;
+        debugText.text += "\nTime: " + System.Math.Round(GameTimer,2);
         if(isClient)
         {
             GameClient c = this as GameClient;
@@ -69,6 +72,7 @@ public class NetworkBase{
         }
         debugText.text += "\nown: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
         debugText.text += "\ncon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
+        debugText.text += "\ntest: " + testString;
 
     }
     
