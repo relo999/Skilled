@@ -11,7 +11,7 @@ public class GameServer : NetworkBase {
 
     UDPClient[] connectedClients;
     Timer updateTimer;
-    const float TickRate = 16;
+    const float TickRate = 32;
     int intervalMS;
     int intervalS;
     PlayerMovement[] players;
@@ -54,25 +54,30 @@ public class GameServer : NetworkBase {
     {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
-
         string stringData = Encoding.ASCII.GetString(received);
         // string stringData = Encoding.UTF8.GetString(received);
 
-        if (!stringData.StartsWith("<")) //testing only
-            Debug.Log("received server: " + stringData);
-
-        if (stringData == "Ping") 
+        //if (!stringData.StartsWith("<")) //testing only
+        //Debug.Log("received server: " + (stringData.StartsWith("<")? "data" : stringData));
+        if (stringData == "Ping")
         {
+            //Debug.Log("handling ping");
             for (int i = 0; i < connectedClients.Length; i++)
             {
-                Debug.Log(connectedClients[i].endPoint + " : " + RemoteIpEndPoint);
-                if(connectedClients[i].endPoint.Port == RemoteIpEndPoint.Port)
+                if (connectedClients[i] == null) continue;
+                //Debug.Log(connectedClients[i].endPoint + " : " + RemoteIpEndPoint);
+                if (connectedClients[i].endPoint.Port == RemoteIpEndPoint.Port)
                 {
                     pingCallback[i] = true;
                 }
-            }     
-        }else
-        HandleSerializedData(DeserializeClass(received));
+            }
+        }
+        else
+        {
+            if (stringData.StartsWith("<"))
+                HandleSerializedData(DeserializeClass(received));
+        }
+        //Debug.Log("started receive server...");
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
 
     }
@@ -93,7 +98,7 @@ public class GameServer : NetworkBase {
         //updateTimer = new Timer(UpdateServer, null, intervalMS, Timeout.Infinite);
         isReady = true;
         //players = GameObject.FindObjectsOfType<PlayerMovement>();
-        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
+        //serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
 
 
@@ -123,7 +128,6 @@ public class GameServer : NetworkBase {
                     byte[] pingcallback = UDPClient.StringToBytes("PingResult");
                     SendToClient(connectedClients[i], pingcallback);
                     SendToClient(connectedClients[i], pingcallback);
-                    Debug.Log("sent pingresult");
                 }
             }
             //Debug.Log("updating server");
@@ -151,11 +155,11 @@ public class GameServer : NetworkBase {
     protected override void HandleSerializedData(SerializeBase data)
     {
         Type t = data.GetType();
-
         if (t.Equals(typeof(PlayerInput)))
         {
             PlayerInput input = (PlayerInput)data;
             inputs[input.playerID] = input;
+            
             //find player object and execute movement method... players[input.playerid].doMovement(input.xAxis, input.Jump, input.Action);
             //create new PlayerUpdates(input.playerid, new playerInfo(players[input.playerid].tranform.position.x, players[input.playerid].tranform.position.y);
             //serialize PlayerUpdates....
