@@ -19,7 +19,6 @@ public class NetManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         client = new UdpClient();
-        
         Mainserver = new NetworkBase.UDPClient(IPAddress.Parse(SERVER_IP), SERVER_PORT);
         instance = this;
     }
@@ -67,14 +66,28 @@ public class NetManager : MonoBehaviour {
         }
 	}
 
+    public static string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        throw new Exception("Local IP Address Not Found!");
+    }
+
     void RequestMatch(int players = 1)
     {
-        byte[] data = NetworkBase.UDPClient.StringToBytes("connect" + players);
+        byte[] data = new byte[1];
         SendToClient(new NetworkBase.UDPClient("0.0.0.9", 999), data);
+        data = Encoding.ASCII.GetBytes("connect" + players + GetLocalIPAddress());
         //SendToClient(Mainserver, data);
-        Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint().Port);
+        //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint().Port);
         SendToClient(Mainserver, data);
-        Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint().Port);
+        //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint().Port);
         client.BeginReceive(new AsyncCallback(receive), null);
     }
 
@@ -121,6 +134,7 @@ public class NetManager : MonoBehaviour {
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //return;
             SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
+            //SendToClient(Mainserver, Encoding.ASCII.GetBytes("test123"));
             //SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //this.Start();

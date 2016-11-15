@@ -23,6 +23,7 @@ public class NetworkBase{
     public bool isReady = false;
 
     public string testString = "-1";
+    public float testFloat = -1;
 
 
     public static float GameTimer = 0;
@@ -73,6 +74,7 @@ public class NetworkBase{
         debugText.text += "\nown: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
         debugText.text += "\ncon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
         debugText.text += "\ntest: " + testString;
+        debugText.text += "\nfloat: " + testFloat;
 
     }
     

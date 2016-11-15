@@ -56,7 +56,7 @@ public class GameServer : NetworkBase {
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
         string stringData = Encoding.ASCII.GetString(received);
         // string stringData = Encoding.UTF8.GetString(received);
-
+        testFloat = 1;
         //if (!stringData.StartsWith("<")) //testing only
         //Debug.Log("received server: " + (stringData.StartsWith("<")? "data" : stringData));
         if (stringData == "Ping")
@@ -77,6 +77,7 @@ public class GameServer : NetworkBase {
             if (stringData.StartsWith("<"))
                 HandleSerializedData(DeserializeClass(received));
         }
+        testFloat = 2;
         //Debug.Log("started receive server...");
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
 

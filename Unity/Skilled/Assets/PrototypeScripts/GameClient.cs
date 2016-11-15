@@ -37,7 +37,7 @@ public class GameClient : NetworkBase {
         string stringData = Encoding.ASCII.GetString(received);
         //if(!stringData.StartsWith("<")) //testing only
         //Debug.Log("received client: " + (stringData.StartsWith("<")? "data" : stringData));
-
+        testFloat = 1;
         //ping, in progress
         if (stringData == "PingResult")
         {
@@ -55,6 +55,7 @@ public class GameClient : NetworkBase {
                 HandleSerializedData(DeserializeClass(received));
         }
         //receiveCallback(res);
+        testFloat = 2;
         //Debug.Log("started receiving..");
         receivedPackets++;
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
