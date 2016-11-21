@@ -1,0 +1,42 @@
+---General---
+Jump (Multiple)
+Power collection
+Character Call
+Character yell
+Big explosion (self explode power up)
+Small explosion (bomb throw)
+Spawn
+Use Item
+Throw
+Hit "pop-up" block or Item block from under
+Landing of a character
+Splat/Kill (mutiple)
+Invincibitity melody
+Bounce Blocks
+Switch Blocks
+Life up/point up
+Paint landing
+Springboard
+Slipping on Ice
+Achievement unlocked
+Highscore 
+side Character collision
+
+---Mode Specific---
+Chicken call
+Ink Pickup
+
+---Single Player
+Spike ball bounce
+Spike ball spawn (over time in single player)
+Slime Monster call
+
+---Menu----
+Select Menu Item
+Press Menu Item
+
+---Level editor---
+Place block
+Save level
+Erase level
+Input
