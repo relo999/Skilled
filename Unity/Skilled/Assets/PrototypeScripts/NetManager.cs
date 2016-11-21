@@ -19,8 +19,10 @@ public class NetManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         client = new UdpClient();
+        
         Mainserver = new NetworkBase.UDPClient(IPAddress.Parse(SERVER_IP), SERVER_PORT);
         instance = this;
+        
     }
 
     public static NetManager instance = null;
@@ -38,9 +40,37 @@ public class NetManager : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
+
 	    if(networkBase == null)
         {
-            if (Input.GetKeyDown(KeyCode.N))RequestMatch();
+            int ownPlayers = 1;
+            //if (Input.GetKeyDown(KeyCode.N))RequestMatch();
+            if(Input.GetKeyDown(KeyCode.V))
+            {
+                byte[] data = new byte[1];
+                SendToClient(new NetworkBase.UDPClient("0.0.0.9", 999), data);
+                networkBase = new GameServer(client, 2);
+                isServer = true;
+                //client.BeginReceive(new AsyncCallback(networkBase.receiveCallback), client);
+                //client.BeginReceive(new AsyncCallback(receive), null);
+                GameServer server = networkBase as GameServer;
+                server.MakeLobby("lobby123", ownPlayers);
+                client.BeginReceive(new AsyncCallback(networkBase.receiveCallback), client);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                byte[] data = new byte[1];
+                SendToClient(new NetworkBase.UDPClient("0.0.0.9", 999), data);
+                networkBase = new GameClient(client);
+
+                //client.BeginReceive(new AsyncCallback(networkBase.receiveCallback), client);
+                //client.BeginReceive(new AsyncCallback(receive), null);
+                GameClient server = networkBase as GameClient;
+                server.controllingPlayers = ownPlayers;
+                server.JoinLobby("lobby123", ownPlayers);
+                client.BeginReceive(new AsyncCallback(networkBase.receiveCallback), client);
+            }
 
             //testing
             //if (Input.GetKeyDown(KeyCode.N)) StartServer();
@@ -48,7 +78,17 @@ public class NetManager : MonoBehaviour {
         }
         else
         {
-            networkBase.Update();
+
+            if(networkBase.isReady)networkBase.Update();
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.B) && isServer)
+                {
+                    GameServer s = networkBase as GameServer;
+                    s.StartLobby();
+                }
+                        
+            }
             if (!startedServer && isServer && networkBase.isReady)
             {
                 startedServer = true;
@@ -79,6 +119,8 @@ public class NetManager : MonoBehaviour {
         throw new Exception("Local IP Address Not Found!");
     }
 
+    
+
     void RequestMatch(int players = 1)
     {
         byte[] data = new byte[1];
@@ -103,6 +145,7 @@ public class NetManager : MonoBehaviour {
             string[] splitData = stringData.Split(':');
             Connectedclient = new NetworkBase.UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
             
+            /*
             //if (splitData[2] == "server") StartServer();
             if (splitData[2] == "client")
             {
@@ -129,8 +172,11 @@ public class NetManager : MonoBehaviour {
                 }
 
                 StartServer();
-            }
-            networkBase.connectedClient = Connectedclient;
+            }*/
+ 
+            if (!isServer)
+                networkBase.connectedClient = Connectedclient;
+  
             //Debug.Log(NetworkBase.GetLocalIPAddress() + ":" + GetLocalEndPoint());
             //return;
             SendToClient(Connectedclient, Encoding.ASCII.GetBytes("work?"));
@@ -140,7 +186,7 @@ public class NetManager : MonoBehaviour {
             //this.Start();
         }
         Debug.Log("Started receiving " + (networkBase == null? "netman" : "base") + "..");
-        client.BeginReceive(networkBase == null? new AsyncCallback(receive) : new AsyncCallback(networkBase.receiveCallback), null);
+        client.BeginReceive(networkBase == null? new AsyncCallback(receive) : new AsyncCallback(networkBase.receiveCallback), client);
     }
 
     //not in use

@@ -11,15 +11,69 @@ public class GameServer : NetworkBase {
 
     UDPClient[] connectedClients;
     Timer updateTimer;
-    const float TickRate = 32;
-    int intervalMS;
-    int intervalS;
+    const float TickRate = 64;
+    float intervalMS;
+    float intervalS;
     PlayerMovement[] players;
     static PlayerInput[] inputs = new PlayerInput[4];
-    List<UdpClient> subConnectors = new List<UdpClient>();
-    List<UDPClient> Clients = new List<UDPClient>();
+    public List<UdpClient> sockets = new List<UdpClient>();
+    public List<UDPClient> Clients = new List<UDPClient>();
     static bool[] pingCallback = new bool[4];
-    
+
+    string lobbyName = null;
+
+    public void StartLobby()
+    {
+        if (lobbyName == null) return;  //tried to start lobby without registering it to the main server
+        byte[] data = Encoding.ASCII.GetBytes("StartLobby" + lobbyName);
+        isReady = true;
+        SendToClient(Mainserver, data);
+    }
+
+    public void MakeLobby(string name, int players)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Clients.Add(null);
+        }
+        lobbyName = name;
+        byte[] data = new byte[1];
+        SendToClient(new NetworkBase.UDPClient("0.0.0.9", 999), data);
+        data = Encoding.ASCII.GetBytes("NewLobby" + players + name + "," + GetLocalIPAddress());
+        SendToClient(Mainserver, data);
+        NetworkBase.playerIDs = new int[players];
+        for (int i = 0; i < players; i++)
+        {
+            NetworkBase.playerIDs[i] = i;
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            AddLobbySocket();
+        }
+    }
+    void AddLobbyConnection(UdpClient socket)
+    {
+        if(lobbyName != null)
+        {
+            byte[] data = Encoding.ASCII.GetBytes("AddLobbySocket" + lobbyName + "," + GetLocalIPAddress());
+            socket.Send(data, data.Length, Mainserver.endPoint);
+        }
+    }
+    public void AddLobbySocket()
+    {
+        UdpClient socket = new UdpClient();
+        socket.BeginReceive(new AsyncCallback(receiveCallback), socket);
+        sockets.Add(socket);
+        AddLobbyConnection(socket);
+        
+    }
+
+
+
+
+
+
+
 
     public override void Update()
     {
@@ -53,10 +107,24 @@ public class GameServer : NetworkBase {
     public override void receiveCallback(IAsyncResult res)
     {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
-        byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
+        byte[] received = ((UdpClient)res.AsyncState).EndReceive(res, ref RemoteIpEndPoint);
+        //byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
         string stringData = Encoding.ASCII.GetString(received);
+        Debug.Log(stringData);
         // string stringData = Encoding.UTF8.GetString(received);
         testFloat = 1;
+        if (!isReady && stringData.Contains(":"))
+        {
+            string[] splitData = stringData.Split(':');
+            for (int i = 0; i < sockets.Count; i++)
+            {
+                if (sockets[i] == (UdpClient)res.AsyncState)
+                {
+                    Clients[i] = new UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
+                    break;
+                }
+            }
+        }
         //if (!stringData.StartsWith("<")) //testing only
         //Debug.Log("received server: " + (stringData.StartsWith("<")? "data" : stringData));
         if (stringData == "Ping")
@@ -79,13 +147,13 @@ public class GameServer : NetworkBase {
         }
         testFloat = 2;
         //Debug.Log("started receive server...");
-        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
+        ((UdpClient)res.AsyncState).BeginReceive(new AsyncCallback(receiveCallback), res.AsyncState);
 
     }
-    public GameServer(UdpClient client) : base(client)
+    public GameServer(UdpClient client, int maxPlayers = 2) : base(client)
     {
-        intervalS = (int)(1.0f / TickRate);
-        intervalMS = (int)(intervalS * 1000.0f);
+        intervalS = (1.0f / TickRate);
+        intervalMS = (intervalS * 1000.0f);
 
         
 
@@ -139,11 +207,22 @@ public class GameServer : NetworkBase {
     //part of the gamestate, player information(position, velocity, powerups)
     public void SendPlayerUpdates(PlayerUpdates updates)
     {
+        Debug.Log("sending updates...");
+        byte[] serializedData = SerializeClass(updates);
+        for (int i = 0; i < Clients.Count; i++)
+        {
+            if (Clients[i] != null)
+            {
+                Debug.Log("sending updates to : " + Clients[i].endPoint.Port);
+                sockets[i].Send(serializedData, serializedData.Length, Clients[i].endPoint);
+            }
+        }
+        /*
         //Debug.Log("sending player updates...");
         foreach(UDPClient client in connectedClients)
         {
             SendToClient(client, SerializeClass(updates));
-        }
+        }*/
     }
 
     protected void DoPlayerInput(PlayerInput input)

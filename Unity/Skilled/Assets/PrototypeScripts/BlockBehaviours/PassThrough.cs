@@ -5,6 +5,7 @@ using System;
 public class PassThrough : ActionBlock {
     BoxCollider2D solidC;
     BoxCollider2D triggerC;
+    bool hasCollision = false;
     public override void Activate(GameObject activator)
     {
         
@@ -12,7 +13,7 @@ public class PassThrough : ActionBlock {
 
     protected override void BlockUpdate()
     {
-
+        hasCollision = false;
     }
 
     protected override void Initialize()
@@ -27,12 +28,12 @@ public class PassThrough : ActionBlock {
 
     void OnCollisionEnter2D(Collision2D c)
     {
-
+        hasCollision = true;
     }
 
     void OnTriggerEnter2D(Collider2D c)
     {
-        if(!c.gameObject.name.Contains("Bounce"))
+        if(!c.gameObject.name.Contains("Bounce") && !hasCollision)
             Physics2D.IgnoreCollision(c, solidC, true);
     }
     void OnTriggerExit2D(Collider2D c)

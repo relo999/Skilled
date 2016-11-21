@@ -50,29 +50,43 @@ public class NetworkBase{
         }
         */
         //Debug.Log(SerializeClass(new PlayerUpdates(new PlayerInfo[] { new PlayerInfo(1, 5.135f, 1.9943f) })).Length);
-        serverClient.BeginReceive(receive, null);
+        //serverClient.BeginReceive(receive, null);
+        //serverClient.BeginReceive(receiveCallback, serverClient);
     }
 
     public virtual void Update()
     {
 
-        if (serverClient == null) return;
+        //if (serverClient == null) return;
 
         GameTimer += Time.deltaTime;
 
         Text debugText = GameObject.Find("NetworkDebug").GetComponent<Text>();
         bool isClient = (this.GetType() == typeof(GameClient));
         debugText.text =  isClient? "client" : "server";
-        debugText.text += "\nTime: " + System.Math.Round(GameTimer,2);
-        if(isClient)
+        debugText.text += "\nTime: " + System.Math.Round(GameTimer,4);
+        debugText.text += "\nLocal: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
+        if (isClient)
         {
             GameClient c = this as GameClient;
             debugText.text += "\nPing: " + c.Ping + "\n";
-            debugText.text += "Packet loss: " + c.PacketLoss;
-            
+            debugText.text += "Packets received: " + c.LastReceivedPackets + "/" + GameClient.EXPECTED_PACKETS;
+
+            debugText.text += "\nCon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
         }
-        debugText.text += "\nown: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
-        debugText.text += "\ncon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
+        else
+        {
+            GameServer s = this as GameServer;
+            for (int i = 0; i < s.Clients.Count; i++)
+            {
+                if (s.Clients[i] != null)
+                {
+                    debugText.text += "\nOwn: " + ((IPEndPoint)s.sockets[i].Client.LocalEndPoint).Port + " -  Con: " + s.Clients[i].endPoint.Port;
+                }
+            }
+        }
+        
+        //debugText.text += "\ncon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
         debugText.text += "\ntest: " + testString;
         debugText.text += "\nfloat: " + testFloat;
 

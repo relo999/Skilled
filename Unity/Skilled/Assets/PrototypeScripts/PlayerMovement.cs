@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
  
     public bool NetworkControl = false;
 
-    public Vector2[] oldPositions = new Vector2[10];
+    public Vector2[] oldPositions = new Vector2[32];
     public int oldPositionPointer = 0;
     float oldPositionTimer = 0;
 
@@ -61,11 +61,15 @@ public class PlayerMovement : MonoBehaviour {
         ARROWS
     }
     Rigidbody2D _rigid;
+
+    public GameObject testClone;
+    public GameObject[] testClones = new GameObject[32];
+    public GameObject testClone2;
 	// Use this for initialization
 	void Start () {
 
-       
 
+        
         _rigid = GetComponent<Rigidbody2D>();
         SpriteR = GetComponent<SpriteRenderer>();
 
@@ -77,18 +81,42 @@ public class PlayerMovement : MonoBehaviour {
             ChangeAxis();
             
         }
+
+        testClone = new GameObject();
+        testClone.AddComponent<SpriteRenderer>().sprite = SpriteR.sprite;
+        testClone.GetComponent<SpriteRenderer>().sortingOrder = SpriteR.sortingOrder - 1;
+        testClone.transform.localScale = new Vector3(testClone.transform.localScale.x * 0.3f, testClone.transform.localScale.y * 0.3f, testClone.transform.localScale.z);
+
+        testClone2 = new GameObject();
+        testClone2.AddComponent<SpriteRenderer>().sprite = SpriteR.sprite;
+        testClone2.GetComponent<SpriteRenderer>().flipY = true;
+        testClone2.GetComponent<SpriteRenderer>().sortingOrder = SpriteR.sortingOrder - 2;
+        testClone2.GetComponent<SpriteRenderer>().color = Color.yellow;
+        testClone2.transform.localScale = new Vector3(testClone2.transform.localScale.x * 0.3f, testClone2.transform.localScale.y * 0.3f, testClone2.transform.localScale.z);
+
+        for (int i = 0; i < testClones.Length; i++)
+        {
+            testClones[i] = new GameObject();
+            testClones[i].AddComponent<SpriteRenderer>().sprite = SpriteR.sprite;
+            testClones[i].GetComponent<SpriteRenderer>().flipY = true;
+            testClones[i].GetComponent<SpriteRenderer>().sortingOrder = SpriteR.sortingOrder - 3;
+            testClones[i].GetComponent<SpriteRenderer>().color = Color.magenta;
+            testClones[i].transform.localScale = new Vector3(testClones[i].transform.localScale.x * 0.3f, testClones[i].transform.localScale.y * 0.3f + ((float)i / 25f), testClones[i].transform.localScale.z);
+        }
+
+
     }
 
     
     void SaveOldPosition()
     {
         oldPositionTimer += Time.deltaTime;
-        if (oldPositionTimer >= 0.05f)
+        if (oldPositionTimer >= 0.015f)
         {
             oldPositionTimer = 0;
             oldPositions[oldPositionPointer] = transform.position;
             oldPositionPointer++;
-            oldPositionPointer %= 10;
+            oldPositionPointer %= oldPositions.Length;
 
         }
     }
@@ -141,7 +169,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (grounded || AirControl)
         {
-            Vector2 movement = new Vector2(_rigid.velocity.x, _rigid.velocity.y);
+            Vector2 movement = new Vector2((_rigid.velocity.x < 0? Vector2.left.x : (_rigid.velocity.x > 0? Vector2.right.x : 0)) * MoveSpeed, _rigid.velocity.y);
             //if (Input.GetKey(controls == Controls.WASD ? KeyCode.A : KeyCode.LeftArrow)  || InputManager.GetAxis("Horizontal", playerID) < 0)
             if (input.xAxis < 0)
             {
@@ -179,7 +207,7 @@ public class PlayerMovement : MonoBehaviour {
                 SAnimation.SetFrame(2);
                 //_currentJumpForce = (Physics.gravity * _rigid.mass).magnitude * 5f;
                 _rigid.AddForce(Vector2.up * JumpForce);
-                ScoreManager.gameData.Jumped++;
+                //ScoreManager.gameData.Jumped++;
             }
         }
 
@@ -215,9 +243,9 @@ public class PlayerMovement : MonoBehaviour {
         bool doInput = NetworkControl || !OnlineGame;
 
 
-        if (!NetworkControl && OnlineGame)
+        if (OnlineGame && !NetworkControl || true)
         {
-            if (holdingJump)
+            if (!NetworkControl && holdingJump || holdingJump)
             {
 
 
@@ -265,15 +293,17 @@ public class PlayerMovement : MonoBehaviour {
                                                                    Input.GetKeyDown(KeyCode.L));
 
             
-            if (((input.xAxis != 0 || (oldInput != null && oldInput.xAxis != input.xAxis)) || input.Jump || input.JumpDown || input.JumpUp || input.Action) && !NetManager.isServer)
+
+            if ( OnlineGame && ((input.xAxis != 0 || (oldInput != null && oldInput.xAxis != input.xAxis)) || input.Jump || input.JumpDown || input.JumpUp || input.Action) && !NetManager.isServer)
                 NetManager.instance.SendInput(input);
-
             oldInput = input;
-
+            if (doInput) SaveOldPosition();
+            DoMovement(input);
+            return;
 
         }
-
-      
+        //DoMovement(input);
+        //return;
         //return; //TESTING
 
 
