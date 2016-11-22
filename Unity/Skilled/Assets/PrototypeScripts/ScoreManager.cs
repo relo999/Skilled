@@ -118,7 +118,7 @@ public class ScoreManager : MonoBehaviour {
 
     void HandleAFK()
     {
-        
+        return;//TODO remove this return..... testing only
         if (CheckAFK())
         {
             _afkTimer += Time.deltaTime;

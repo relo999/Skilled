@@ -8,6 +8,8 @@ public class MouseController : MonoBehaviour {
     int playerid;
     Button[] buttons;
     LevelBounds levelBounds;
+    public bool keyboard1 = false;
+    public bool keyboard2 = false;
 
     public void SetColor(int playerid, SheetAnimation.PlayerColor color)
     {
@@ -22,8 +24,23 @@ public class MouseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float xChange = InputManager.GetAxis("Horizontal", (PlayerID)playerid);
-        float yChange = InputManager.GetAxis("Vertical", (PlayerID)playerid);
+        float xChange = 0;
+        float yChange = 0;
+        if (keyboard1)
+        {
+            xChange = Input.GetKey(KeyCode.A) ? -1 : (Input.GetKey(KeyCode.D)? 1 : 0);
+            yChange = Input.GetKey(KeyCode.W) ? -1 : (Input.GetKey(KeyCode.S) ? 1 : 0);
+        }
+        else if(keyboard2)
+        {
+            xChange = Input.GetKey(KeyCode.LeftArrow) ? -1 : (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
+            yChange = Input.GetKey(KeyCode.UpArrow) ? -1 : (Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
+        }
+        else
+        {
+            xChange = InputManager.GetAxis("Horizontal", (PlayerID)playerid);
+            yChange = InputManager.GetAxis("Vertical", (PlayerID)playerid);
+        }        
         if (transform.position.x >= levelBounds.transform.position.x + levelBounds.bounds.size.x / 2f - 0.20f && xChange > 0) xChange = 0;
         if (transform.position.x <= levelBounds.transform.position.x - levelBounds.bounds.size.x / 2f + 0.32f && xChange < 0) xChange = 0;
 
@@ -35,8 +52,10 @@ public class MouseController : MonoBehaviour {
         {
             ButtonPress();
         }
-        
-	}
+        if (keyboard1 && Input.GetKeyDown(KeyCode.Space)) ButtonPress();
+        if (keyboard2 && Input.GetKeyDown(KeyCode.L)) ButtonPress();
+
+    }
 
 
     public void ButtonPress()

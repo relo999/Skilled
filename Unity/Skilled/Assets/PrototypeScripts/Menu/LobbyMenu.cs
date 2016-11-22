@@ -22,6 +22,9 @@ public class LobbyMenu : MonoBehaviour {
 
     MenuOptions menuOptions;
 
+    bool keyboard1 = false; //TODO testing only
+    bool keyboard2 = false; //TODO testing only
+
     public static LobbyMenu Instance;
 	// Use this for initialization
 	void Start () {
@@ -73,20 +76,44 @@ public class LobbyMenu : MonoBehaviour {
     void AddPlayer()
     {
         KeyCode pressed = GetButtonPressed();
-        if (pressed == KeyCode.None) return;
+        bool pressed1 = Input.GetKeyDown(KeyCode.Space);
+        bool pressed2 = Input.GetKeyDown(KeyCode.L);
+        if (pressed == KeyCode.None && !pressed1 && !pressed2) return;
 
         int playerid = -1;
-        int.TryParse(pressed.ToString()[8].ToString(), out playerid);   //expected keycode is 'JoystickXButtonY' where X is the controller number
+        if(pressed != KeyCode.None)
+            int.TryParse(pressed.ToString()[8].ToString(), out playerid);   //expected keycode is 'JoystickXButtonY' where X is the controller number
+        if(playerid == -1)
+        {
+            for (int i = 0; i < playersConnected.Length; i++)
+            {
+                if (!playersConnected[i])
+                {
+                    
+                    playerid = i;
+                    break;
+                }
+
+            }
+        }
         if (playerid == -1) return; //keyboard or other not supported input
-        playerid -= 1;  //joystick count starts at 1 instead of 0
+        if(pressed != KeyCode.None)
+            playerid -= 1;  //joystick count starts at 1 instead of 0
+
+        if (pressed1 && keyboard1) return;  //TODO testing only
+        if (pressed2 && keyboard2) return;  //TODO testing only
+
         if (playersConnected[playerid] == false)    //new player is ready
         {
             playersConnected[playerid] = true;
             Debug.Log("player " + playerid + " is ready");
             GameObject mouseObject = new GameObject("Mouse_obj_P:" + playerid);
-            
+            if (pressed1) keyboard1 = true;
+            if (pressed2) keyboard2 = true;
             //create controller mouse and place player in menu to indicate ready
             MouseController MC = mouseObject.AddComponent<MouseController>();
+            MC.keyboard1 = pressed1;
+            MC.keyboard2 = pressed2;
             MC.SetColor(playerid, (SheetAnimation.PlayerColor)playerid);
             GameObject join = GameObject.Find("Join" + (playerid+1));
             mouseObject.transform.position = join.transform.position + Vector3.up;

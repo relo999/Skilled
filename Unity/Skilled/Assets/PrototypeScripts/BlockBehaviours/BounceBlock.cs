@@ -25,8 +25,8 @@ public class BounceBlock : ActionBlock {
         Rigidbody2D rigid = c.collider.gameObject.GetComponent<Rigidbody2D>();
        
         if (!rigid) return;
-
-        rigid.gameObject.GetComponent<PlayerMovement>().StunnedTimer = 0.1f;
+        PlayerMovement PM = rigid.gameObject.GetComponent<PlayerMovement>();
+        if(PM) PM.StunnedTimer = 0.1f;
         rigid.velocity = Vector2.zero;
         rigid.AddForce((rigid.transform.position - transform.position) * bounceForce);
 
