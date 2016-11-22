@@ -95,6 +95,7 @@ public class PlayerHit : MonoBehaviour {
         Rigidbody2D rig = isClone ? gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>() : GetComponent<Rigidbody2D>();
         rig.gravityScale = 0;
         rig.velocity = Vector2.zero;
+        rig.isKinematic = true;
         PowerupUser pu = isClone? gameObject.transform.parent.gameObject.GetComponent<PowerupUser>() : GetComponent<PowerupUser>();
         pu.EndAllPowerups();
         Array.ForEach(GetComponentsInChildren<Collider2D>(), x => x.isTrigger = true);
@@ -129,6 +130,7 @@ public class PlayerHit : MonoBehaviour {
             Rigidbody2D rig = isClone ? gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>() : GetComponent<Rigidbody2D>();
             //animations, immunity and stopping movement during that
             rig.gravityScale = 1;
+            rig.isKinematic = false;
             Array.ForEach(GetComponentsInChildren<Collider2D>(), x => x.isTrigger = false);
             SheetAnimation ani = isClone ? gameObject.transform.parent.gameObject.GetComponent<SheetAnimation>() : GetComponent<SheetAnimation>();
             float spawnTime = 0.5f;
@@ -153,7 +155,7 @@ public class PlayerHit : MonoBehaviour {
     }
 
     //bounces other up
-    protected virtual void BounceUp(GameObject other)
+    public virtual void BounceUp(GameObject other, float forceMultipl = 1)
     {
         PlayerMovement playerMov = gameObject.GetComponent<PlayerMovement>();
         if (playerMov == null)
@@ -162,7 +164,7 @@ public class PlayerHit : MonoBehaviour {
         if (rigid == null)
             rigid = other.transform.parent.GetComponent<Rigidbody2D>();
         rigid.velocity = new Vector2(rigid.velocity.x, 0);
-        rigid.AddForce(Vector2.up * (playerMov.JumpForce / 10f * BounceStrength));
+        rigid.AddForce(Vector2.up * (playerMov.JumpForce / 10f * BounceStrength * forceMultipl));
     }
     void OnCollisionEnter2D(Collision2D c)
     {

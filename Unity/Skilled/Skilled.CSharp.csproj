@@ -138,6 +138,9 @@
     <Compile Include="Assets\PrototypeScripts\ClientBase.cs" />
     <Compile Include="Assets\PrototypeScripts\ControllerBind.cs" />
     <Compile Include="Assets\PrototypeScripts\DestroyAfterSeconds.cs" />
+    <Compile Include="Assets\PrototypeScripts\Enemies\EnemyBase.cs" />
+    <Compile Include="Assets\PrototypeScripts\Enemies\EnemySpawner.cs" />
+    <Compile Include="Assets\PrototypeScripts\Enemies\EnemySpike.cs" />
     <Compile Include="Assets\PrototypeScripts\GameClient.cs" />
     <Compile Include="Assets\PrototypeScripts\GameData\GameData.cs" />
     <Compile Include="Assets\PrototypeScripts\GameServer.cs" />
