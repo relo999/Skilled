@@ -298,6 +298,12 @@ public class PlayerMovement : MonoBehaviour {
                 NetManager.instance.SendInput(input);
             oldInput = input;
             if (doInput) SaveOldPosition();
+            if (!canMove) return;
+            if (StunnedTimer > 0)
+            {
+                StunnedTimer -= Time.deltaTime / 1.5f;
+                return;
+            }
             DoMovement(input);
             return;
 

@@ -78,6 +78,13 @@ public class SheetAnimation : MonoBehaviour {
     }
 
 
+    public void PlayAnimationUnC(Sprite[] sprites, bool loop = true, float fps = 5)
+    {
+        looping = loop;
+        this.fps = fps;
+        this.sprites = sprites;
+        if (!loop) stopAtFrame = sprites.Length - 1;
+    }
 
     //for animation that are color independant
     public void PlayAnimationUnC(string path, bool loop = true, float fps = 5)
@@ -116,7 +123,7 @@ public class SheetAnimation : MonoBehaviour {
 
     void SetSprite()
     {
-        if(SRenderer.sprite != sprites[(int)currentSprite])
+        if (sprites.Length >= (int)currentSprite - 1 && (int)currentSprite >= 0 && SRenderer.sprite != sprites[(int)currentSprite])
             SRenderer.sprite = sprites[(int)currentSprite];
         if (doIdle)
         {
