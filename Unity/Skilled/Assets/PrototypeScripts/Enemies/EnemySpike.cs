@@ -18,7 +18,7 @@ public class EnemySpike : EnemyBase {
             player.OnDeath(gameObject);      
         }
     }
-    protected override void OnHit(PlayerHit player)
+    protected override void HitCallback(PlayerHit player)
     {
         player.BounceUp(player.gameObject);
         if (!_spikes) OnDeath(player);

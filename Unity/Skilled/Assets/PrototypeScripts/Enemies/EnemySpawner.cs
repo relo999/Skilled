@@ -34,6 +34,7 @@ public class EnemySpawner : MonoBehaviour {
         {
             for (int i = 0; i < 10; i++)
             {
+                //TODO start with reading from text file, after textfile is done, 
                 EnemyQueue.Enqueue(Random.Range(1, 6)); //5 different enemies, enemy naming starts at 1
             }
         }
@@ -56,7 +57,7 @@ public class EnemySpawner : MonoBehaviour {
 
     void SpawnEnemy()
     {
-        if (EnemyQueue.Count <= 0) return;
+        if (EnemyQueue.Count <= 0) return;  //TODO check if current enemy amount does not exeed threshold
         GameObject newEnemy = GameObject.Instantiate(Resources.Load("Prefabs/Enemy" + (int)EnemyQueue.Dequeue())) as GameObject;
         EnemyBase EnemyScript = newEnemy.GetComponent<EnemyBase>();
         EnemyScript.speed = (EnemyBase.Speed)currentSpeed;

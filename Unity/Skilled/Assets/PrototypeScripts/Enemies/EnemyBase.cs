@@ -32,6 +32,17 @@ public class EnemyBase : MonoBehaviour {
     Sprite[] WalkingSprites;
     Sprite[] FallingSprites;
 
+    float[] moveSpeeds = new float[3]
+        {1f, 1.5f, 2.0f};
+
+    public float spawnInvulnerability = 0;
+
+    Sprite[] _stunnedSpriteSheet = null;
+    GameObject _stunnedObject = null;
+    public bool DoStun = true;
+
+    float BounceStrength = 4.5f;
+
     public Speed speed;
     public enum Speed
     {
@@ -40,6 +51,27 @@ public class EnemyBase : MonoBehaviour {
         Fast
     }
 
+    void StartStunAnimation()
+    {
+        _stunnedObject.SetActive(true);
+        _stunnedObject.GetComponent<SheetAnimation>().PlayAnimationUnC(_stunnedSpriteSheet, true, 8);
+    }
+
+    void StopStunAnimation()
+    {
+        _stunnedObject.SetActive(false);
+        if ((int)speed <= 1)
+        {
+            speed++;
+            SetSpeed();
+            CorrectSprite();
+        }
+    }
+
+    protected virtual void OnSpeedChanged()
+    {
+        //empty
+    }
 
     protected void OnDeath(PlayerHit player)
     {
@@ -53,19 +85,27 @@ public class EnemyBase : MonoBehaviour {
             player.OnDeath(gameObject);
     }
 
-    protected virtual void OnHit(PlayerHit player)
+    protected virtual void HitCallback(PlayerHit player)
     {
-        if (_stunnedTimer > 0 || InstaKill)
+        OnDeath(player);
+        player.BounceUp(player.gameObject);
+        //dead
+    }
+
+    private void OnHit(PlayerHit player)
+    {
+        if (_stunnedTimer > 0 || InstaKill || !DoStun)
         {
-            OnDeath(player);
-            player.BounceUp(player.gameObject);
-            //DEAD
+            HitCallback(player);
+
         }
         else
         {
             player.BounceUp(player.gameObject);
             _stunnedTimer = _stunnedTime;
             //START STUNNED ANIMATION
+            _rigid.velocity = new Vector2(transform.position.x < player.transform.position.x ? -1 : 1, 1) * BounceStrength;
+            StartStunAnimation();
 
         }
     }
@@ -73,6 +113,7 @@ public class EnemyBase : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (spawnInvulnerability > 0) return;
         GameObject other = col.collider.gameObject;
         Bounds thisBounds = _spriteR.sprite.bounds;
 
@@ -103,7 +144,17 @@ public class EnemyBase : MonoBehaviour {
 
     }
 
-    protected void Init()
+
+    void SetSpeed()
+    {
+        float newMoveSpeed = MoveSpeed;
+        if (speed == Speed.Medium) newMoveSpeed = moveSpeeds[1];
+        if (speed == Speed.Fast) newMoveSpeed = moveSpeeds[2];
+        if (MoveSpeed != newMoveSpeed) OnSpeedChanged();
+        MoveSpeed = newMoveSpeed;
+    }
+
+    public void Init()
     {
         _col = GetComponent<BoxCollider2D>();
         _rigid = GetComponent<Rigidbody2D>();
@@ -111,8 +162,18 @@ public class EnemyBase : MonoBehaviour {
         _spriteR = GetComponent<SpriteRenderer>();
         _sheetAni = GetComponent<SheetAnimation>();
         _sheetAni.doIdle = false;
-        if (speed == Speed.Medium) MoveSpeed *= 1.3f;
-        if (speed == Speed.Fast) MoveSpeed *= 1.8f;
+        _stunnedSpriteSheet = Resources.LoadAll<Sprite>("SinglePlayer/Enemies/Knocked out");
+        if (!_stunnedObject)
+        {
+            _stunnedObject = new GameObject();
+            
+            _stunnedObject.transform.parent = this.transform;
+            _stunnedObject.transform.localPosition = Vector2.zero;
+            _stunnedObject.AddComponent<SpriteRenderer>();
+            _stunnedObject.AddComponent<SheetAnimation>().doIdle = false;
+            _stunnedObject.SetActive(false);
+        }
+        SetSpeed();
         CorrectSprite();
     }
 
@@ -121,7 +182,7 @@ public class EnemyBase : MonoBehaviour {
         Init();
 	}
 
-    void CorrectSprite()
+    public void CorrectSprite()
     {
         string basePath = "SinglePlayer/Enemies/";
         string walkName = "";
@@ -153,6 +214,11 @@ public class EnemyBase : MonoBehaviour {
                 walkName = "SplitterWalk_";
                 fallName = "FallingSplitter_";
                 break;
+            case "SSpli":   //small splitter remains
+                basePath += "Splitter/";
+                walkName += "SplitterMini" + int.Parse(gameObject.name[0].ToString());
+                fallName += "SplitterMini" + int.Parse(gameObject.name[0].ToString());
+                break;
             default:
                 basePath = null;
                 break;
@@ -160,8 +226,11 @@ public class EnemyBase : MonoBehaviour {
         if (basePath == null) Debug.LogWarning("Enemy Sprite Error..");
         else
         {
-            walkName += speed.ToString()[0];
-            fallName += speed.ToString()[0];
+            if (!walkName.StartsWith("SplitterMini"))
+            {
+                walkName += speed.ToString()[0];
+                fallName += speed.ToString()[0];
+            }
             WalkingSprites = Resources.LoadAll<Sprite>(basePath + walkName);
             FallingSprites = Resources.LoadAll<Sprite>(basePath + fallName);
             GetComponent<SheetAnimation>().PlayAnimationUnC(WalkingSprites, true, 5);
@@ -177,11 +246,17 @@ public class EnemyBase : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(_stunnedTimer > 0)
+        if(spawnInvulnerability > 0)
+        {
+            spawnInvulnerability -= Time.deltaTime;
+            return;
+        }
+        if(_stunnedTimer > 0)   //TODO ALL enemies stunned first and hitcallback during stunned
         {
             _stunnedTimer -= Time.deltaTime;
             if(_stunnedTimer <= 0)
             {
+                StopStunAnimation();
                 //STOP STUNNED ANIMATION
             }
             else return;
