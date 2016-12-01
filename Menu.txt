@@ -1,0 +1,48 @@
+local
+	Local Lobby
+	--Mode Select
+	--Color select
+	--Mode Details
+		-menu
+		--edit item numbers
+
+		-Level Select
+		--Level Filtering
+
+
+online
+	--With Friends?
+	-Yes -see local
+
+	--random
+
+level edit
+
+Party mode
+	--Random Level
+	--Random mode
+	--Random game settings
+	-points.
+	-settings
+
+single player
+	--single player highscore
+	--Settings
+
+options
+	-resolution
+	-controlsettings
+	-CRT effect
+	-colorblind mode
+	-audio settings
+	-Favourite color
+
+exit
+
+	Order
+Local
+Party
+Single Player
+Online
+Options
+Exit
