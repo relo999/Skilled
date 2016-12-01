@@ -54,6 +54,11 @@ public class NetworkBase{
         //serverClient.BeginReceive(receiveCallback, serverClient);
     }
 
+
+    public void UpdateDebugText()
+    {
+
+    }
     public virtual void Update()
     {
 

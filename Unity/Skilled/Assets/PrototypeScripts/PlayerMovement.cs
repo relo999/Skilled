@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
     public bool LastMovedRight { private set; get; }
     SpriteOverlay overlay;
 
+    float baseMoveSpeed;
     bool _isJumping = false;
     float _currentJumpForce;
     private float jumpTimer = 0.0f;
@@ -65,11 +66,21 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject testClone;
     public GameObject[] testClones = new GameObject[32];
     public GameObject testClone2;
+
+
+    public void SetMoveSpeed(float speed)
+    {
+        if (baseMoveSpeed == 0) baseMoveSpeed = MoveSpeed;
+        MoveSpeed = baseMoveSpeed * speed;
+    }
+    public void ResetMoveSpeed()
+    {
+        MoveSpeed = baseMoveSpeed;
+    }
+
 	// Use this for initialization
 	void Start () {
-
-
-        
+        baseMoveSpeed = MoveSpeed;
         _rigid = GetComponent<Rigidbody2D>();
         SpriteR = GetComponent<SpriteRenderer>();
 
@@ -140,7 +151,6 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (!canMove) return;
         //if (NetworkControl) return;
-
 
         bool grounded = false;
 
@@ -241,8 +251,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Update () {
         bool doInput = NetworkControl || !OnlineGame;
-
-
         if (OnlineGame && !NetworkControl || true)
         {
             if (!NetworkControl && holdingJump || holdingJump)
@@ -267,11 +275,9 @@ public class PlayerMovement : MonoBehaviour {
             }
             if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         }
-
         if (!NetworkControl && OnlineGame) return;
 
-
-        if((NetManager.hasStarted || !OnlineGame) && doInput)
+        if ((NetManager.hasStarted || !OnlineGame) && doInput)
         {
             if (controls == Controls.CONTROLLER)
                 input = new NetworkBase.PlayerInput((int)playerID, InputManager.GetAxis("Horizontal", playerID),
@@ -280,7 +286,7 @@ public class PlayerMovement : MonoBehaviour {
                                                                    InputManager.GetButtonUp("Jump", playerID),
                                                                    InputManager.GetButtonDown("Action", playerID));
             if (controls == Controls.WASD)
-                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKey(KeyCode.A) ? -1 : (Input.GetKey(KeyCode.D)? 1 : 0),
+                input = new NetworkBase.PlayerInput((int)playerID, Input.GetKey(KeyCode.A) ? -1 : (Input.GetKey(KeyCode.D) ? 1 : 0),
                                                                    Input.GetKey(KeyCode.W),
                                                                    Input.GetKeyDown(KeyCode.W),
                                                                    Input.GetKeyUp(KeyCode.W),
@@ -292,10 +298,13 @@ public class PlayerMovement : MonoBehaviour {
                                                                    Input.GetKeyUp(KeyCode.UpArrow),
                                                                    Input.GetKeyDown(KeyCode.L));
 
-            
 
-            if ( OnlineGame && ((input.xAxis != 0 || (oldInput != null && oldInput.xAxis != input.xAxis)) || input.Jump || input.JumpDown || input.JumpUp || input.Action) && !NetManager.isServer)
+            if (OnlineGame && ((input.xAxis != 0 || (oldInput != null && oldInput.xAxis != input.xAxis)) || input.Jump || input.JumpDown || input.JumpUp || input.Action) && !NetManager.isServer)
+
+            {
+                Debug.Log("sending input..");
                 NetManager.instance.SendInput(input);
+            }
             oldInput = input;
             if (doInput) SaveOldPosition();
             if (!canMove) return;

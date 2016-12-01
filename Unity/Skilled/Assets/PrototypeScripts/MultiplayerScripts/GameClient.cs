@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Collections.Generic;
+using System.Threading;
 
 public class GameClient : NetworkBase {
 
@@ -27,10 +28,39 @@ public class GameClient : NetworkBase {
     static bool receivedPing = false;
 
     public int controllingPlayers = 0;
-    
-
 
     public static PlayerInput lastInput;
+
+    bool connectionSucces = false;
+
+    void StartTestConnection()
+    {
+        Thread testThread = new Thread(new ThreadStart(TestConnection));
+        testThread.Start();
+    }
+
+    void TestConnection()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Thread.Sleep(500);
+            byte[] data = Encoding.ASCII.GetBytes("TestConnection");
+            SendToClient(connectedClient, data);
+        }
+        Thread.Sleep(500);
+        if(!connectionSucces)
+        {
+            FailedConnection();
+        }
+    }
+
+    void FailedConnection()
+    {
+        
+        byte[] data = Encoding.ASCII.GetBytes("RequestRelay," + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port);
+        SendToClient(Mainserver, data);
+        connectedClient = null;
+    }
 
     public override void receiveCallback(IAsyncResult res)
     {
@@ -38,8 +68,8 @@ public class GameClient : NetworkBase {
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
         string stringData = Encoding.ASCII.GetString(received);
         testFloat = 1;
-        //if(!stringData.StartsWith("<")) //testing only
-        Debug.Log(stringData);
+        if(!stringData.StartsWith("<")) //testing only
+            Debug.Log(stringData);
         if (!isReady && stringData.Contains(":"))    //it contains a ip:port
         {
             testFloat = 2;
@@ -53,13 +83,21 @@ public class GameClient : NetworkBase {
             }
             byte[] data = Encoding.ASCII.GetBytes("test123");
             SendToClient(connectedClient, data);
+            StartTestConnection();
             testFloat = 3;
         }
         testFloat = 8;
+
+        if(stringData == "TestConnection")
+        {
+            connectionSucces = true;
+        }
+
         if(stringData == "StartGame")
         {
             testFloat = 9;
             isReady = true;
+            NetManager.hasStarted = true;
         }
             //Debug.Log("received client: " + (stringData.StartsWith("<")? "data" : stringData));
             
@@ -241,9 +279,12 @@ public class GameClient : NetworkBase {
             GameObject player = playerMov.gameObject;
 
             //int oldPositionIndex = playerMov.oldPositionPointer - (int)Mathf.Round((GameTimer - Pupdates.gameTime) / 0.015f);
+
+            /*
             int oldPositionIndex = playerMov.oldPositionPointer - (int)((GameTimer - Pupdates.gameTime) / 0.015f);
             oldPositionIndex = oldPositionIndex < 0 ? oldPositionIndex + playerMov.oldPositions.Length : oldPositionIndex;
-
+            */
+            int oldPositionIndex = 5;
          
             //Debug.Log((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude);
             if (((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude > 3.55f && playerMov.NetworkControl) || !playerMov.NetworkControl)
@@ -255,10 +296,13 @@ public class GameClient : NetworkBase {
             playerMov.testClone.transform.position = new Vector3(info.xPos, info.yPos, player.transform.position.z);
             playerMov.testClone2.transform.position = playerMov.oldPositions[oldPositionIndex];
 
+            /*  //following debug information for players
             for (int j = 0; j < playerMov.testClones.Length; j++)
             {
                 playerMov.testClones[j].transform.position = playerMov.oldPositions[j];
-            }
+            }*/
+
+
             /*
             else if(playerMov.NetworkControl)
             {

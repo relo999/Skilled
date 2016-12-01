@@ -87,7 +87,47 @@ public class PlayerHit : MonoBehaviour {
         if (ScoreManager.instance.scoreMode == ScoreManager.ScoreMode.Health &&  ScoreManager.instance.score[useingID] <= 0)
             Respawn = false;
 
-        
+
+
+        //Tag mode
+        if (ScoreManager.instance.gameMode is TagMode)
+        {
+            TagMode Tagmode = (TagMode)ScoreManager.instance.gameMode;
+            if (Tagmode.currentTag == other)
+            {
+                Tagmode.RemoveTag(other);
+                //if (other.GetComponentInChildren<PlayerHit>())
+                    Tagmode.SetTag(gameObject);
+            }
+            /*
+            else if (Tagmode.currentTag == other)
+            {
+                ScoreManager.instance.ChangeScore(playerID, 5);//bonus points if you are the Tag
+            }*/
+        }else
+
+        if(ScoreManager.instance.gameMode is OwnedMode)
+        {
+            OwnedMode ownedMode = (OwnedMode)ScoreManager.instance.gameMode;
+            ownedMode.SetOwned(gameObject, other);
+        }else
+
+        //chicken mode
+        if (ScoreManager.instance.gameMode is ChickenMode)
+        {
+            ChickenMode chickenmode = (ChickenMode)ScoreManager.instance.gameMode;
+            if(chickenmode.currentChicken == gameObject || chickenmode.currentChicken == null)
+            {  
+                chickenmode.RemoveChicken(gameObject);
+                if(other.GetComponentInChildren<PlayerHit>())
+                       chickenmode.SetChicken(other);
+            }
+            else if(chickenmode.currentChicken == other)
+            {
+                ScoreManager.instance.ChangeScore(playerID, 5);//bonus points if you are the chicken
+            }
+        }
+
 
         float deathTime = 0.5f;
         PlayerMovement pm = isClone ? gameObject.transform.parent.gameObject.GetComponent<PlayerMovement>() : GetComponent<PlayerMovement>();
@@ -174,16 +214,32 @@ public class PlayerHit : MonoBehaviour {
 
       
         GameObject other = c.collider.gameObject;
-        
-        
+
         Bounds thisBounds = gameObject.GetComponent<SpriteRenderer>().sprite.bounds;
         Bounds otherBounds = other.GetComponent<SpriteRenderer>().sprite.bounds;
-        //Debug.Log("1: " + (other.transform.position.y /*- otherBounds.size.y / 4f*/ >= transform.position.y + thisBounds.size.y / 2f));
-        //Debug.Log("2: " + (other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f));
-        //Debug.Log("3: " + (other.transform.position.x - otherBounds.size.x / 2f <= transform.position.x + thisBounds.size.x / 2f));
+
+
+        /*  //tag on hit
+        if (other.GetComponent<PlayerHit>() && other.transform.position.x <= gameObject.transform.position.x)
+        {
+            //tag mode
+            if (ScoreManager.instance.gameMode is TagMode)
+            {
+                TagMode tagmode = (TagMode)ScoreManager.instance.gameMode;
+
+                if (tagmode.currentTag == other)
+                {
+                    tagmode.RemoveTag(other);
+                    tagmode.SetTag(gameObject);
+                }
+            }
+
+        }*/
+
+
 
         //side bounce
-        if(other.GetComponent<PlayerHit>() && sideBounce)
+        if (other.GetComponent<PlayerHit>() && sideBounce)
         {
             if(Mathf.Abs(other.transform.position.x - transform.position.x) > Mathf.Abs(other.transform.position.y - transform.position.y))
             {
@@ -206,8 +262,10 @@ public class PlayerHit : MonoBehaviour {
                 return;
             }
         }
+
+
         if ((other.GetComponent<PlayerHit>()) &&
-            other.transform.position.y  /*- otherBounds.size.y / 4f */>= transform.position.y + thisBounds.size.y / 2f &&   //TODO NEEDS WORK, more precise
+            other.transform.position.y  /*- otherBounds.size.y / 4f */>= transform.position.y + thisBounds.size.y / 2.1f &&   //TODO NEEDS WORK, more precise
             other.transform.position.x + otherBounds.size.x / 2f >= transform.position.x - thisBounds.size.x / 2f &&
             other.transform.position.x - otherBounds.size.x / 2f <= transform.position.x + thisBounds.size.x / 2f
             )

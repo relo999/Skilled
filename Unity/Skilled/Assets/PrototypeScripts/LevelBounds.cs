@@ -30,13 +30,19 @@ public class LevelBounds : MonoBehaviour {
             for (int i = 0; i < clones.Length; i++)
             {
                 GameObject clone = GameObject.Instantiate(this.original);
- 
 
+       
 
-                Component[] components = clone.GetComponents(typeof(Component));
+                Component[] components = clone.GetComponentsInChildren(typeof(Component));
 
                 foreach(Component comp in components)
                 {
+                    if(comp is SpriteRenderer && (comp.gameObject.name == "TAGobj" || comp.gameObject.name == "Chicken" || comp.gameObject.name == "OwnedRenderer"))
+                    {
+                        if (comp.gameObject.name == "OwnedRenderer") GameObject.Destroy(comp.gameObject.transform.parent.gameObject);
+                        else GameObject.Destroy(comp.gameObject);
+                    }
+
                     if (comp is PlayerHit)
                     {
                         PlayerHit hit = comp as PlayerHit;

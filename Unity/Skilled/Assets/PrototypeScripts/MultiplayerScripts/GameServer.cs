@@ -18,15 +18,70 @@ public class GameServer : NetworkBase {
     static PlayerInput[] inputs = new PlayerInput[4];
     public List<UdpClient> sockets = new List<UdpClient>();
     public List<UDPClient> Clients = new List<UDPClient>();
+    List<bool> connectionSucces = new List<bool>();
     static bool[] pingCallback = new bool[4];
 
     string lobbyName = null;
+
+
+
+
+    void StartTestConnection()
+    {
+        Thread testThread = new Thread(new ThreadStart(TestConnection));
+        testThread.Start();
+    }
+
+    void TestConnection()
+    {
+        Debug.Log("testing con...");
+        connectionSucces.Clear();
+        connectionSucces.AddRange(new bool[Clients.Count]);
+        for (int i = 0; i < 3; i++)
+        {
+            Thread.Sleep(500);
+            for (int j = 0; j < Clients.Count; j++)
+            {
+                UDPClient client = Clients[j];
+                if (client == null) continue;
+                UdpClient socket = sockets[j];
+                byte[] data = Encoding.ASCII.GetBytes("TestConnection");
+                socket.Send(data, data.Length, client.endPoint);
+            }
+   
+            
+        }
+        Thread.Sleep(500);
+        for (int i = 0; i < connectionSucces.Count; i++)
+        {
+            if (!connectionSucces[i])
+            {
+                Debug.Log("failed con.." + i);
+                FailedConnection(i);
+            }
+            else
+            {
+                Debug.Log("succes con.." + i);
+            }
+        }
+    }
+
+    void FailedConnection(int index)
+    {
+
+        byte[] data = Encoding.ASCII.GetBytes("RequestRelay," + Clients[index].endPoint.Address + ":" + Clients[index].endPoint.Port);
+        sockets[index].Send(data, data.Length, Mainserver.endPoint);
+        Clients[index] = null;
+    }
+
+
 
     public void StartLobby()
     {
         if (lobbyName == null) return;  //tried to start lobby without registering it to the main server
         byte[] data = Encoding.ASCII.GetBytes("StartLobby" + lobbyName);
         isReady = true;
+        NetManager.hasStarted = true;
         SendToClient(Mainserver, data);
     }
 
@@ -110,7 +165,14 @@ public class GameServer : NetworkBase {
         byte[] received = ((UdpClient)res.AsyncState).EndReceive(res, ref RemoteIpEndPoint);
         //byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
         string stringData = Encoding.ASCII.GetString(received);
-        Debug.Log(stringData);
+        if (!stringData.StartsWith("<"))
+            Debug.Log(stringData);
+        else Debug.Log("input");
+        if (stringData == "TestConnection")
+        {
+            Debug.Log("received testconnection");
+            connectionSucces[sockets.FindIndex(x => x == (UdpClient)res.AsyncState)] = true;
+        }
         // string stringData = Encoding.UTF8.GetString(received);
         testFloat = 1;
         if (!isReady && stringData.Contains(":"))
@@ -124,6 +186,7 @@ public class GameServer : NetworkBase {
                     break;
                 }
             }
+            StartTestConnection();
         }
         //if (!stringData.StartsWith("<")) //testing only
         //Debug.Log("received server: " + (stringData.StartsWith("<")? "data" : stringData));
@@ -143,7 +206,11 @@ public class GameServer : NetworkBase {
         else
         {
             if (stringData.StartsWith("<"))
+            {
+                Debug.Log("got input..");
                 HandleSerializedData(DeserializeClass(received));
+
+            }
         }
         testFloat = 2;
         //Debug.Log("started receive server...");
@@ -227,6 +294,8 @@ public class GameServer : NetworkBase {
 
     protected void DoPlayerInput(PlayerInput input)
     {
+        Debug.Log("doing input handling..");
+
         //update corresponding player object based on input
         PlayerMovement player = Array.Find(players, x => (int)x.playerID == input.playerID);
         player.DoMovement(input);

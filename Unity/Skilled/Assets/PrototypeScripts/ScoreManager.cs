@@ -10,12 +10,29 @@ public class ScoreManager : MonoBehaviour {
     public static ScoreManager instance { private set; get; }
     public static GameData gameData;
     float _gameTimer = 0;
-    public ScoreMode scoreMode = ScoreMode.Points;
+    
     public enum ScoreMode
     {
         Health,
         Points
+    
     }
+    public ScoreMode scoreMode = ScoreMode.Points;
+
+    public enum GameMode
+    {
+        BasicPoints,
+        BasicHealth,
+        Timed,
+        Chicken,
+        Tag,
+        Owned
+
+    }
+    public GameMode currentGameMode = GameMode.BasicPoints;
+
+    public BasicMode gameMode = null;
+
     public GameObject[] itemPickups;
     private int players = 2;   //defaults to 2, more players are detected in initialize
     SpriteRenderer[] playerSprites;
@@ -24,11 +41,14 @@ public class ScoreManager : MonoBehaviour {
     [HideInInspector]
     public Text[] scoreText;    //TODO based on number of players + find textfields through script
     public Canvas canvas;
-    public Vector2 HudIconPositon = new Vector2(-100, -30); //hud position for first player hud, other players' are based on 'spriteDistance'
+    public Vector2 HudIconPositon = new Vector2(-50, -30); //hud position for first player hud, other players' are based on 'spriteDistance'
     public Vector3 SpriteScale = new Vector3(3, 3, 1);
     public Vector2 SpriteDistance = new Vector2(0, -50);    //hud y distance each element is apart from one another
-    public int[] score { private set; get; }
+    public float[] score { private set; get; }
     bool initialized = false;
+    Text gameTimerText;
+
+    float maxTime = 999999;
 
 
     public int MaxScore = 10;   //TODO not used atm
@@ -37,9 +57,45 @@ public class ScoreManager : MonoBehaviour {
     float _afkTimer = 0;    //keeps track of seconds that passed without any players input
     float afkTimeOut = 30;  //seconds of afk until game goes back to menu
 
+    public void SetGameMode(BasicMode mode)
+    {
+        gameMode = mode;
+        MaxScore = mode.maxPoints;
+        scoreMode = mode.scoreMode;
+        StartingLives = mode.maxPoints;
+        maxTime = mode.maxTime;
+        
+    }
+
     public void Initialize()
     {
-        initialized = true;
+
+        switch (currentGameMode)
+        {
+            case GameMode.BasicPoints:
+            default:
+                SetGameMode(new BasicMode());
+                break;
+            case GameMode.BasicHealth:
+                SetGameMode(new BasicMode(ScoreMode.Health));
+                break;
+            case GameMode.Timed:
+                SetGameMode(new BasicMode(ScoreMode.Points, -1, 1, 180));
+                break;
+            case GameMode.Chicken:
+                SetGameMode(new ChickenMode());
+                break;
+            case GameMode.Tag:
+                SetGameMode(new TagMode());
+                break;
+            case GameMode.Owned:
+                SetGameMode(new OwnedMode());
+                break;
+
+                
+
+        }
+
         PlayerMovement[] tempps = FindObjectsOfType<PlayerMovement>();
         PlayerMovement[] ps = new PlayerMovement[4];
 
@@ -47,6 +103,15 @@ public class ScoreManager : MonoBehaviour {
         {
             ps[(int)tempps[i].playerID] = tempps[i];
         }
+
+        
+        if (gameMode is TagMode && !initialized)
+        {
+            ((TagMode)gameMode).SetTag(tempps[UnityEngine.Random.Range(0, tempps.Length)].gameObject);
+        }
+
+        initialized = true;
+        gameTimerText = GameObject.Find("GameTimer").GetComponent<Text>();
         players = 4;
         playerSprites = new SpriteRenderer[4];
         hudSprites = new SpriteRenderer[4];
@@ -65,16 +130,18 @@ public class ScoreManager : MonoBehaviour {
 
             //set its position
             sprite.transform.parent = canvas.transform;
-            sprite.transform.position = HudIconPositon + SpriteDistance * i;
+            
             sprite.transform.localScale = SpriteScale;
+            sprite.transform.localPosition = HudIconPositon + SpriteDistance * i;
 
             //create text next to the image to display score/lives
             GameObject textHolder = new GameObject("hudSprite " + i + " text");
-            textHolder.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-            textHolder.transform.parent = sprite.transform;           
+           
+            textHolder.transform.parent = sprite.transform;
+            textHolder.transform.localScale = new Vector3(1, 1, 1);
             scoreText[i] = textHolder.AddComponent<Text>();
             scoreText[i].font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-            textHolder.GetComponent<RectTransform>().localPosition = new Vector3(1.5f, -1.08f, 0);
+            textHolder.GetComponent<RectTransform>().localPosition = new Vector2(80, 0) + SpriteDistance * i * 10;
 
             //object to hold overlays that are also present on the player (mostly powerup indications)
             GameObject overlay = new GameObject("HudSpriteOverlay " + i);
@@ -87,7 +154,7 @@ public class ScoreManager : MonoBehaviour {
         }
         
         ScoreManager.instance = this;
-        score = new int[players];
+        score = new float[players];
 
         //set score to set amount of lives instead of 0 in case of health start
         if (scoreMode == ScoreMode.Health)
@@ -111,7 +178,10 @@ public class ScoreManager : MonoBehaviour {
         if (!initialized) Initialize();
         UpdatePlayerSprites();
         _gameTimer += Time.deltaTime;
-
+        if (MaxScore == -1) CheckGameOver();    //constantly check timed
+        if(gameMode != null)
+            gameMode.ScoreUpdate();
+        gameTimerText.text = "Time: " + (maxTime - (int)_gameTimer).ToString();
         HandleAFK();
     }
 
@@ -128,7 +198,7 @@ public class ScoreManager : MonoBehaviour {
                 //TODO back to lobby menu
                 gameData.AfkEnd = true;
                 gameData.Time = _gameTimer;
-                gameData.Scores = score;
+                //gameData.Scores = score;
                 gameData.WriteToFile();
                 SceneManager.LoadScene("StartScene");
             }
@@ -184,7 +254,7 @@ public class ScoreManager : MonoBehaviour {
         return true;
     }
 
-    public void ChangeScore(int playerID, int scoreChange)
+    public void ChangeScore(int playerID, float scoreChange)
     {
         //Debug.Log(playerID + " : " + scoreChange);
         if (playerID >= players)
@@ -206,6 +276,21 @@ public class ScoreManager : MonoBehaviour {
         int lastPlayer = -1;
         bool healthMode = scoreMode == ScoreMode.Health;
 
+        if(_gameTimer >= maxTime)
+        {
+            float highestScore = 0;
+            int highestID = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                if (score[i] > highestScore)
+                {
+                    highestScore = score[i];
+                    highestID = i;
+                }
+            }
+            OnGameOver(highestID);
+        }
+
         for (int i = 0; i < 4; i++)
         {
             if (playerSprites[i] == null) continue;
@@ -219,7 +304,7 @@ public class ScoreManager : MonoBehaviour {
             }
             else
             {
-                if (score[i] >= MaxScore) OnGameOver(i);
+                if (score[i] >= MaxScore && MaxScore != -1) OnGameOver(i);
             }
         }
         if (healthMode && playersAlive == 1) OnGameOver(lastPlayer);
@@ -244,7 +329,7 @@ public class ScoreManager : MonoBehaviour {
         WinSprite.AddComponent<SpriteRenderer>().sprite = PlayerWins;
         gameData.Time = _gameTimer;
         gameData.Level = SceneManager.GetActiveScene().name[5];
-        gameData.Scores = score;
+        //gameData.Scores = score;
         gameData.WriteToFile();
         StartCoroutine(BackToMenu(gameEndSeconds));
     }
@@ -260,7 +345,8 @@ public class ScoreManager : MonoBehaviour {
         for (int i = 0; i < scoreText.Length; i++)
         {
             if (scoreText[i] == null) continue;
-            scoreText[i].text = score[i].ToString();
+            if (score[i] > MaxScore && MaxScore != -1) score[i] = MaxScore;
+            scoreText[i].text = ((int)score[i]).ToString();
         }
     }
 
