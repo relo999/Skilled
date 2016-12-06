@@ -16,10 +16,11 @@ public class SpawnManager : MonoBehaviour {
         
         GameObject splatTest = new GameObject("splatTest");
         Splat splt = splatTest.AddComponent<Splat>();
+        /*
         for (int i = 0; i < 10; i++)
         {
             splt.DoSplat(new Vector2(Random.Range(-3f, 3f) , Random.Range(0f, 4.0f)), Random.Range(0f, 1.5f));
-        }
+        }*/
         
     
         

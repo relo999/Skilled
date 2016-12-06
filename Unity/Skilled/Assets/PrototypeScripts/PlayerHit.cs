@@ -55,7 +55,8 @@ public class PlayerHit : MonoBehaviour {
 
     public void OnDeath(GameObject other)
     {
-        
+        FindObjectOfType<Splat>().DoSplat(transform.position, 0, (int)color);
+        /*
         //splat
         GameObject splatObject = new GameObject("splatInstance");
         splatObject.transform.position = this.gameObject.transform.position;
@@ -67,6 +68,7 @@ public class PlayerHit : MonoBehaviour {
         SheetAnimation ani = splatObject.AddComponent<SheetAnimation>();
         LevelBounds.instance.RegisterObject(splatObject, true);
         ani.PlayAnimation("Splat", color, false, 1);
+        */
         /*
         //shield powerup / spawn immunity
         if(Immunity)

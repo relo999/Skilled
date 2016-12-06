@@ -7,9 +7,9 @@ public class Splat : MonoBehaviour{
      Vector2 SCREEN_CENTER_WORLD = new Vector2(0, 2.5f);
      List<SplatPart> splatParts = new List<SplatPart>();
 
-	public void DoSplat(Vector2 startPos, float delayS = 0)
+	public void DoSplat(Vector2 startPos, float delayS = 0, int color = -1)
     {
-        int splatID = Random.Range(0, 5);
+        int splatID = color == -1? Random.Range(0, 5) : color;
         char colorChar = ((SheetAnimation.PlayerColor)splatID).ToString().ToUpper()[0];
         Sprite[] splats = Resources.LoadAll<Sprite>("Feedback/Splat_" + colorChar);
         StartCoroutine(MakeSplat(startPos, splats, delayS));
@@ -24,7 +24,9 @@ public class Splat : MonoBehaviour{
             newSplat.transform.parent = gameObject.transform;
             newSplat.transform.localPosition = SCREEN_CENTER_WORLD;
             int size = Random.Range(0, sprites.Length);
-            newSplat.AddComponent<SpriteRenderer>().sprite = sprites[size];
+            SpriteRenderer SR = newSplat.AddComponent<SpriteRenderer>();
+            SR.sprite = sprites[size];
+            SR.sortingOrder = -14;
             SplatPart part = newSplat.AddComponent<SplatPart>();
             part.Initialize(size, Random.insideUnitCircle, (Vector3)startPos);
             splatParts.Add(part);

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using TeamUtility.IO;
 using System;
+using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -48,12 +49,28 @@ public class PlayerMovement : MonoBehaviour {
     public int oldPositionPointer = 0;
     float oldPositionTimer = 0;
 
+    public List<NetworkPosition> networkPositions = new List<NetworkPosition>();
+
     public NetworkBase.PlayerInput oldInput = null;
 
 
     bool holdingJump = false;
 
     public bool OnlineGame = false;
+
+
+    public struct NetworkPosition
+    {
+        Vector2 Position;
+        float GameTime;
+
+        public NetworkPosition(Vector2 Position, float GameTime)
+        {
+            this.Position = Position;
+            this.GameTime = GameTime;
+        }
+    }
+
 
     public enum Controls
     {
