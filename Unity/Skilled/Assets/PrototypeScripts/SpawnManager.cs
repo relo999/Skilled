@@ -14,6 +14,16 @@ public class SpawnManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         
+        GameObject splatTest = new GameObject("splatTest");
+        Splat splt = splatTest.AddComponent<Splat>();
+        for (int i = 0; i < 10; i++)
+        {
+            splt.DoSplat(new Vector2(Random.Range(-3f, 3f) , Random.Range(0f, 4.0f)), Random.Range(0f, 1.5f));
+        }
+        
+    
+        
+
         instance = this;
         GameObject[] tempBlocks = GameObject.FindGameObjectsWithTag("Walkable");
         GameObject[] tempPass = GameObject.FindGameObjectsWithTag("PassThrough");
@@ -128,5 +138,6 @@ public class SpawnManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (!initialized && AutoSpawn) SetPlayers(new bool[4] {true,true,false,false });
+        if (Input.GetKeyDown(KeyCode.H)) FindObjectOfType<Splat>().RemoveSplats();  //TODO testing only
     }
 }
