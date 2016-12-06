@@ -23,7 +23,8 @@ public class WalkColliders : MonoBehaviour {
         walkables.CopyTo(temps);
         List<GameObject> walkablesCopy = new List<GameObject>();
         walkablesCopy.AddRange(temps);
-
+        GameObject allColliderHolder = new GameObject("Collider holder");
+        allColliderHolder.transform.localPosition = Vector2.zero;
         while (walkables.Count > 0)
         {
             //get any block in the level
@@ -32,6 +33,7 @@ public class WalkColliders : MonoBehaviour {
             //make an object to hold the new collider (so it doesn't interfere with potential scripts attached to the blocks)
             GameObject colliderHolder = new GameObject("WalkingColliderHorizontal");
             colliderHolder.transform.position = current.transform.position;
+            colliderHolder.transform.parent = allColliderHolder.transform;
 
             //make a new collider with size equal to the tile size of the blocks
             BoxCollider2D currentCol = colliderHolder.AddComponent<BoxCollider2D>();
@@ -53,6 +55,7 @@ public class WalkColliders : MonoBehaviour {
             {
                 GameObject colliderHolderV = new GameObject("WalkingColliderVertical"); 
                 colliderHolderV.transform.position = current.transform.position;
+                colliderHolderV.transform.parent = allColliderHolder.transform;
                 BoxCollider2D currentColV = colliderHolderV.AddComponent<BoxCollider2D>();
                 currentColV.size = new Vector2(BLOCK_SIZE, BLOCK_SIZE);
                 currentColV.size = new Vector2(currentColV.size.x + 0.05f, (currentColV.size.y + BLOCK_SIZE * upCount + BLOCK_SIZE * downCount) -0.1f);
@@ -75,6 +78,7 @@ public class WalkColliders : MonoBehaviour {
             //make an object to hold the new collider (so it doesn't interfere with potential scripts attached to the blocks)
             GameObject colliderHolder = new GameObject("PassThroughCollider");
             colliderHolder.transform.position = current.transform.position;
+            colliderHolder.transform.parent = allColliderHolder.transform;
 
             //make a new collider with size equal to the tile size of the blocks
             BoxCollider2D currentCol = colliderHolder.AddComponent<BoxCollider2D>();

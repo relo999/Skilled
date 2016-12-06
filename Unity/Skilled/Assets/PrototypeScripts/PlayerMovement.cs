@@ -92,13 +92,15 @@ public class PlayerMovement : MonoBehaviour {
             ChangeAxis();
             
         }
-
+        GameObject clones = new GameObject("test clones");
         testClone = new GameObject();
+        testClone.transform.parent = clones.transform;
         testClone.AddComponent<SpriteRenderer>().sprite = SpriteR.sprite;
         testClone.GetComponent<SpriteRenderer>().sortingOrder = SpriteR.sortingOrder - 1;
         testClone.transform.localScale = new Vector3(testClone.transform.localScale.x * 0.3f, testClone.transform.localScale.y * 0.3f, testClone.transform.localScale.z);
 
         testClone2 = new GameObject();
+        testClone2.transform.parent = clones.transform;
         testClone2.AddComponent<SpriteRenderer>().sprite = SpriteR.sprite;
         testClone2.GetComponent<SpriteRenderer>().flipY = true;
         testClone2.GetComponent<SpriteRenderer>().sortingOrder = SpriteR.sortingOrder - 2;
@@ -108,6 +110,7 @@ public class PlayerMovement : MonoBehaviour {
         for (int i = 0; i < testClones.Length; i++)
         {
             testClones[i] = new GameObject();
+            testClones[i].transform.parent = clones.transform;
             testClones[i].AddComponent<SpriteRenderer>().sprite = SpriteR.sprite;
             testClones[i].GetComponent<SpriteRenderer>().flipY = true;
             testClones[i].GetComponent<SpriteRenderer>().sortingOrder = SpriteR.sortingOrder - 3;
