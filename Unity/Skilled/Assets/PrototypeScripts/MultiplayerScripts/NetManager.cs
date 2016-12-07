@@ -38,6 +38,11 @@ public class NetManager : MonoBehaviour {
 
         }
     }
+
+    public void Reset()
+    {
+        networkBase = null;
+    }
 	// Update is called once per frame
 	void Update () {
 

@@ -49,7 +49,11 @@ public class PlayerMovement : MonoBehaviour {
     public int oldPositionPointer = 0;
     float oldPositionTimer = 0;
 
+  
     public List<NetworkPosition> networkPositions = new List<NetworkPosition>();
+    const float timeDelay = 0.05f;
+
+
 
     public NetworkBase.PlayerInput oldInput = null;
 
@@ -61,13 +65,15 @@ public class PlayerMovement : MonoBehaviour {
 
     public struct NetworkPosition
     {
-        Vector2 Position;
-        float GameTime;
+        public Vector2 Position;
+        public float GameTime;
+        public Vector2 Velocity;
 
-        public NetworkPosition(Vector2 Position, float GameTime)
+        public NetworkPosition(Vector2 Position, float GameTime, Vector2 Velocity)
         {
             this.Position = Position;
             this.GameTime = GameTime;
+            this.Velocity = Velocity;
         }
     }
 
@@ -269,11 +275,23 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
+    NetworkPosition FindClosestTime(float time, bool higher)
+    {
+        NetworkPosition closest = new NetworkPosition(Vector2.zero, float.MaxValue, Vector2.zero);
+        foreach(NetworkPosition netPos in networkPositions)
+        {
+            if (higher? netPos.GameTime > time : netPos.GameTime < time &&
+                Mathf.Abs(time - netPos.GameTime) < closest.GameTime) closest = netPos;
+        }
+
+        return closest;
+    }
+
 	void Update () {
         bool doInput = NetworkControl || !OnlineGame;
-        if (OnlineGame && !NetworkControl || true)
+        if ((OnlineGame && NetworkControl )|| !OnlineGame || true)//!NetworkControl || true)
         {
-            if (!NetworkControl && holdingJump || holdingJump)
+            if (holdingJump)
             {
 
 
@@ -295,7 +313,41 @@ public class PlayerMovement : MonoBehaviour {
             }
             if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         }
-        if (!NetworkControl && OnlineGame) return;
+        if (!NetworkControl && OnlineGame)
+        {
+            if (!NetManager.isServer)
+            {
+                if (networkPositions.Count < 2) return;
+                float renderingGameTime = NetworkBase.GameTimer - timeDelay;
+
+                if (networkPositions.Count > 20) networkPositions.RemoveRange(0, networkPositions.Count - 10);
+                NetworkPosition minClosest = FindClosestTime(renderingGameTime, false);
+                NetworkPosition maxClosest = FindClosestTime(renderingGameTime, true);
+
+                if (minClosest.GameTime == 0 || maxClosest.GameTime == 0) return;
+                float percentage = (renderingGameTime - minClosest.GameTime) / (maxClosest.GameTime - minClosest.GameTime);
+                Vector2 newPos = minClosest.Position + ((maxClosest.Position - minClosest.Position) * percentage);
+                Vector2 newVel = minClosest.Velocity + ((maxClosest.Velocity - minClosest.Velocity) * percentage);
+                if (newPos.x != newPos.x || newPos.y != newPos.y) return;   //NaN
+                                                                            //Debug.Log(renderingGameTime + " - " + minClosest.GameTime + " - " + maxClosest.GameTime + " : " + percentage);
+                
+                _rigid.velocity = newVel;
+                transform.localPosition = newPos;
+            }
+            return;
+        }
+        else if (OnlineGame)
+        {
+            if (GameClient.instance != null)
+            {
+                float time = NetworkBase.GameTimer - ((float)GameClient.instance.Ping / 1000f);
+                NetworkPosition minClosest = FindClosestTime(time, false);
+                NetworkPosition maxClosest = FindClosestTime(time, true);
+                transform.position = minClosest.Position.magnitude == 0 ? (maxClosest.Position.magnitude == 0 ? (Vector2)transform.position : maxClosest.Position) : minClosest.Position;
+                
+                Debug.Log(transform.position.x + " -:- " + FindClosestTime(NetworkBase.GameTimer - GameClient.instance.Ping, false).Position.x + " : " + FindClosestTime(NetworkBase.GameTimer - GameClient.instance.Ping, true).Position.x);
+            }
+        }
 
         if ((NetManager.hasStarted || !OnlineGame) && doInput)
         {

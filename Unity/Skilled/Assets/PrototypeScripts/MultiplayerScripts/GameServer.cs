@@ -146,10 +146,11 @@ public class GameServer : NetworkBase {
 
             }
         }
-
+        testString = "inputs 1";
         for (int i = 0; i < inputs.Length; i++)
         {
             if (inputs[i] == null) continue;
+            testString = "inputs 2";
             DoPlayerInput(inputs[i]);
             inputs[i] = null;
         }
@@ -163,6 +164,7 @@ public class GameServer : NetworkBase {
     {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
         byte[] received = ((UdpClient)res.AsyncState).EndReceive(res, ref RemoteIpEndPoint);
+        ((UdpClient)res.AsyncState).BeginReceive(new AsyncCallback(receiveCallback), res.AsyncState);
         //byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
         string stringData = Encoding.ASCII.GetString(received);
         if (!stringData.StartsWith("<"))
@@ -171,7 +173,14 @@ public class GameServer : NetworkBase {
         if (stringData == "TestConnection")
         {
             Debug.Log("received testconnection");
-            connectionSucces[sockets.FindIndex(x => x == (UdpClient)res.AsyncState)] = true;
+            lock(connectionSucces)
+                connectionSucces[sockets.FindIndex(x => x == (UdpClient)res.AsyncState)] = true;
+        }
+
+        if(stringData.StartsWith("Failed to "))
+        {
+            NetManager.instance.Reset();
+            return;
         }
         // string stringData = Encoding.UTF8.GetString(received);
         testFloat = 1;
@@ -207,14 +216,15 @@ public class GameServer : NetworkBase {
         {
             if (stringData.StartsWith("<"))
             {
+                testFloat = 99199;
                 Debug.Log("got input..");
                 HandleSerializedData(DeserializeClass(received));
 
             }
         }
-        testFloat = 2;
+        //testFloat = 2;
         //Debug.Log("started receive server...");
-        ((UdpClient)res.AsyncState).BeginReceive(new AsyncCallback(receiveCallback), res.AsyncState);
+        //((UdpClient)res.AsyncState).BeginReceive(new AsyncCallback(receiveCallback), res.AsyncState);
 
     }
     public GameServer(UdpClient client, int maxPlayers = 2) : base(client)
@@ -295,7 +305,7 @@ public class GameServer : NetworkBase {
     protected void DoPlayerInput(PlayerInput input)
     {
         Debug.Log("doing input handling..");
-
+        testString = "doing input...";
         //update corresponding player object based on input
         PlayerMovement player = Array.Find(players, x => (int)x.playerID == input.playerID);
         player.DoMovement(input);
@@ -303,12 +313,16 @@ public class GameServer : NetworkBase {
 
     protected override void HandleSerializedData(SerializeBase data)
     {
+        testFloat = 1111;
         Type t = data.GetType();
         if (t.Equals(typeof(PlayerInput)))
         {
             PlayerInput input = (PlayerInput)data;
-            inputs[input.playerID] = input;
-            
+            lock (inputs)
+            {
+                inputs[input.playerID] = input;
+            }
+            testFloat = 2222;
             //find player object and execute movement method... players[input.playerid].doMovement(input.xAxis, input.Jump, input.Action);
             //create new PlayerUpdates(input.playerid, new playerInfo(players[input.playerid].tranform.position.x, players[input.playerid].tranform.position.y);
             //serialize PlayerUpdates....

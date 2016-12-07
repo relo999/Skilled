@@ -21,6 +21,8 @@ public class GameClient : NetworkBase {
     static PlayerMovement[] players;
     static PlayerUpdates newUpdates;
 
+
+    public static GameClient instance = null;
     const float TickRate = 10;
     int intervalMS;
     int intervalS;
@@ -32,6 +34,8 @@ public class GameClient : NetworkBase {
     public static PlayerInput lastInput;
 
     bool connectionSucces = false;
+
+    float lastGameTimeReceived = -1;
 
     void StartTestConnection()
     {
@@ -66,6 +70,8 @@ public class GameClient : NetworkBase {
     {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
+        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
+
         string stringData = Encoding.ASCII.GetString(received);
         testFloat = 1;
         if(!stringData.StartsWith("<")) //testing only
@@ -75,6 +81,7 @@ public class GameClient : NetworkBase {
             testFloat = 2;
             string[] splitData = stringData.Split(':');
             connectedClient = new NetworkBase.UDPClient(IPAddress.Parse(splitData[0]), int.Parse(splitData[1]));
+
             NetworkBase.playerIDs = new int[controllingPlayers];
             int otherPlayers = int.Parse(splitData[2]);
             for (int i = 0; i < controllingPlayers; i++)
@@ -130,7 +137,7 @@ public class GameClient : NetworkBase {
         testFloat = 4;
         //Debug.Log("started receiving..");
         receivedPackets++;
-        serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
+        //serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
     }
 
     public IEnumerator UpdateClient()
@@ -141,6 +148,7 @@ public class GameClient : NetworkBase {
             
             if (lastInput != null)
             {
+                Debug.Log("sending input");
                 SendPlayerInput(lastInput);
                 lastInput = null;
             }
@@ -236,7 +244,7 @@ public class GameClient : NetworkBase {
     }
     public GameClient(UdpClient client) : base(client)
     {
-
+        instance = this;
         //SendToClient(connectedClient, UDPClient.StringToBytes("testClientSend"));
         intervalS = (int)(1.0f / TickRate);
         intervalMS = (int)(intervalS * 1000.0f);
@@ -275,7 +283,11 @@ public class GameClient : NetworkBase {
         for (int i = 0; i < updates.PlayerInfos.Length; i++)
         {
             PlayerInfo info = updates.PlayerInfos[i];
-            PlayerMovement playerMov = Array.Find(players, x => (int)x.playerID == info.playerID);
+            PlayerMovement playerMov;
+
+
+            playerMov = Array.Find(players, x => (int)x.playerID == info.playerID);
+
             GameObject player = playerMov.gameObject;
 
             //int oldPositionIndex = playerMov.oldPositionPointer - (int)Mathf.Round((GameTimer - Pupdates.gameTime) / 0.015f);
@@ -284,8 +296,21 @@ public class GameClient : NetworkBase {
             int oldPositionIndex = playerMov.oldPositionPointer - (int)((GameTimer - Pupdates.gameTime) / 0.015f);
             oldPositionIndex = oldPositionIndex < 0 ? oldPositionIndex + playerMov.oldPositions.Length : oldPositionIndex;
             */
-            int oldPositionIndex = 5;
+            //int oldPositionIndex = 5;
          
+            if(true) //!playerMov.NetworkControl)
+            {
+                if (playerMov.networkPositions.Count < 3 ||  playerMov.networkPositions[playerMov.networkPositions.Count-1].GameTime < updates.gameTime)
+                {
+
+                    playerMov.networkPositions.Add(new PlayerMovement.NetworkPosition(new Vector2(info.xPos, info.yPos), updates.gameTime, new Vector2(info.xVel, info.yVel)));
+               
+                }
+                    
+
+
+            }
+            /*
             //Debug.Log((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude);
             if (((playerMov.oldPositions[oldPositionIndex] - new Vector2(info.xPos, info.yPos)).magnitude > 3.55f && playerMov.NetworkControl) || !playerMov.NetworkControl)
             {
@@ -295,7 +320,7 @@ public class GameClient : NetworkBase {
             }
             playerMov.testClone.transform.position = new Vector3(info.xPos, info.yPos, player.transform.position.z);
             playerMov.testClone2.transform.position = playerMov.oldPositions[oldPositionIndex];
-
+            */
             /*  //following debug information for players
             for (int j = 0; j < playerMov.testClones.Length; j++)
             {

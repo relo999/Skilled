@@ -12,6 +12,7 @@ public class Splat : MonoBehaviour{
         int splatID = color == -1? Random.Range(0, 5) : color;
         char colorChar = ((SheetAnimation.PlayerColor)splatID).ToString().ToUpper()[0];
         Sprite[] splats = Resources.LoadAll<Sprite>("Feedback/Splat_" + colorChar);
+
         StartCoroutine(MakeSplat(startPos, splats, delayS));
     }
 
