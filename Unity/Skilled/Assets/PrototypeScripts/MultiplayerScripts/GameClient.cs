@@ -63,6 +63,7 @@ public class GameClient : NetworkBase {
         
         byte[] data = Encoding.ASCII.GetBytes("RequestRelay," + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port);
         SendToClient(Mainserver, data);
+        SendToClient(Mainserver, data);
         connectedClient = null;
     }
 
