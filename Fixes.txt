@@ -1,0 +1,29 @@
+-Jump while holding down to jump through passthrough blocks
+-Spawn marker at you future spawn location after death, when pressed a button you spawn there or after 5 seconds. You still have 2 seconds of invurability.
+-Mario3 collisions
+-Slime fix (no hover, top sprite line fix)
+-replace placeholders
+
+To-Do
+-Menu
+-Powerups
+-LevelBlocks         -BreakBlock   -LooseBlock   R (loose)
+-Level loading code
+-Level editor                              R
+-Level Saving to TXT (compression)
+-Level loading from txt
+-On block splats
+-Audio Impl.
+-Pickups                                   R
+-Partymode
+-Burn-up
+
+
+Future
+-Splat game mode
+-Achievement System
+-Party expansion
+-Draft system
+-Iceblock
+-Ghost System
+-Cleanse mode

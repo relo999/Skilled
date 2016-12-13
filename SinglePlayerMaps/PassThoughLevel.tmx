@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="16" tilewidth="16" tileheight="16" backgroundcolor="#111133" nextobjectid="1">
+ <tileset firstgid="1" name="TileSets" tilewidth="16" tileheight="16" tilecount="32" columns="8">
+  <image source="../../TileSets.png" width="128" height="64"/>
+ </tileset>
+ <tileset firstgid="33" name="BounceBlock" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="../Assets/Sheets/LevelObjects/Blocks/BounceBlock.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="34" name="PassthroughBlocks" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="../Assets/Sheets/LevelObjects/Blocks/PassthroughBlocks.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="35" name="ItemBlock" tilewidth="16" tileheight="16" tilecount="8" columns="4">
+  <image source="../Assets/Sheets/LevelObjects/Blocks/ItemBlock.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="43" name="SwitchBlockOutline" tilewidth="16" tileheight="16" tilecount="8" columns="4">
+  <image source="../Assets/Sheets/LevelObjects/LevelItems/SwitchBlockOutline.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="51" name="Switchblock" tilewidth="16" tileheight="16" tilecount="8" columns="4">
+  <image source="../Assets/Sheets/LevelObjects/LevelItems/Switchblock.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="59" name="ForegroundObject" tilewidth="16" tileheight="16" tilecount="64" columns="8">
+  <image source="../Assets/Sheets/LevelObjects/Background/ForegroundObject.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="123" name="Backgroundobject" tilewidth="16" tileheight="16" tilecount="64" columns="8">
+  <image source="../Assets/Sheets/LevelObjects/Background/Backgroundobject.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="187" name="Idle_B" tilewidth="16" tileheight="16" tilecount="16" columns="4">
+  <image source="../Assets/Sheets/CharacterRelated/Blue/Idle_B.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="203" name="Idle_G" tilewidth="16" tileheight="16" tilecount="16" columns="4">
+  <image source="../Assets/Sheets/CharacterRelated/Green/Idle_G.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="219" name="Idle_R" tilewidth="16" tileheight="16" tilecount="16" columns="4">
+  <image source="../Assets/Sheets/CharacterRelated/Red/Idle_R.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="235" name="Chicken_Y" tilewidth="16" tileheight="16" tilecount="2" columns="2">
+  <image source="../Assets/Sheets/CharacterRelated/Chicken/Chicken_Y.png" width="32" height="16"/>
+ </tileset>
+ <tileset firstgid="237" name="TileSets2" tilewidth="16" tileheight="16" tilecount="32" columns="8">
+  <image source="../../TileSets2.png" width="128" height="64"/>
+ </tileset>
+ <tileset firstgid="269" name="Spawner" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="../Assets/Sheets/SinglePlayer/Spawner.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="273" name="SwitchBlockOut" tilewidth="16" tileheight="16" tilecount="8" columns="4">
+  <image source="../Assets/Sheets/LevelObjects/LevelItems/SwitchBlockOut.png" width="64" height="32"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="16">
+  <data encoding="csv">
+0,0,0,269,0,0,0,0,0,0,0,0,0,0,0,0,269,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+34,34,34,34,34,34,34,34,0,0,0,0,34,34,34,34,34,34,34,34,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+34,34,34,34,34,34,0,0,0,35,35,0,0,0,34,34,34,34,34,34,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,0,0
+</data>
+ </layer>
+</map>
