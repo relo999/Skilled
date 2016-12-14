@@ -20,10 +20,10 @@ To-Do
 
 
 Future
--Splat game mode
--Achievement System
--Party expansion
--Draft system
--Iceblock
+-Splat game mode                       
+-Achievement System                        R
+-Party expansion                           R
+-Draft system                              R
+-Iceblock                                  R
 -Ghost System
 -Cleanse mode
