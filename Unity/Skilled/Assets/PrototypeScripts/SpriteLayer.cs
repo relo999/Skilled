@@ -9,7 +9,7 @@ public class SpriteLayer : MonoBehaviour {
 
     void Start()
     {
-        GetComponent<SpriteRenderer>().sortingOrder = (int)layer;
+        GetComponentInChildren<SpriteRenderer>().sortingOrder = (int)layer;
     }
 
 
