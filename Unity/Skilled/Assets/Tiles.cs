@@ -7,31 +7,7 @@ public class Tiles : MonoBehaviour {
     public int width = 50;
     public int height = 30;
 	// Use this for initialization
-	void Start () {
-        /*
-        SR = GetComponent<SpriteRenderer>();
-        Texture2D tex = SR.sprite.texture;
-        Texture2D tex2 = new Texture2D(tex.width * width, tex.height * height);
-        
 
-        Color32[] Patternpixels = tex.GetPixels32();
-        Color32[] pixels = tex2.GetPixels32();
-
-        SR.material.mainTextureScale = new Vector2(0.1f, 0.1f);
-        SR.sprite.texture.wrapMode = TextureWrapMode.Repeat;
-        SR.sprite.texture.Apply();
-        /*
-        tex2.filterMode = FilterMode.Point;
-        tex2.SetPixels32(pixels);
-        tex2.Apply();
-        Sprite sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector2(0.0f, 0.0f), 50.0f);
-
-        SR.sprite = sprite;*/
-
-
-
-
-    }
 
     SpriteRenderer sprite;
 

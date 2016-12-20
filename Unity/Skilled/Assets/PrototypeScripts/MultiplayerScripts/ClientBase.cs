@@ -73,6 +73,7 @@ public class Client
     }
 
 
+	//don't use on main thread
     public void ReadInput()
     {
 

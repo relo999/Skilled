@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour {
     {
         BasicPoints,
         BasicHealth,
-        Timed,
+        //Timed,
         Chicken,
         Tag,
         Owned
@@ -79,8 +79,8 @@ public class ScoreManager : MonoBehaviour {
             case GameMode.BasicHealth:
                 SetGameMode(new BasicMode(ScoreMode.Health));
                 break;
-            case GameMode.Timed:
-                SetGameMode(new BasicMode(ScoreMode.Points, -1, 1, 180));
+            //case GameMode.Timed:
+            //    SetGameMode(new BasicMode(ScoreMode.Points, -1, 1, 180));
                 break;
             case GameMode.Chicken:
                 SetGameMode(new ChickenMode());

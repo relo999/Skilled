@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 83e1a6b85d088d448b1497589fe314df
-timeCreated: 1480684431
-licenseType: Pro
+timeCreated: 1481641210
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Party_0
@@ -57,31 +57,31 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 96
-        width: 128
+        width: 256
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -64, y: 16}
-        - {x: -64, y: -16}
-        - {x: 38, y: -16}
-        - {x: 38, y: 16}
+      - - {x: -128, y: 16}
+        - {x: -128, y: -16}
+        - {x: -26, y: -16}
+        - {x: -26, y: 16}
     - name: Party_1
       rect:
         serializedVersion: 2
         x: 0
         y: 64
-        width: 128
+        width: 256
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -64, y: 16}
-        - {x: -64, y: -16}
-        - {x: 38, y: -16}
-        - {x: 38, y: 16}
+      - - {x: -128, y: 16}
+        - {x: -128, y: -16}
+        - {x: -26, y: -16}
+        - {x: -26, y: 16}
     outline: []
   spritePackingTag: 
   userData: 

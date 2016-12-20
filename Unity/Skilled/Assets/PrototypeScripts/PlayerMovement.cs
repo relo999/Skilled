@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour {
 
   
     public List<NetworkPosition> networkPositions = new List<NetworkPosition>();
-    const float timeDelay = 0.05f;
+    const float timeDelay = 0.10f;
 
 
 
@@ -115,6 +115,7 @@ public class PlayerMovement : MonoBehaviour {
             ChangeAxis();
             
         }
+        /*
         GameObject clones = new GameObject("test clones");
         testClone = new GameObject();
         testClone.transform.parent = clones.transform;
@@ -140,7 +141,7 @@ public class PlayerMovement : MonoBehaviour {
             testClones[i].GetComponent<SpriteRenderer>().color = Color.magenta;
             testClones[i].transform.localScale = new Vector3(testClones[i].transform.localScale.x * 0.3f, testClones[i].transform.localScale.y * 0.3f + ((float)i / 25f), testClones[i].transform.localScale.z);
         }
-
+        */
 
     }
 
@@ -287,6 +288,36 @@ public class PlayerMovement : MonoBehaviour {
         return closest;
     }
 
+    void DoAnimations()
+    {
+        if (SAnimation.GetAnimation() == "Jump")
+        {
+            int newFrame = _rigid.velocity.y > -1 ? (_rigid.velocity.y < 1 ? 3 : 2) : 4;
+            if (SAnimation.GetFrame() != newFrame)
+                SAnimation.SetFrame(newFrame);
+        }
+
+
+        if (Grounded && !_isJumping)
+        {
+            if (_rigid.velocity.x != 0)
+            {
+                if (SAnimation.GetAnimation() != "Run")
+                {
+                    SAnimation.PlayAnimation("Run", Pcolor, true, 16);
+                }
+            }
+            else if (SAnimation.GetAnimation() != "Idle" && (SAnimation.GetAnimation() != "Spawn" || (SAnimation.GetAnimation() == "Spawn" && SAnimation.OnLastFrame())) && SAnimation.GetAnimation() != "Death")
+            {
+                SAnimation.PlayAnimation("Idle", Pcolor, true, 5);
+            }
+        }
+
+
+        SpriteR.flipX = _rigid.velocity.x == 0? SpriteR.flipX : _rigid.velocity.x < 0;
+
+    }
+
 	void Update () {
         bool doInput = NetworkControl || !OnlineGame;
         if ((OnlineGame && NetworkControl )|| !OnlineGame || true)//!NetworkControl || true)
@@ -313,6 +344,7 @@ public class PlayerMovement : MonoBehaviour {
             }
             if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         }
+        DoAnimations();
         if (!NetworkControl && OnlineGame)
         {
             if (!NetManager.isServer)
@@ -330,7 +362,8 @@ public class PlayerMovement : MonoBehaviour {
                 Vector2 newVel = minClosest.Velocity + ((maxClosest.Velocity - minClosest.Velocity) * percentage);
                 if (newPos.x != newPos.x || newPos.y != newPos.y) return;   //NaN
                                                                             //Debug.Log(renderingGameTime + " - " + minClosest.GameTime + " - " + maxClosest.GameTime + " : " + percentage);
-                
+                //newVel = networkPositions[networkPositions.Count - 1].Velocity;
+                //newPos = networkPositions[networkPositions.Count - 1].Position;
                 _rigid.velocity = newVel;
                 transform.localPosition = newPos;
             }

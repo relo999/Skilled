@@ -70,14 +70,14 @@ public class NetworkBase{
         bool isClient = (this.GetType() == typeof(GameClient));
         debugText.text =  isClient? "client" : "server";
         debugText.text += "\nTime: " + System.Math.Round(GameTimer,4);
-        debugText.text += "\nLocal: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
+        //debugText.text += "\nLocal: " + GetLocalIPAddress() + ":" + GetLocalEndPoint().Port;
         if (isClient)
         {
             GameClient c = this as GameClient;
             debugText.text += "\nPing: " + c.Ping + "\n";
-            debugText.text += "Packets received: " + c.LastReceivedPackets + "/" + GameClient.EXPECTED_PACKETS;
+            debugText.text += "Packets/s: " + c.LastReceivedPackets;
 
-            debugText.text += "\nCon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
+            debugText.text += "\nConnected to: " + connectedClient.endPoint.Port;
         }
         else
         {
@@ -92,8 +92,8 @@ public class NetworkBase{
         }
         
         //debugText.text += "\ncon: " + connectedClient.endPoint.Address + ":" + connectedClient.endPoint.Port;
-        debugText.text += "\ntest: " + testString;
-        debugText.text += "\nfloat: " + testFloat;
+        //debugText.text += "\ntest: " + testString;
+        //debugText.text += "\nfloat: " + testFloat;
 
     }
     

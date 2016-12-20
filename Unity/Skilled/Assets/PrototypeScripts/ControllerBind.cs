@@ -5,6 +5,8 @@ using System;
 
 public class ControllerBind : MonoBehaviour {
 
+    public PlayerID LocalPlayer1ID = PlayerID.One;
+    public PlayerMovement.Controls LocalPlayer1Controls = PlayerMovement.Controls.CONTROLLER;
 	// Use this for initialization
 	void Awake () {
         CreateJoystickConfiguration();
