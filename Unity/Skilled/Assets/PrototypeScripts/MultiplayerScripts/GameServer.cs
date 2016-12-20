@@ -172,9 +172,12 @@ public class GameServer : NetworkBase {
         else Debug.Log("input");
         if (stringData == "TestConnection")
         {
+            
             Debug.Log("received testconnection");
             lock(connectionSucces)
                 connectionSucces[sockets.FindIndex(x => x == (UdpClient)res.AsyncState)] = true;
+                
+            //FailedConnection(sockets.FindIndex(x => x == (UdpClient)res.AsyncState));
         }
 
         if(stringData.StartsWith("Failed to "))

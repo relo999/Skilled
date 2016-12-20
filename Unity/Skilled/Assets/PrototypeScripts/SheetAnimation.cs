@@ -4,7 +4,7 @@ using System.Collections;
 public class SheetAnimation : MonoBehaviour {
 
     SpriteRenderer SRenderer;
-    Sprite[] sprites;
+    public Sprite[] sprites { get; private set; }
     float currentSprite = 0;
     float fps = 5;
     bool looping;

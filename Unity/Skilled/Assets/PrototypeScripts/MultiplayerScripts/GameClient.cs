@@ -72,7 +72,7 @@ public class GameClient : NetworkBase {
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
         byte[] received = serverClient.EndReceive(res, ref RemoteIpEndPoint);
         serverClient.BeginReceive(new AsyncCallback(receiveCallback), null);
-
+        
         string stringData = Encoding.ASCII.GetString(received);
         testFloat = 1;
         if(!stringData.StartsWith("<")) //testing only

@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 5368b747f02ad504daa4a85fc148c7a8
-timeCreated: 1480684194
-licenseType: Pro
+timeCreated: 1481641252
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Arcade_0
@@ -57,33 +57,33 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 96
-        width: 128
+        width: 256
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -61, y: 16}
-        - {x: -64, y: 14}
-        - {x: -64, y: -16}
-        - {x: 62, y: -16}
-        - {x: 62, y: 16}
+      - - {x: -125, y: 16}
+        - {x: -128, y: 14}
+        - {x: -128, y: -16}
+        - {x: -2, y: -16}
+        - {x: -2, y: 16}
     - name: Arcade_1
       rect:
         serializedVersion: 2
         x: 0
         y: 64
-        width: 128
+        width: 256
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -61, y: 16}
-        - {x: -64, y: 14}
-        - {x: -64, y: -16}
-        - {x: 62, y: -16}
-        - {x: 62, y: 16}
+      - - {x: -125, y: 16}
+        - {x: -128, y: 14}
+        - {x: -128, y: -16}
+        - {x: -2, y: -16}
+        - {x: -2, y: 16}
     outline: []
   spritePackingTag: 
   userData: 
