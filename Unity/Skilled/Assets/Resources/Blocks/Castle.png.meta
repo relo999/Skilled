@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 990b0b9bab99e5848a228452aa48c255
-timeCreated: 1482243023
-licenseType: Free
+timeCreated: 1482244985
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: Castle_0
@@ -25,7 +25,7 @@ TextureImporter:
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -44,10 +44,10 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 2048
+  textureFormat: -3
+  maxTextureSize: 256
   textureSettings:
-    filterMode: -1
+    filterMode: 0
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -127,7 +127,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 31
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -138,7 +138,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 112
-        y: 31
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -148,7 +148,7 @@ TextureImporter:
     - name: Castle_7
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 16
         width: 16
         height: 16
@@ -171,7 +171,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 15
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -181,7 +181,7 @@ TextureImporter:
     - name: Castle_10
       rect:
         serializedVersion: 2
-        x: 47
+        x: 48
         y: 16
         width: 16
         height: 16
@@ -192,7 +192,7 @@ TextureImporter:
     - name: Castle_11
       rect:
         serializedVersion: 2
-        x: 15
+        x: 16
         y: 0
         width: 16
         height: 16
@@ -204,7 +204,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 15
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -215,7 +215,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 15
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -226,7 +226,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 112
-        y: 15
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -236,7 +236,7 @@ TextureImporter:
     - name: Castle_15
       rect:
         serializedVersion: 2
-        x: 81
+        x: 80
         y: 0
         width: 16
         height: 16
@@ -247,7 +247,7 @@ TextureImporter:
     - name: Castle_16
       rect:
         serializedVersion: 2
-        x: 97
+        x: 96
         y: 0
         width: 16
         height: 16

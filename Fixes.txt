@@ -14,8 +14,7 @@ To-Do
 -Level loading from txt
 -On block splats
 -Audio Impl.
--Pickups                                   R
--Partymode
+-Partymode				   R
 -Burn-up
 
 
