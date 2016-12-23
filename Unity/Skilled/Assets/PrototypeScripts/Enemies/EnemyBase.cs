@@ -73,9 +73,30 @@ public class EnemyBase : MonoBehaviour {
         //empty
     }
 
+    private void DoSplat()
+    {
+        int color = 0;
+        switch (speed)
+        {
+            case Speed.Slow:
+                color = (int)SheetAnimation.PlayerColor.green;
+                break;
+            case Speed.Medium:
+                color = (int)SheetAnimation.PlayerColor.yellow;
+                break;
+            case Speed.Fast:
+                color = (int)SheetAnimation.PlayerColor.red;
+                break;
+
+        }
+        FindObjectOfType<Splat>().DoSplat(transform.position, 0, color);
+
+    }
+
     protected void OnDeath(PlayerHit player)
     {
         if (player) player.BounceUp(gameObject);
+        DoSplat();
         GameObject.Destroy(this.gameObject);
     }
 
@@ -246,6 +267,7 @@ public class EnemyBase : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (Pauzed.IsPauzed) return;
         if(spawnInvulnerability > 0)
         {
             spawnInvulnerability -= Time.deltaTime;

@@ -146,10 +146,22 @@ public class Lobby : MonoBehaviour {
     {
         if(_lobbyPlayers.EveryoneReady)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Level2");
+            if (CountDown.Instance == null)
+                gameObject.AddComponent<CountDown>();
+            if (!CountDown.Instance.IsRunning)
+                CountDown.Instance.StartCountDown(3, true, StartGame);
+
+            
+            
             return true;
         }
         return false;
+    }
+
+    void StartGame()
+    {
+        //TODO save menuOptions to ScoreManager, allow ScoreManager to use menuOptions directly
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level2");
     }
 
     void CheckReadyPlayers()
@@ -401,11 +413,12 @@ public class Lobby : MonoBehaviour {
         SetButtonPointerPosition(currentButton);
         _lobbyPlayers.Initialize();
         UpdateModeInformation();
-        LevelLoader.LoadLevel("Level2");
+        LevelLoader.LoadLevel("Level2");    //TODO testing only
 	}
 
 
 	void Update () {
+        if (Pauzed.IsPauzed) return;
         HandleInput();
         HandleControllerSteps();
         _lobbyPlayers.Update();

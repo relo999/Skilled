@@ -8,5 +8,7 @@ public struct LevelData {
     public int[] MidLayer;
     public int[] TopLayer;
     public int Width;
+    public int ColorId;
+    public int ThemeId;
     public GameObject Parent;
 }
