@@ -1,0 +1,10 @@
+index:
+
+0= niks
+1= block
+2= passthrough
+3= powerupblock
+4= switchBlock
+5= switchActive
+6= bounce
+7= 

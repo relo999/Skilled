@@ -319,6 +319,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 	void Update () {
+        if (Pauzed.IsPauzed) return;
         bool doInput = NetworkControl || !OnlineGame;
         if ((OnlineGame && NetworkControl )|| !OnlineGame || true)//!NetworkControl || true)
         {

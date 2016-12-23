@@ -6,6 +6,9 @@ using System;
 
 public class SpriteColor : MonoBehaviour {
 
+    [HideInInspector]
+    public Rect spritePosition;
+    
     public Palette palette;
     public enum Palette
     {
@@ -47,11 +50,18 @@ public class SpriteColor : MonoBehaviour {
     void Start () {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (Camera.main.backgroundColor != colors[(int)palette + 3]) Camera.main.backgroundColor = colors[(int)palette + 3];
+        if(Camera.main != null)
+            if (Camera.main.backgroundColor != colors[(int)palette + 3]) Camera.main.backgroundColor = colors[(int)palette + 3];
 
         Texture2D tex = spriteRenderer.sprite.texture;
-        Texture2D tex2 = new Texture2D(tex.width, tex.height);
-        Color32[] pixels = tex.GetPixels32();
+        Texture2D tex2 = new Texture2D((int)spriteRenderer.sprite.rect.width, (int)spriteRenderer.sprite.rect.height);
+        Color[] temp = tex.GetPixels((int)spriteRenderer.sprite.rect.x, (int)spriteRenderer.sprite.rect.y, (int)spriteRenderer.sprite.rect.width, (int)spriteRenderer.sprite.rect.height);
+        Color32[] pixels = new Color32[temp.Length];
+        for (int i = 0; i < temp.Length; i++)
+        {
+            pixels[i] = (Color32)temp[i];
+        }
+
 
         
    
@@ -67,9 +77,9 @@ public class SpriteColor : MonoBehaviour {
 
         }
         tex2.filterMode = FilterMode.Point;
-        tex2.SetPixels32(pixels);
+        tex2.SetPixels32(0,0, (int)spriteRenderer.sprite.rect.width, (int)spriteRenderer.sprite.rect.height, pixels);
         tex2.Apply();
-        Sprite sprite = Sprite.Create(tex2, new Rect(0, 0, tex.width, tex.height), new Vector2(0.0f, 0.0f), 50.0f);
+        Sprite sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector2(0.0f, 0.0f), 50.0f);
        
         GetComponent<SpriteRenderer>().sprite = sprite;
 

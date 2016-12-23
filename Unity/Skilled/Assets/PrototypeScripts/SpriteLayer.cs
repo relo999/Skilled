@@ -9,7 +9,14 @@ public class SpriteLayer : MonoBehaviour {
 
     void Start()
     {
-        GetComponent<SpriteRenderer>().sortingOrder = (int)layer;
+        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
+        if (sr) sr.sortingOrder = (int)layer;
+        else
+        {
+            Canvas cv = GetComponentInChildren<Canvas>();
+            if (cv) cv.sortingOrder = (int)layer;
+            else Debug.LogError("SpriteLayer ERROR: " + gameObject.name + " does not have a SpriteRenderer or Canvas");
+        }
     }
 
 

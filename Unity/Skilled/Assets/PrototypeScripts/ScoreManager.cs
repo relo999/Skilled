@@ -168,6 +168,10 @@ public class ScoreManager : MonoBehaviour {
         gameData = new GameData();
         gameData.Players = tempps.Length;
 
+
+        if (!CountDown.Instance) gameObject.AddComponent<CountDown>();
+        if (!CountDown.Instance.IsRunning) CountDown.Instance.StartCountDown(3, true, null);
+
     }
 
 

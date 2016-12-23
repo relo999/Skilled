@@ -91,6 +91,7 @@ public class EnemySpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Pauzed.IsPauzed) return;
         if (NextSpawner != _ownSpawnersIndex) return;
 	    if(_spawnTimer > 0)
         {
