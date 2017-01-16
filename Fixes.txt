@@ -3,6 +3,7 @@
 -Mario3 collisions
 -Slime fix (no hover, top sprite line fix)
 -replace placeholders
+-Hold down to run (non powerup to taunt)
 
 To-Do
 -Menu
