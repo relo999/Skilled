@@ -9,21 +9,29 @@ To-Do
 -Menu
 -Powerups
 -LevelBlocks         -BreakBlock   -LooseBlock   R (loose)
--Level loading code
 -Level editor                              R
 -Level Saving to TXT (compression)
 -Level loading from txt
 -On block splats
 -Audio Impl.
--Partymode				   R
--Burn-up
+-Partymode				   R	 	PartyCard such shit
+-Burn-up				   R
+-GUI
 
+-GUI Timer 				   R
+-Explosion				   R
+-Invinsibility			           R
+-Editor		(Save/load/new/etc.)	   R
+-Find taunt in folder			   R
+-Compresion name Remember		   R
 
 Future
 -Splat game mode                       
--Achievement System                        R
+-Achievement System                        R	*NUT?
 -Party expansion                           R
--Draft system                              R
+-Draft system                              R 	*NUT?
 -Iceblock                                  R
 -Ghost System
 -Cleanse mode
+-Level loading code
+-Skins					   R
